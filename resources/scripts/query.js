@@ -349,66 +349,70 @@ function updateCollectionPaths(title, key) {
 
 function showHideCollectionControls() {
     var collection = getCurrentCollection();
-    
-    var params = { action: "collection-relationship", collection: collection };
+
+    var params = {action: "collection-relationship", collection: collection};
     $.post("checkuser.xql", params, function(data) {
-    
+
         /**
          data looks like this -
-        
-            <relationship user="" collection="">
-                <home/>
-                <owner/>
-                <read/>
-                <write/>
-                <read-parent/>
-                <write-parent/>
-                <execute-parent/>
-            </relationship>
-        */
-    
+         
+         <relationship user="" collection="">
+	         <home/>
+	         <owner/>
+	         <read/>
+	         <write/>
+	         <execute/>
+	         <read-parent/>
+	         <write-parent/>
+	         <execute-parent/>
+         </relationship>
+         */
+
         var write = $(data).find('write');
         var isWriteable = (write != null && write.text() == 'true');
-        
+
+        var execute = $(data).find('execute');
+        var isExecutable = (execute != null && execute.text() == 'true');
+
         var home = $(data).find('home');
         var isUsersHome = (home != null && home.text() == 'true');
-        
+
         var owner = $(data).find('owner');
         var isOwner = (owner != null && owner.text() == 'true');
-        
+
         var parentWrite = $(data).find('write-parent');
         var isParentWriteable = (parentWrite != null && parentWrite.text() == 'true');
-        
+
         var parentExecute = $(data).find('execute-parent');
         var isParentExecutable = (parentExecute != null && parentExecute.text() == 'true');
-        
+
         //collection is writeable
-        if(isWriteable){
-             $('#collection-create-folder').show();
-             $('#collection-create-resource').show();
-             if (!isUsersHome){
+        if (isWriteable) {
+            $('#collection-create-folder').show();
+            $('#collection-create-resource').show();
+            if (!isUsersHome) {
                 $('#upload-file-to-resource').show();
-             }
-             else{
+            }
+            else {
                 $('#upload-file-to-resource').hide();
-             }
+            }
         } else {
             $('#collection-create-folder').hide();
             $('#collection-create-resource').hide();
             $('#upload-file-to-resource').hide();
         }
-        
+
         //collection is not current users home and is owned by current user
-        if(!isUsersHome && isOwner) {
+        if (!isUsersHome && isExecutable && isWriteable) {
             $('#collection-sharing').show();
-           
+
         } else {
             $('#collection-sharing').hide();
-           
+
         }
-        
-        //collection is writeable and not the current users home and the current user is the owner
-        if(isWriteable && !isUsersHome && isOwner) {
+
+        // moving and renaming needs parentCollection to be writeable and executable
+        if (isParentWriteable && isParentExecutable && !isUsersHome) {
             $('#collection-rename-folder').show();
             $('#collection-move-folder').show();
             //$('#upload-file-to-resource').show();
@@ -417,9 +421,9 @@ function showHideCollectionControls() {
             $('#collection-move-folder').hide();
             //$('#upload-file-to-resource').hide();
         }
-        
+
         //parent is writeable and executable and its not the current users home folder
-        if(isParentWriteable && isParentExecutable && !isUsersHome) {
+        if (isParentWriteable && isParentExecutable && !isUsersHome) {
             $('#collection-remove-folder').show();
             //$('#upload-file-to-resource').show();
         } else {
@@ -427,8 +431,7 @@ function showHideCollectionControls() {
             //$('#upload-file-to-resource').hide();
         }
     });
-};
-
+}
 /*
     Called when the user clicks on the "remove" button in the remove resource dialog
  */
