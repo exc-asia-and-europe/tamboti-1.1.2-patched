@@ -506,7 +506,11 @@ declare function bs:vra-list-view-table($item as node(), $currentPos as xs:int) 
                 <td class="list-type" style="vertical-align:middle"><img src="theme/images/image.png" title="Still Image"/></td>
                 { 
                     (: relids/refid workaround :)
-                    let $relations := $item//vra:relation
+                    let $relations := 
+                        if (exists($item//vra:relation[@type="imageIs" and @pref="true"])) then 
+                            $item//vra:relation[@type="imageIs" and @pref="true"]
+                        else
+                            $item//vra:relation[@type="imageIs"]
                     let $relids :=
                         for $rel in $relations
                             let $image-uuid := 
@@ -518,13 +522,10 @@ declare function bs:vra-list-view-table($item as node(), $currentPos as xs:int) 
                     (:NB: relids can hold multiple values; the image record with @pref on vra:relation is "true".
                     For now, we disregard this; otherwise we have to check after retrieving the image records.:)
                     let $relids := tokenize($relids, ' ')
-                    return
-                        if (count($relids) > 0) then 
-                            let $image := collection($config:mods-root)//vra:image[@id = $relids[1]]
-                                return
-                                    <td class="list-image">{local:return-thumbnail-list-view($image)}</td>               
-                        else
-                            <td class="list-image">[missing image]</td>
+
+                    let $image := collection($config:mods-root)//vra:image[@id = $relids]
+                        return
+                            <td class="list-image">{local:return-thumbnail-list-view($image)}</td>               
                 }
                 {
                 <td class="pagination-toggle" style="vertical-align:middle">
@@ -532,7 +533,7 @@ declare function bs:vra-list-view-table($item as node(), $currentPos as xs:int) 
                     <a>
                     {
                         let $collection := util:collection-name($item)
-                        let $collection := functx:replace-first($collection, '/db/', '')
+                        let $collection := translate(functx:replace-first($collection, '/db/', ''), '_', ' ')
                         let $clean := clean:cleanup($item)
                         return
                             retrieve-vra:format-list-view(string($currentPos), $clean, $collection)
