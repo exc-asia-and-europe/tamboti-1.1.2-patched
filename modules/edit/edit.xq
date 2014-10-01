@@ -352,19 +352,13 @@ declare function local:create-page-content($id as xs:string, $tab-id as xs:strin
                     <xf:label>Save</xf:label>
                 </xf:submit>-->
                  <xf:trigger>
-                    <xf:label>Finish Editing
-                    </xf:label>
-                        <xf:action ev:event="DOMActivate">
-                            <xf:send submission="save-and-close-submission"/>
-                            <xf:load resource="../../modules/search/index.html?search-field=ID&amp;value={$id}&amp;collection={replace($target-collection, '/db', '')}&amp;query-tabs=advanced-search-form&amp;default-operator=and" show="replace"/>
-                        </xf:action>
+                    <xf:label>Finish Editing</xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:send submission="save-and-close-submission"/>
+                        <xf:load resource="../../modules/search/index.html?search-field=ID&amp;value={$id}&amp;collection={replace($target-collection, '/db', '')}&amp;query-tabs=advanced-search-form&amp;default-operator=and" show="replace"/>
+                    </xf:action>
+                    <xf:hint>{$save-hint}</xf:hint>                    
                 </xf:trigger>
-                <span class="xforms-hint">
-                    <span onmouseover="XsltForms_browser.show(this, 'hint', true)" onmouseout="XsltForms_browser.show(this, 'hint', false)" class="xforms-hint-icon"/>
-                    <div class="xforms-help-value">
-                        {$save-hint}
-                    </div>
-                </span>
                 <span class="related-title">
                         {$related-publication-title}
                 </span>
@@ -386,19 +380,13 @@ declare function local:create-page-content($id as xs:string, $tab-id as xs:strin
                     </xf:action>
                  </xf:trigger>
                  <xf:trigger>
-                    <xf:label class="xforms-group-label-centered-general">Finish Editing
-                    </xf:label>
+                    <xf:label class="xforms-group-label-centered-general">Finish Editing</xf:label>
                     <xf:action ev:event="DOMActivate">
                         <xf:send submission="save-and-close-submission"/>
                         <xf:load resource="../../modules/search/index.html?search-field=ID&amp;value={$id}&amp;collection={$target-collection}&amp;query-tabs=advanced-search-form&amp;default-operator=and" show="replace"/>
                     </xf:action>
+                    <xf:hint>{$save-hint}</xf:hint>
                 </xf:trigger>
-                <span class="xforms-hint">
-                    <span onmouseover="XsltForms_browser.show(this, 'hint', true)" onmouseout="XsltForms_browser.show(this, 'hint', false)" class="xforms-hint-icon"/>
-                    <div class="xforms-help-value">
-                        {$save-hint}
-                    </div>
-                </span>
             </div>
         </div>
 };
@@ -479,7 +467,7 @@ let $id-param := request:get-parameter('id', 'new')
 let $new-record := xs:boolean($id-param eq '' or $id-param eq 'new')
 (:If we do not have an incoming ID (the record has been made outside Tamboti) or if the record is new (made with Tamboti), then create an ID with util:uuid().:)
 let $id :=
-	if ($new-record)
+    if ($new-record)
     then concat("uuid-", util:uuid())
     else $id-param
 
@@ -487,15 +475,15 @@ let $id :=
 if we are editing an existing record, we copy the record from the target collection to temp, unless there is already a record in temp with the same name.:)
 (:NB: What if A edits a certain record, leaving it in temp, and B edits the same record - does B then start off where A left off?:)
 let $create-new-from-template :=
-	if ($new-record) 
-	(:Create a new record, knows its type and target-collection (but store it for the time being in temp.:)
-	then local:create-new-record($id, $type-request, $target-collection)
-	else
-	    (:If it is an old record and the document is not in temp already, copy it there.:)
-   		if (not(doc-available(concat($config:mods-temp-collection, '/', $id, '.xml'))))
-   		(:Otherwise copy the old record to temp.:)
-   		then xmldb:copy($target-collection, $config:mods-temp-collection, concat($id, '.xml'))
-   		else ()
+    if ($new-record) 
+    (:Create a new record, knows its type and target-collection (but store it for the time being in temp.:)
+    then local:create-new-record($id, $type-request, $target-collection)
+    else
+        (:If it is an old record and the document is not in temp already, copy it there.:)
+        if (not(doc-available(concat($config:mods-temp-collection, '/', $id, '.xml'))))
+        (:Otherwise copy the old record to temp.:)
+        then xmldb:copy($target-collection, $config:mods-temp-collection, concat($id, '.xml'))
+        else ()
 
 (:For a compact-b form, determine which subform to serve, based on the template.:)
 let $instance-id := local:get-tab-id($tab-id, $type-request)
