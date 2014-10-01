@@ -36,5 +36,12 @@
 				<exclude>pom.xml</exclude>
 			</excludes>
 		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/maven-replacer-plugin</directory>
+			<outputDirectory>/modules</outputDirectory>
+			<includes>
+				<include>config.xqm</include>
+			</includes>
+		</fileSet>
 	</fileSets>
 </package>
