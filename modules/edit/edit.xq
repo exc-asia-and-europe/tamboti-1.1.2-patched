@@ -10,13 +10,13 @@ import module namespace mods-common="http://exist-db.org/mods/common" at "../mod
 import module namespace config="http://exist-db.org/mods/config" at "../config.xqm";
 import module namespace security="http://exist-db.org/mods/security" at "../search/security.xqm"; (:TODO move security module up one level:)
 import module namespace uu="http://exist-db.org/mods/uri-util" at "../search/uri-util.xqm";
+import module namespace functx = "http://www.functx.com";
 
 declare namespace xf="http://www.w3.org/2002/xforms";
 declare namespace ev="http://www.w3.org/2001/xml-events";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 declare namespace ext="http://exist-db.org/mods/extension";
 declare namespace mads="http://www.loc.gov/mads/";
-declare namespace functx="http://www.functx.com";
 
 (:The following variables are used for a kind of dynamic theming in local:assemble-form().:)
 declare variable $theme := substring-before(substring-after(request:get-url(), "/apps/"), "/modules/edit/edit.xq");
@@ -28,19 +28,6 @@ declare variable $img-right-href := if ($theme eq "tamboti") then "http://www.as
 declare variable $img-right-src := if ($theme eq "tamboti") then "../../themes/tamboti/images/cluster_logo.png" else ();
 declare variable $img-right-title := if ($theme eq "tamboti") then "The Cluster of Excellence &quot;Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows&quot; at Heidelberg University" else ();
 declare variable $img-right-width := if ($theme eq "tamboti") then "200" else ();
- 
-declare function functx:pad-integer-to-length($integerToPad as xs:anyAtomicType?, $length as xs:integer) as xs:string {       
-   if ($length < string-length(string($integerToPad)))
-   then error(xs:QName('functx:Integer_Longer_Than_Length'))
-   else concat
-         (functx:repeat-string(
-            '0',$length - string-length(string($integerToPad))),
-          string($integerToPad))
- };
- 
-declare function functx:repeat-string($stringToRepeat as xs:string?, $count as xs:integer) as xs:string {      
-   string-join((for $i in 1 to $count return $stringToRepeat), '')
- };
  
 declare function local:create-new-record($id as xs:string, $type-request as xs:string, $target-collection as xs:string) as empty() {
     (:Copy the template and store it with the ID as file name.:)
