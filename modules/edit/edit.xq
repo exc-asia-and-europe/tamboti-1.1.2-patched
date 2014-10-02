@@ -135,7 +135,7 @@ declare function local:create-new-record($id as xs:string, $type-request as xs:s
       )
 };
 
-declare function local:create-xf-model($id as xs:string, $tab-id as xs:string, $instance-id as xs:string, $target-collection as xs:string) as element(xf:model) {
+declare function local:create-xf-model($id as xs:string, $tab-id as xs:string, $instance-id as xs:string, $target-collection as xs:string, $host as xs:string) as element(xf:model) {
     let $instance-src := concat('get-instance.xq?tab-id=', $tab-id, '&amp;id=', $id, '&amp;data=', $config:mods-temp-collection)
     return
         <xf:model>
@@ -182,8 +182,8 @@ declare function local:create-xf-model($id as xs:string, $tab-id as xs:string, $
                 method="post"
                 ref="instance('save-data')"
                 resource="save.xq?collection={$target-collection}&amp;action=close" replace="none">
-                    <xf:message ev:event="xforms-submit-done" level="ephemeral">File uploaded.</xf:message>
-                    <xf:message ev:event="xforms-submit-error" level="ephemeral">An error occurred.</xf:message>                
+                    <xf:load ev:event="xforms-submit-done" resource="../../modules/search/index.html?search-field=ID&amp;value={$id}&amp;collection={replace($target-collection, '/db', '')}&amp;query-tabs=advanced-search-form&amp;default-operator=and" show="replace" />
+                    <xf:message ev:event="xforms-submit-error" level="ephemeral">An error occurred.</xf:message>
            </xf:submission>
            
            <!--Delete from temp-->
@@ -192,6 +192,8 @@ declare function local:create-xf-model($id as xs:string, $tab-id as xs:string, $
                 method="post"
                 ref="instance('save-data')"
                 resource="save.xq?collection={$config:mods-temp-collection}&amp;action=cancel" replace="none">
+                    <xf:load ev:event="xforms-submit-done" resource="../../modules/search/index.html?search-field=ID&amp;value={if ($host) then $host else $id}&amp;collection={$target-collection}&amp;query-tabs=advanced-search-form&amp;default-operator=and" show="replace" />
+                    <xf:message ev:event="xforms-submit-error" level="ephemeral">An error occurred.</xf:message>
            </xf:submission>
         </xf:model>
 };
@@ -338,8 +340,7 @@ declare function local:create-page-content($id as xs:string, $tab-id as xs:strin
                  <xf:trigger>
                     <xf:label>Finish Editing</xf:label>
                     <xf:action ev:event="DOMActivate">
-                        <xf:send submission="save-and-close-submission"/>
-                        <xf:load resource="../../modules/search/index.html?search-field=ID&amp;value={$id}&amp;collection={replace($target-collection, '/db', '')}&amp;query-tabs=advanced-search-form&amp;default-operator=and" show="replace"/>
+                        <xf:send submission="save-and-close-submission" />
                     </xf:action>
                     <xf:hint>{$save-hint}</xf:hint>                    
                 </xf:trigger>
@@ -359,15 +360,13 @@ declare function local:create-page-content($id as xs:string, $tab-id as xs:strin
                 <xf:trigger>
                     <xf:label>Cancel Editing</xf:label>
                     <xf:action ev:event="DOMActivate">
-                        <xf:send submission="cancel-submission"/>
-                        <xf:load resource="../../modules/search/index.html?search-field=ID&amp;value={if ($host) then $host else $id}&amp;collection={$target-collection}&amp;query-tabs=advanced-search-form&amp;default-operator=and" show="replace"/>
+                        <xf:send submission="cancel-submission" />
                     </xf:action>
                  </xf:trigger>
                  <xf:trigger>
                     <xf:label class="xforms-group-label-centered-general">Finish Editing</xf:label>
                     <xf:action ev:event="DOMActivate">
-                        <xf:send submission="save-and-close-submission"/>
-                        <xf:load resource="../../modules/search/index.html?search-field=ID&amp;value={$id}&amp;collection={$target-collection}&amp;query-tabs=advanced-search-form&amp;default-operator=and" show="replace"/>
+                        <xf:send submission="save-and-close-submission" />
                     </xf:action>
                     <xf:hint>{$save-hint}</xf:hint>
                 </xf:trigger>
@@ -472,7 +471,7 @@ let $create-new-from-template :=
 let $instance-id := local:get-tab-id($tab-id, $type-request)
 (:NB: $style appears to be introduced in order to use the xf namespace in css.:)
 let $style := <style type="text/css"><![CDATA[@namespace xf url(http://www.w3.org/2002/xforms);]]></style>
-let $model := local:create-xf-model($id, $tab-id, $instance-id, $target-collection)
+let $model := local:create-xf-model($id, $tab-id, $instance-id, $target-collection, request:get-parameter('host', ''))
 let $content := local:create-page-content($id, $tab-id, $type-request, $target-collection, $instance-id, $temp-record-path, $type-data)
 return 
     local:assemble-form(attribute {'mods:dummy'} {'dummy'}, $style, $model, $content, false())
