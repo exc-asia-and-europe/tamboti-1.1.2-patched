@@ -91,3 +91,6 @@ declare function config:rewrite-username($username as xs:string) as xs:string {
 declare function config:process-request-parameter($key as xs:string?) as xs:string {
     replace(replace($key, "%2C", ","), "%2F", "/")
 };
+
+declare variable $config:max-inactive-interval-in-minutes := 480;
+

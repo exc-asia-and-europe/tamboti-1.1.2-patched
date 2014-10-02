@@ -17,7 +17,7 @@ declare namespace xlink="http://www.w3.org/1999/xlink";
 declare namespace ext="http://exist-db.org/mods/extension";
 declare namespace mads="http://www.loc.gov/mads/";
 
-(:The following variables are used for a kind of dynamic theming in local:assemble-form().:)
+(:The following variables are used for a kind of dynamic theming.:)
 declare variable $theme := substring-before(substring-after(request:get-url(), "/apps/"), "/modules/edit/edit.xq");
 declare variable $header-title := if ($theme eq "tamboti") then "Tamboti Metadata Framework - MODS Editor" else "eXist Bibliographical Demo - MODS Editor";
 declare variable $tamboti-css := if ($theme eq "tamboti") then "tamboti.css" else ();
@@ -321,7 +321,7 @@ declare function local:create-page-content($id as xs:string, $tab-id as xs:strin
                     then (' with the title ', <strong>{$publication-title}</strong>) 
                     else ()
                 }, to be saved in <strong> {
-                    let $target-collection-display := replace(replace(xmldb:decode-uri($target-collection), '/db/resources/users/', ''), '/db/resources/commons/', '') 
+                    let $target-collection-display := replace(replace(xmldb:decode-uri($target-collection), '/db/resources/users/', ''), '/db/resources/commons/', '')
                     return
                         if ($target-collection-display eq security:get-user-credential-from-session()[1])
                         then 'resources/Home'
