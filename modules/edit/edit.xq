@@ -159,7 +159,7 @@ declare function local:create-xf-model($id as xs:string, $tab-id as xs:string, $
            
            <!--Only load the code-tables that are used by the active tab.-->
            <!--Every code table must have a tab-id to ensure that it is collected into the model.-->
-           <xf:instance id="code-tables" src="codes-for-tab.xq?tab-id={$instance-id}" readonly="true"/>
+           <xf:instance xmlns="" id="code-tables" src="codes-for-tab.xq?tab-id={$instance-id}" readonly="true"/>
            
            <!--Having binds would prevent a tab from being saved when clicking on another tab, 
            so binds are not used.--> 
@@ -173,8 +173,7 @@ declare function local:create-xf-model($id as xs:string, $tab-id as xs:string, $
                 id="save-submission" 
                 method="post"
                 ref="instance('save-data')"
-                action="save.xq?collection={$config:mods-temp-collection}&amp;action=save" replace="instance"
-                instance="save-results">
+                resource="save.xq?collection={$config:mods-temp-collection}&amp;action=save" replace="none">
            </xf:submission>
            
            <!--Save in target collection-->
@@ -182,8 +181,7 @@ declare function local:create-xf-model($id as xs:string, $tab-id as xs:string, $
                 id="save-and-close-submission" 
                 method="post"
                 ref="instance('save-data')"
-                action="save.xq?collection={$target-collection}&amp;action=close" replace="instance"
-                instance="save-results">
+                resource="save.xq?collection={$target-collection}&amp;action=close" replace="none">
            </xf:submission>
            
            <!--Delete from temp-->
@@ -191,8 +189,7 @@ declare function local:create-xf-model($id as xs:string, $tab-id as xs:string, $
                 id="cancel-submission" 
                 method="post"
                 ref="instance('save-data')"
-                action="save.xq?collection={$config:mods-temp-collection}&amp;action=cancel" replace="instance"
-                instance="save-results">
+                resource="save.xq?collection={$config:mods-temp-collection}&amp;action=cancel" replace="none">
            </xf:submission>
         </xf:model>
 };
@@ -215,7 +212,6 @@ declare function local:assemble-form($dummy-attributes as attribute()*, $style a
             <title>
                 {$header-title}
             </title> 
-            <script type="text/javascript" src="../session.js.xql"></script>
             <link rel="stylesheet" type="text/css" href="edit.css"/>
             <link rel="stylesheet" type="text/css" href="{$tamboti-css}"/>        
             {$style}
