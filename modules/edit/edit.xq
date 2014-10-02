@@ -144,22 +144,22 @@ declare function local:create-xf-model($id as xs:string, $tab-id as xs:string, $
            <!--The instance insert-templates contain an almost full embodiment of the MODS schema, version 3.5; 
            It is used mainly to insert attributes and uncommon elements, 
            but it can also be chosen as a template.-->
-           <xf:instance xmlns="http://www.loc.gov/mods/v3" src="instances/insert-templates.xml" id='insert-templates' readonly="true"/>
+           <xf:instance xmlns="http://www.loc.gov/mods/v3" src="instances/insert-templates.xml" id="insert-templates"/>
            
            <!--A basic selection of elements and attributes from the MODS schema, 
            used inserting basic elements, but it can also be chosen as a template.-->
-           <xf:instance xmlns="http://www.loc.gov/mods/v3" src="instances/new-instance.xml" id='new-instance' readonly="true"/>
+           <xf:instance xmlns="http://www.loc.gov/mods/v3" src="instances/new-instance.xml" id="new-instance"/>
            
            <!--A selection of elements and attributes from the MADS schema used for default records.-->
            <!--not used at present-->
            <!--<xf:instance xmlns="http://www.loc.gov/mads/" src="instances/mads.xml" id='mads' readonly="true"/>-->
     
            <!--Elements and attributes for insertion of special configurations of elements into the compact forms.-->
-           <xf:instance xmlns="http://www.loc.gov/mods/v3" src="instances/compact-template.xml" id='compact-template' readonly="true"/> 
+           <xf:instance xmlns="http://www.loc.gov/mods/v3" src="instances/compact-template.xml" id="compact-template"/> 
            
            <!--Only load the code-tables that are used by the active tab.-->
            <!--Every code table must have a tab-id to ensure that it is collected into the model.-->
-           <xf:instance xmlns="" id="code-tables" src="codes-for-tab.xq?tab-id={$instance-id}" readonly="true"/>
+           <xf:instance xmlns="" id="code-tables" src="codes-for-tab.xq?tab-id={$instance-id}" />
            
            <!--Having binds would prevent a tab from being saved when clicking on another tab, 
            so binds are not used.--> 
@@ -182,6 +182,8 @@ declare function local:create-xf-model($id as xs:string, $tab-id as xs:string, $
                 method="post"
                 ref="instance('save-data')"
                 resource="save.xq?collection={$target-collection}&amp;action=close" replace="none">
+                    <xf:message ev:event="xforms-submit-done" level="ephemeral">File uploaded.</xf:message>
+                    <xf:message ev:event="xforms-submit-error" level="ephemeral">An error occurred.</xf:message>                
            </xf:submission>
            
            <!--Delete from temp-->
