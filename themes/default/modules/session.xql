@@ -246,42 +246,31 @@ declare function local:return-thumbnail-detail-view($image){
     let $image-size150-href := image-link-generator:generate-href($image-uuid, "tamboti-size150")
     
     let $image-url := 
-        if ($bs:USER eq "guest") then 
-            <img src="{$image-thumbnail-href}" alt="image" class="relatedImage"/>
+        if ($bs:USER eq "guest") then   
+            <img src="{$image-thumbnail-href}" alt="image" class="relatedImage picture"/ >
         else 
             <a href="{$image-size1000-href}" target="_blank">
-                <img src="{$image-size150-href}" alt="image" class="relatedImage"/>
+                <img src="{$image-size150-href}" alt="image" class="relatedImage picture zoom" />
             </a> 
-    
+
         return $image-url
-
 };
-
-(:declare function local:return-thumbnail-detail-view($image){:)
-(:    let $image-url := <img src="{concat($config:image-service-url, $image/@id)}?width=150" alt="" class="relatedImage"/>:)
-(:        return $image-url:)
-(:};:)
 
 declare function local:return-thumbnail-list-view($image){
     let $image-uuid := $image/@id
 
     let $image-thumbnail-href := image-link-generator:generate-href($image-uuid, "tamboti-thumbnail")
-    let $image-size1000-href := image-link-generator:generate-href($image-uuid, "tamboti-size1000")
+    let $image-size1000-href := image-link-generator:generate-href($image-uuid, "tamboti-size1000")  
 
-    let $image-url := 
+    let $image-url :=
         if ($bs:USER eq "guest") then
-            <img src="{$image-thumbnail-href}" alt="image" class="relatedImage"/>
+            <img src="{$image-thumbnail-href}" alt="image" class="relatedImage picture"/>
         else 
             <a href="{$image-size1000-href}" target="_blank">
-                <img src="{$image-thumbnail-href}" alt="image" class="relatedImage"/>
+                <img src="{$image-thumbnail-href}" alt="image" class="relatedImage picture zoom"/>
             </a> 
     return $image-url
 };
-
-(:declare function local:return-thumbnail-list-view($image){:)
-(:    let $image-url := <img src="{concat($config:image-service-url,$image/@id)}?width=40&amp;height=40&amp;crop_type=middle" alt="" class="relatedImage"/>:)
-(:        return $image-url:)
-(:};:)
 
 declare function bs:vra-detail-view-table($item as element(vra:vra), $currentPos as xs:int) {
     let $isWritable := bs:collection-is-writable(util:collection-name($item))
@@ -310,26 +299,24 @@ declare function bs:vra-detail-view-table($item as element(vra:vra), $currentPos
             <td style="vertical-align:top;">
                 <div id="image-cover-box"> 
                 { 
-                    let $log := util:log("INFO", "VRA WORK")
-                       (: relids/refid workaround :)
-                        for $rel in $item//vra:relationSet/vra:relation[@type = "imageIs"]
-                            let $log := util:log("INFO", $rel)
-                            let $image-uuid := 
-                                if(starts-with(data($rel/@relids), "i_")) then
-                                    data($rel/@relids)
-                                else 
-                                    if(starts-with(data($rel/@refid), "i_")) then
-                                        data($rel/@refid)
-                                    else
-                                        ()
-                            let $image := collection($config:mods-root)//vra:image[@id=$image-uuid]
-(:                            let $log := util:log("INFO", $image-uuid):)
-
-                            return
-                                <p>{local:return-thumbnail-detail-view($image)}</p>
-                     (: 
-                     return <img src="{concat(request:get-scheme(),'://',request:get-server-name(),':',request:get-server-port(),request:get-context-path(),'/rest', util:collection-name($image),"/" ,$image-name)}"  width="200px"/>
-                     :)               
+                   (: relids/refid workaround :)
+                    for $rel in $item//vra:relationSet/vra:relation[@type = "imageIs"]
+                        let $image-uuid := 
+                            if(starts-with(data($rel/@relids), "i_")) then
+                                data($rel/@relids)
+                            else 
+                                if(starts-with(data($rel/@refid), "i_")) then
+                                    data($rel/@refid)
+                                else
+                                    ()
+                        (: Elevate rights because user is not able to search whole $config:mods-root   :)
+                        (: ToDo: do not search whole $config:mods-root, since we know the image-record is in VRA_images/ relative to work record  :)
+                        let $image := 
+                            system:as-user($config:dba-credentials[1], $config:dba-credentials[2], 
+                                collection($config:mods-root)//vra:image[@id=$image-uuid]
+                            )
+                        return
+                            <p>{local:return-thumbnail-detail-view($image)}</p>
                 }
                 </div>
             </td>            
@@ -506,7 +493,11 @@ declare function bs:vra-list-view-table($item as node(), $currentPos as xs:int) 
                 <td class="list-type" style="vertical-align:middle"><img src="theme/images/image.png" title="Still Image"/></td>
                 { 
                     (: relids/refid workaround :)
-                    let $relations := $item//vra:relation
+                    let $relations := 
+                        if (exists($item//vra:relation[@type="imageIs" and @pref="true"])) then 
+                            $item//vra:relation[@type="imageIs" and @pref="true"]
+                        else
+                            $item//vra:relation[@type="imageIs"]
                     let $relids :=
                         for $rel in $relations
                             let $image-uuid := 
@@ -518,13 +509,16 @@ declare function bs:vra-list-view-table($item as node(), $currentPos as xs:int) 
                     (:NB: relids can hold multiple values; the image record with @pref on vra:relation is "true".
                     For now, we disregard this; otherwise we have to check after retrieving the image records.:)
                     let $relids := tokenize($relids, ' ')
+
+                    (: Elevate rights because user is not able to search whole $config:mods-root   :)
+                    (: ToDo: do not search whole $config:mods-root, since we know the image-record is in VRA_images/ relative to work record  :)
+                    let $image := 
+                        system:as-user($config:dba-credentials[1], $config:dba-credentials[2], 
+                            collection($config:mods-root)//vra:image[@id = $relids]
+                        )
+
                     return
-                        if (count($relids) > 0) then 
-                            let $image := collection($config:mods-root)//vra:image[@id = $relids[1]]
-                                return
-                                    <td class="list-image">{local:return-thumbnail-list-view($image)}</td>               
-                        else
-                            <td class="list-image">[missing image]</td>
+                        <td class="list-image">{local:return-thumbnail-list-view($image)}</td>               
                 }
                 {
                 <td class="pagination-toggle" style="vertical-align:middle">
@@ -532,7 +526,7 @@ declare function bs:vra-list-view-table($item as node(), $currentPos as xs:int) 
                     <a>
                     {
                         let $collection := util:collection-name($item)
-                        let $collection := functx:replace-first($collection, '/db/', '')
+                        let $collection := translate(functx:replace-first($collection, '/db/', ''), '_', ' ')
                         let $clean := clean:cleanup($item)
                         return
                             retrieve-vra:format-list-view(string($currentPos), $clean, $collection)
