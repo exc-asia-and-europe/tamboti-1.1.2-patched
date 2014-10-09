@@ -22,7 +22,7 @@ declare option exist:serialize "method=json media-type=text/javascript";
 : Generates tree nodes for navigation of collections in
 : the library search app. Uses the JSON serializer to get JSON output.
 :
-: Also generates a virtual collection root called 'Groups', this starts
+: Also generates a virtual collection root called 'Shared', this starts
 : as /db/commons/groups and then any sub-collection under here
 : is actually a link back to the shared collection (i.e. a collection in a users home folder)
 : Group collection paths look like /db/commons/group/{uuid}/{collection-name}
@@ -136,7 +136,7 @@ declare function col:get-root-collection($root-collection-path as xs:anyURI) as 
             $group-json := 
                 if (security:get-user-credential-from-session()[1] eq 'guest') 
                 then ()
-                else col:create-tree-node("Groups", $config:groups-collection, true(), $groups-folder-icon, "Groups", false(), (), false(), $has-group-children, ()),
+                else col:create-tree-node("Shared", $config:groups-collection, true(), $groups-folder-icon, "Shared", false(), (), false(), $has-group-children, ()),
             
             (: commons collections :)
             $public-json :=
@@ -267,7 +267,7 @@ declare function col:_get-shared-collection-roots-by-others() as xs:string* {
 };
 
 (:~
-: Gets the virtual "Groups" root, i.e. returns all groups that are accessible to a user
+: Gets the virtual "Shared" root, i.e. returns all resources that are shared to a user
 :)
 declare function col:get-groups-virtual-root() as element(json:value) {
     
@@ -362,7 +362,7 @@ declare function col:get-from-root-for-prev-state($root-collection-path as xs:st
                 (: group collection :)
                 $has-group-children := not(empty(sharing:get-shared-collection-roots(false()))),
                 $group-children := col:get-child-tree-nodes-recursive-for-group($distinct-collection-paths[fn:starts-with(., $config:users-collection)][fn:not(fn:starts-with(., security:get-home-collection-uri($user)))], $expanded-collections),
-                $group-json := col:create-tree-node("Groups", $config:groups-collection, true(), $groups-folder-icon, "Groups", false(), (), fn:contains($expanded-collections, $config:groups-collection), (empty($group-children) and $has-group-children), $group-children),
+                $group-json := col:create-tree-node("Shared", $config:groups-collection, true(), $groups-folder-icon, "Shared", false(), (), fn:contains($expanded-collections, $config:groups-collection), (empty($group-children) and $has-group-children), $group-children),
                 
                 (: commons collections :)
                 $public-json :=
@@ -389,7 +389,7 @@ declare function col:get-from-root-for-prev-state($root-collection-path as xs:st
 : Request routing
 :
 : If the http querystring parameter key exists then we retrieve tree nodes based on this
-: key which is basically a real or virtual (for groups) collection path.
+: key which is basically a real or virtual (for shared) collection path.
 : If there is no key we deliver the tree root
 :)
 if(request:get-parameter("key",()))then
