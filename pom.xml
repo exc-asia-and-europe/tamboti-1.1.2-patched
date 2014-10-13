@@ -241,7 +241,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>cluster-test-build</id>
+			<id>patched-cluster-test-build</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -273,7 +273,7 @@
 								</configuration>
 							</execution>
 							<execution>
-								<id>cluster-test-build-filter-config.default.xqm</id>
+								<id>filter-config.default.xqm</id>
 								<phase>generate-resources</phase>
 								<goals>
 									<goal>replace</goal>
@@ -290,6 +290,10 @@
 											<token>\$config:dba-credentials := \("admin",""\)</token>
 											<value>\$config:dba-credentials := \("admin","${admin-password}"\)</value>
 										</replacement>
+										<replacement>
+											<token>\$config:app-version := ""</token>
+											<value>\$config:app-version := "${project.version}"</value>
+										</replacement>
 									</replacements>
 								</configuration>
 							</execution>
@@ -301,7 +305,7 @@
 						<version>0.4.1</version>
 						<executions>
 							<execution>
-								<id>create-cluster-production-build</id>
+								<id>create-cluster-test-build</id>
 								<phase>package</phase>
 								<goals>
 									<goal>make-xar</goal>
