@@ -19,6 +19,7 @@ declare variable $config:app-root :=
     return
         substring-before($modulePath, "/modules")
 ;
+declare variable $config:app-version := "";
 
 declare variable $config:biblio-users-group := "biblio.users";
 declare variable $config:special-users := ("admin", "editor", "guest");
