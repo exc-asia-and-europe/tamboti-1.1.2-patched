@@ -387,7 +387,7 @@ function showHideCollectionControls() {
         var isParentExecutable = (parentExecute != null && parentExecute.text() == 'true');
 
         //collection is writeable
-        if (isWriteable) {
+        if (isWriteable && isExecutable) {
             $('#collection-create-folder').show();
             if (!isUsersHome) {
                 $('#upload-file-to-resource').show();
@@ -395,6 +395,7 @@ function showHideCollectionControls() {
             }
             else {
                 $('#upload-file-to-resource').hide();
+                $('#collection-create-resource').hide();
             }
         } else {
             $('#collection-create-folder').hide();
@@ -402,13 +403,11 @@ function showHideCollectionControls() {
             $('#upload-file-to-resource').hide();
         }
 
-        //collection is not current users home and is owned by current user
-        if (!isUsersHome && isExecutable && isWriteable) {
+        //collection is owned by current user or user can change Permissions (write & execute collection) 
+        if (isOwner || (isExecutable && isWriteable)) {
             $('#collection-sharing').show();
-
         } else {
             $('#collection-sharing').hide();
-
         }
 
         // moving and renaming needs parentCollection to be writeable and executable
