@@ -100,6 +100,9 @@ declare function local:get-vra-workrecord-template($workrecord-uuid as xs:string
 declare function upload:upload($filetype, $filesize, $filename, $data, $doc-type, $workrecord-uuid, $collection-owner-username as xs:string) {
     let $image-uuid := concat('i_', util:uuid())
     let $upload-collection-path :=
+    system:as-user($user, $userpass,
+        (
+    
         if (exists(collection($config:mods-root)//vra:work[@id = $workrecord-uuid]/@id)) then 
             util:collection-name(collection($config:mods-root)//vra:work[@id = $workrecord-uuid]/@id)
         else 
@@ -107,6 +110,8 @@ declare function upload:upload($filetype, $filesize, $filename, $data, $doc-type
                 util:collection-name(collection($config:mods-root)//mods:mods[@ID = $workrecord-uuid]/@ID)
             else 
                 ()
+        )
+    )
     let $workrecord-file-path := concat($upload-collection-path, '/', $workrecord-uuid, '.xml')
     let $image-collection-path := concat($upload-collection-path, '/', $image-collection-name)
     let $image-filename := concat($image-uuid, '.', functx:substring-after-last($filename, '.'))
@@ -114,7 +119,10 @@ declare function upload:upload($filetype, $filesize, $filename, $data, $doc-type
     let $image-record := local:generate-image-record($image-uuid, $image-filename, $filename, $workrecord-uuid)
     let $image-record-filename := concat($image-uuid, '.xml')
     let $image-record-file-path := xs:anyURI(concat($image-collection-path, '/', $image-record-filename))
-    let $collection-owner-username := xmldb:get-owner($upload-collection-path)
+    let $collection-owner-username := 
+        system:as-user($user, $userpass,
+            xmldb:get-owner($upload-collection-path)
+        )
 
     let $upload :=  
         system:as-user($user, $userpass,
@@ -261,8 +269,6 @@ let $result := for $x in (1 to count($data))
                                 let $create-workrecord :=
                                     system:as-user($user, $userpass,
                                         (
-                                            util:log('INFO', "work record:" || concat($collection-folder, '/', $workrecord-uuid, '.xml')),
-                                            util:log('INFO', "$collection-owner-username:" || $collection-owner-username),
                                             xmldb:store($collection-folder, concat($workrecord-uuid, '.xml'), $vra-work-xml),
                                             sm:chown(xs:anyURI(concat($collection-folder, '/', $workrecord-uuid, '.xml')), $collection-owner-username),
                                             sm:chmod(xs:anyURI(concat($collection-folder, '/', $workrecord-uuid, '.xml')), $config:resource-mode),
