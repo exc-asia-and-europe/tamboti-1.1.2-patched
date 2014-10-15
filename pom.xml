@@ -308,7 +308,7 @@
 									<outputFile>${project.build.directory}/maven-replacer-plugin/services.xml</outputFile>
 									<replacements>
 										<replacement>
-											<token>\$image-services</token>
+											<token>&lt;/service&gt;</token>
 											<value>${image-services}</value>
 										</replacement>										
 									</replacements>
