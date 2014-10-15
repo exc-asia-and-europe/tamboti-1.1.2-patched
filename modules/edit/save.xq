@@ -361,43 +361,47 @@ return
 
                     return
                     (
-                        (:Update $doc (the document in temp) with $item (the new edits).:)
-                        local:do-updates($item, $doc)
-                        ,
-                        (:Insert modification date-time and user name.:)
-                        update insert $last-modified-extension into $doc/mods:extension
-                        ,
-                        (:Move $doc from temp to target collection.:)
-                        (:NB: To avoid potential problems with xmldb:move(), xmldb:store() and xmldb:remove() are used.
-                        xmldb:move() is suspected to create zero byte "ghost" files in backups in __lost_and_found__.:)
-                        
-                        (:NB: The code used formerly, covering next three steps: 
-                        xmldb:move($config:mods-temp-collection, $target-collection, $file-to-update),:)
-
-                        (:Only attempt to delete the original record if it exists; 
-                        if an attempt is made to delete a file which does not exist, the script will terminate. 
-                        This means that no attempt is made to delete newly created records.:)                        
-                        if (doc($record-path)) 
-                        then xmldb:remove($target-collection, $file-to-update) 
-                        else ()
-                        ,
-                        (:Store $doc in the target collection, whether this is where the record originally was located or 
-                        the collection chosen to store a new record.:)
-                        xmldb:store($target-collection, $file-to-update, $doc)
-                        ,
-                        sm:chown($record-path, tamboti-utils:get-username-from-path($target-collection))
-                        ,
-                        sm:chgrp($record-path, $config:biblio-users-group)
-                        ,
-                        sm:chmod($record-path, $config:resource-mode)
-                        ,                        
-                        (:Remove the $doc record from temp if store in target was successful.:)
-                        if (doc($record-path)) 
-                        then xmldb:remove($config:mods-temp-collection, $file-to-update) 
-                        else ()
-                        ,
-                        (:Set the same permissions on the moved file that the parent collection has.:)
-                        security:apply-parent-collection-permissions($record-path)
+                        system:as-user($config:dba-credentials[1], $config:dba-credentials[2],
+                            (
+                                (:Update $doc (the document in temp) with $item (the new edits).:)
+                                local:do-updates($item, $doc)
+                                ,
+                                (:Insert modification date-time and user name.:)
+                                update insert $last-modified-extension into $doc/mods:extension
+                                ,                                
+                                (:Move $doc from temp to target collection.:)
+                                (:NB: To avoid potential problems with xmldb:move(), xmldb:store() and xmldb:remove() are used.
+                                xmldb:move() is suspected to create zero byte "ghost" files in backups in __lost_and_found__.:)
+                                
+                                (:NB: The code used formerly, covering next three steps: 
+                                xmldb:move($config:mods-temp-collection, $target-collection, $file-to-update),:)
+        
+                                (:Only attempt to delete the original record if it exists; 
+                                if an attempt is made to delete a file which does not exist, the script will terminate. 
+                                This means that no attempt is made to delete newly created records.:)                        
+                                if (doc($record-path)) 
+                                then xmldb:remove($target-collection, $file-to-update) 
+                                else ()
+                                ,
+                                (:Store $doc in the target collection, whether this is where the record originally was located or 
+                                the collection chosen to store a new record.:)
+                                xmldb:store($target-collection, $file-to-update, $doc)
+                                ,                                
+                                sm:chown($record-path, xmldb:get-owner($target-collection))
+                                ,
+                                sm:chgrp($record-path, $config:biblio-users-group)
+                                ,
+                                sm:chmod($record-path, $config:resource-mode)
+                                ,                        
+                                (:Remove the $doc record from temp if store in target was successful.:)
+                                if (doc($record-path)) 
+                                then xmldb:remove($config:mods-temp-collection, $file-to-update) 
+                                else ()
+                                ,
+                                (:Set the same permissions on the moved file that the parent collection has.:)
+                                security:apply-parent-collection-permissions($record-path)
+                            )
+                        )
                     )
                 (:If action is 'save' (the default action):)
                 (:Update $doc (the document in temp) with $item (the new edits).:)
