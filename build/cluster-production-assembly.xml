@@ -43,5 +43,12 @@
 				<include>config.xqm</include>
 			</includes>
 		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/maven-replacer-plugin</directory>
+			<outputDirectory>/modules/config</outputDirectory>
+			<includes>
+				<include>services.xml</include>
+			</includes>
+		</fileSet>		
 	</fileSets>
 </package>

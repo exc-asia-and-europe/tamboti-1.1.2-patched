@@ -54,5 +54,6 @@ How to use:
                 <element-query key="1">@id</element-query>
             </uri>
         </image-service>
+        $image-services
     </service>
 </services>
