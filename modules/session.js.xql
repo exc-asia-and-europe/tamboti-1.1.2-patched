@@ -1,9 +1,9 @@
-xquery version "1.0";
-
-import module namespace session = "http://exist-db.org/xquery/session";
-declare namespace exist = "http://exist.sourceforge.net/NS/exist";
+xquery version "3.0";
 
 import module namespace security="http://exist-db.org/mods/security" at "search/security.xqm";
+import module namespace config = "http://exist-db.org/mods/config" at "config.xqm";
+
+declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 
 declare option exist:serialize "method=text media-type=application/javascript";
 
