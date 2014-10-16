@@ -17,6 +17,11 @@ Icon stock is from - http://www.famfamfam.com/lab/icons/silk/
 	<root pattern="/apps/tamboti" path="xmldb:exist:///db/tamboti"/>
 before
 	<root pattern="/apps" path="xmldb:exist:///db"/>
+	
+### Building with maven
+N. B.  Maven 3.1.1+ is needed.
+  
+* For Cluster Asia and Europe... test instance of tamboti, use "clean package -Ppatched-cluster-test-build,general-production-build".
 
 ### Dependencies:
 
