@@ -164,24 +164,6 @@
 							<!-- </execution> -->
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>ro.kuberam.maven.plugins</groupId>
-						<artifactId>kuberam-expath-plugin</artifactId>
-						<version>0.4.1</version>
-						<executions>
-							<execution>
-								<id>create-developer-test-build</id>
-								<phase>package</phase>
-								<goals>
-									<goal>make-xar</goal>
-								</goals>
-								<configuration>
-									<descriptor>build/developer-test-build-assembly.xml</descriptor>
-									<finalName>${project.build.finalName}-test-${user.name}</finalName>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -215,24 +197,6 @@
 												id="page-head-right"&gt;</value>
 										</replacement>
 									</replacements>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>ro.kuberam.maven.plugins</groupId>
-						<artifactId>kuberam-expath-plugin</artifactId>
-						<version>0.4.1</version>
-						<executions>
-							<execution>
-								<id>create-general-test-build</id>
-								<phase>package</phase>
-								<goals>
-									<goal>make-xar</goal>
-								</goals>
-								<configuration>
-									<descriptor>build/general-test-build-assembly.xml</descriptor>
-									<finalName>${project.build.finalName}-test</finalName>
 								</configuration>
 							</execution>
 						</executions>
@@ -316,24 +280,6 @@
 							</execution>							
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>ro.kuberam.maven.plugins</groupId>
-						<artifactId>kuberam-expath-plugin</artifactId>
-						<version>0.4.1</version>
-						<executions>
-							<execution>
-								<id>create-cluster-test-build</id>
-								<phase>package</phase>
-								<goals>
-									<goal>make-xar</goal>
-								</goals>
-								<configuration>
-									<descriptor>build/cluster-production-assembly.xml</descriptor>
-									<finalName>${project.build.finalName}</finalName>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
@@ -386,24 +332,6 @@
 											<value>\$config:dba-credentials := \("admin","${admin-password}"\)</value>
 										</replacement>
 									</replacements>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>ro.kuberam.maven.plugins</groupId>
-						<artifactId>kuberam-expath-plugin</artifactId>
-						<version>0.4.1</version>
-						<executions>
-							<execution>
-								<id>create-cluster-production-build</id>
-								<phase>package</phase>
-								<goals>
-									<goal>make-xar</goal>
-								</goals>
-								<configuration>
-									<descriptor>build/cluster-production-assembly.xml</descriptor>
-									<finalName>${project.build.finalName}</finalName>
 								</configuration>
 							</execution>
 						</executions>
