@@ -46,17 +46,27 @@ let $result_set := if (not($results)) then <xml>image uuid not found</xml> else 
  
  declare function upload:get-collection($uuid){
     system:as-user($user, $userpass, (
-    let $vra_image := collection($rootdatacollection)//vra:image[@id=$uuid]
-    let $col := if (exists($vra_image))
-    then 
-    util:collection-name($vra_image/@id)
-    else()
-    return <json:value>
-                <collection>{$col}</collection>
-                <filename>{data($vra_image/@href)}</filename>
-            </json:value>
-            )
-     )
+        let $vra_image := collection($rootdatacollection)//vra:image[@id=$uuid]
+        let $col := 
+            if (exists($vra_image)) then 
+                util:collection-name($vra_image/@id)
+            else
+                ()
+                
+        let $image-href := data($vra_image/@href)
+        let $filename :=
+            if (contains($image-href, "://")) then
+                fn:substring-after($image-href, "://")
+            else
+                $image-href
+    
+        
+        return <json:value>
+                    <collection>{$col}</collection>
+                    <filename>{$filename}</filename>
+                </json:value>
+                )
+    )
             
 }; 
 (:
