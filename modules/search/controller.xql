@@ -1,8 +1,8 @@
 xquery version "1.0";
 
-import module namespace config="http://exist-db.org/mods/config" at "../config.xqm";
-import module namespace security="http://exist-db.org/mods/security" at "security.xqm";
-import module namespace theme="http://exist-db.org/xquery/biblio/theme" at "../theme.xqm";
+import module namespace config = "http://exist-db.org/mods/config" at "../config.xqm";
+import module namespace security = "http://exist-db.org/mods/security" at "security.xqm";
+import module namespace theme = "http://exist-db.org/xquery/biblio/theme" at "../theme.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace session="http://exist-db.org/xquery/session";
@@ -118,7 +118,7 @@ else if (starts-with($exist:path, "/images/")) then
                 <forward url="/images/scale/{$real-resources-path}" absolute="yes"/>
             </dispatch>
         
-else if (starts-with($exist:path, "/resources")) then
+else if (starts-with($exist:path, $config:mods-root)) then
     let $real-resources-path := fn:concat(substring-before($exist:controller, "/modules/"), $exist:path) return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="{$real-resources-path}">

@@ -40,7 +40,7 @@ declare function local:authenticate($user as xs:string, $password as xs:string?)
 declare function local:collection-relationship($collection as xs:string) as element(relationship)
 {
     let $collection := $collection
-    let $parent := replace(replace(replace($collection, "(.*)/.*", "$1"), '/resources/commons', '/resources'), '/db', '') 
+    let $parent := replace(replace(replace($collection, "(.*)/.*", "$1"), $config:mods-commons, $config:mods-root), '/db', '') 
     
     return
     

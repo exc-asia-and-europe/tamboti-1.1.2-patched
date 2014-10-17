@@ -56,11 +56,6 @@ declare function local:create-new-record($id as xs:string, $type-request as xs:s
         (
             sm:chmod(xs:anyURI($stored), "rwx------")
         )
-    (:If the record is created in a collection inside commons, it should be visible to all.:)
-    (:let $null := 
-        if (contains($target-collection, "/commons/")) 
-        then xmldb:set-resource-permissions($config:mods-temp-collection, $doc-name, "editor", "biblio.users", xmldb:string-to-permissions("rwxrwxr-x"))
-        else ():)
     
     (:Get the remaining parameters that are to be stored, in addition to transliterationOfResource (which was fetched above).:)
     let $scriptOfResource := request:get-parameter("scriptOfResource", '')
@@ -321,7 +316,7 @@ declare function local:create-page-content($id as xs:string, $tab-id as xs:strin
                     then (' with the title ', <strong>{$publication-title}</strong>) 
                     else ()
                 }, to be saved in <strong> {
-                    let $target-collection-display := replace(replace(xmldb:decode-uri($target-collection), '/db/resources/users/', ''), '/db/resources/commons/', '')
+                    let $target-collection-display := replace(replace(xmldb:decode-uri($target-collection), '/db' || $config:users-collection || '/', ''), '/db' || $config:mods-commons || '/', '')
                     return
                         if ($target-collection-display eq security:get-user-credential-from-session()[1])
                         then 'resources/Home'

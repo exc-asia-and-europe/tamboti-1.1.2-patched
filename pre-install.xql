@@ -111,7 +111,7 @@ util:log($log-level, fn:concat("Config: Creating temp collection '", $temp-colle
 util:log($log-level, "Config: Done."),
 
 
-(: Create resources/commons :)
+(: Create {$config:mods-commons} :)
 util:log($log-level, fn:concat("Config: Creating commons collection '", $commons-collection, "'...")),
     for $col in ($sociology-collection, $exist-db-collection(:, $mads-collection:)) return
     (

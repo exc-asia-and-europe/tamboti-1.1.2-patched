@@ -1,5 +1,7 @@
 xquery version "3.0";
 
+import module namespace config = "http://exist-db.org/mods/config" at "../../modules/config.xqm";
+
 declare function local:collection-permissions($col-path, $col, $show-res) {
     <collection name="{$col}">
             <colPermissions>
@@ -32,11 +34,8 @@ declare function local:collection-permissions($col-path, $col, $show-res) {
 
 };
 
-(:let $col-name := "/db/resources/commons/JSIT":)
-(:let $col-name := "/db/resources/users/matthias.guth@ad.uni-heidelberg.de/aaatest":)
-
 (:let $col-name := request:get-attribute("col"):)
 (:let $showRes := true():)
 
 (:return:)
-    local:collection-permissions("/resources/users/matthias.guth@ad.uni-heidelberg.de", "123123123", true())
+    local:collection-permissions($config:users-collection || "/", "vma-editor", false())

@@ -1,5 +1,7 @@
 xquery version "3.0";
 
+import module namespace config = "http://exist-db.org/mods/config" at "../modules/config.xqm";
+
 declare variable $group-id := "biblio.users";
 
 declare function local:set-user-group-permissions($path, $user-id) {
@@ -33,7 +35,7 @@ declare function local:chmod($path) {
 };
 
 
-let $path := "/resources/users"
+let $path := $config:users-collection
 return 
     (
         local:chmod($path)

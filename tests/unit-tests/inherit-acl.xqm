@@ -49,7 +49,3 @@ declare function inherit-acl:inherit-tamboti-collection-user-acl($collection as 
         ()
 
 };
-
-(:let $collection-path := xs:anyURI("/resources/users/freizo-editor/"):)
-(:return :)
-(:    inherit-acl:inherit-tamboti-collection-user-acl($collection-path):)
