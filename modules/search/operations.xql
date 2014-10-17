@@ -7,7 +7,6 @@ import module namespace functx="http://www.functx.com";
 import module namespace tamboti-utils="http://hra.uni-heidelberg.de/ns/tamboti/utils" at "../utils/utils.xqm";
 
 
-declare namespace group = "http://commons/sharing/group";
 declare namespace op="http://exist-db.org/xquery/biblio/operations";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace response="http://exist-db.org/xquery/response";
@@ -232,7 +231,7 @@ declare function op:remove-resource($resource-id as xs:string) as element(status
             else()
             (:
             ,
-            update insert $record into doc('/db/resources/temp/deletions.xml')/records
+            update insert $record into doc('/db' || $config:mods-root || '/temp/deletions.xml')/records
             :)
             ,
             <status id="removed">{$resource-id}</status>

@@ -13,7 +13,6 @@ import module namespace xmldb = "http://exist-db.org/xquery/xmldb";
 import module namespace functx = "http://www.functx.com";
 
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
-declare namespace group = "http://commons/sharing/group";
 declare namespace col = "http://library/search/collections";
 
 declare option exist:serialize "method=json media-type=text/javascript";
@@ -23,10 +22,10 @@ declare option exist:serialize "method=json media-type=text/javascript";
 : the library search app. Uses the JSON serializer to get JSON output.
 :
 : Also generates a virtual collection root called 'Shared', this starts
-: as /db/commons/groups and then any sub-collection under here
+: as {$config:mods-commons}/groups and then any sub-collection under here
 : is actually a link back to the shared collection (i.e. a collection in a users home folder)
-: Group collection paths look like /db/commons/group/{uuid}/{collection-name}
-: The {uuid} refers to an entry stored in /db/commons/group
+: Group collection paths look like {$config:mods-commons}/group/{uuid}/{collection-name}
+: The {uuid} refers to an entry stored in {$config:mods-commons}/group
 : The {collection-name} is the real name of the collection from the original users folder
 :
 : The JSON output generated is suitable for use with dynatree
@@ -58,7 +57,7 @@ declare variable $collections-to-skip-for-guest := ('HERA_Single', 'Ethnografisc
 : @param $tooltip
 :   Optional tooltip
 : @param writeable
-:   Is this tree node writeable - i.e. can folders/resources be added to it
+:   Is this tree node writeable - i.e. can folders / resources be added to it
 : @param additional-classes
 :   Optional additional CSS classes to apply
 : @param expand

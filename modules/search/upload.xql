@@ -14,7 +14,7 @@ declare namespace mods="http://www.loc.gov/mods/v3";
 
 declare variable $user := $config:dba-credentials[1];
 declare variable $userpass := $config:dba-credentials[2];
-declare variable $rootdatacollection:='/db/resources/';
+declare variable $rootdatacollection:='/db' || $config:mods-root || "'/';
 declare variable $message := 'uploaded';
 declare variable $image_col := 'VRA_images';
 

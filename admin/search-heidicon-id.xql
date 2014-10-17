@@ -1,4 +1,7 @@
 xquery version "3.0";
+
+import module namespace config = "http://exist-db.org/mods/config" at "../modules/config.xqm";
+
 declare namespace vra = "http://www.vraweb.org/vracore4.htm";
 declare namespace vra-ext="http://exist-db.org/vra/extension";
 
@@ -11,7 +14,7 @@ return
     else
         <result>
             {
-                collection("/resources/")//vra:vra[.//vra-ext:value=$id]
+                collection($config:mods-root)//vra:vra[.//vra-ext:value=$id]
             }
         </result>
 

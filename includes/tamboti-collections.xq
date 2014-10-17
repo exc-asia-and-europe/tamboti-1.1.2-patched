@@ -1,10 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<div>
+xquery version "3.0";
+
+import module namespace config = "http://exist-db.org/mods/config" at "../modules/config.xqm";
+
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method "html5";
+declare option output:media-type "text/html";
+
+<div xmlns="http://www.w3.org/1999/xhtml">
     <p> In Tamboti, there are a number of special collections which you can access by
     clicking on the links below: </p>
     <ul>
         <li>
-            <a href="index.html?collection=/resources/commons/EAST" target="_blank">EAST
+            <a href="index.html?collection={$config:mods-commons}/EAST" target="_blank">EAST
                 (Epistemology and Argumentation in South Asia and Tibet)</a>
             <ul>
                 <li>This growing collection gathers records on Epistemology and
@@ -15,13 +22,13 @@
             </ul>
         </li>
         <li>
-            <a href="index.html?collection=/resources/commons/Cluster%20Publications" target="_blank">Cluster Publications</a>
+            <a href="index.html?collection={$config:mods-commons}/Cluster%20Publications" target="_blank">Cluster Publications</a>
             <ul>
                 <li>This collection contains a list of publications that have emerged from the Cluster of Excellence "Asia and Europe in a Global Context." For news on Cluster publications, see <a href="http://www.asia-europe.uni-heidelberg.de/en/research/publications.html">http://www.asia-europe.uni-heidelberg.de/en/research/publications.html</a>.</li>
             </ul>
         </li>
         <li>
-            <a href="index.html?collection=/resources/commons/Wissenschaftssprache%20Chinesisch" target="_blank">Wissenschaftssprache Chinesisch</a>
+            <a href="index.html?collection={$config:mods-commons}/Wissenschaftssprache%20Chinesisch" target="_blank">Wissenschaftssprache Chinesisch</a>
             <ul>
                 <li> This growing database consists of records on the distribution and
                     transformation of Euro-American knowledge in late imperial China,
@@ -34,7 +41,7 @@
             </ul>
         </li>
         <li>
-            <a href="index.html?collection=/resources/commons/Priya_Paul_Collection" target="_blank">Priya Paul Collection</a>
+            <a href="index.html?collection={$config:mods-commons}/Priya_Paul_Collection" target="_blank">Priya Paul Collection</a>
             <ul>
                 <li>
                     The Priya Paul Collection of Popular Art contains more than 3,300 illustrations from the late 19th and the 20th century.

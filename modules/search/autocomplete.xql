@@ -1,4 +1,7 @@
-xquery version "1.0";
+xquery version "3.0";
+
+import module namespace config = "http://exist-db.org/mods/config" at "../config.xqm";
+import module namespace biblio = "http://exist-db.org/xquery/biblio" at "application.xql";
 
 declare namespace mods="http://www.loc.gov/mods/v3";
 declare namespace vra = "http://www.vraweb.org/vracore4.htm";
@@ -6,11 +9,9 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace atom="http://www.w3.org/2005/Atom";
 declare namespace html="http://www.w3.org/1999/xhtml";
 
-import module namespace biblio="http://exist-db.org/xquery/biblio" at "application.xql";
-
 declare option exist:serialize "media-type=text/json";
 
-declare variable $local:COLLECTION := '/db/resources';
+declare variable $local:COLLECTION := '/db' || $config:mods-root || '';
 
 declare function local:key($key, $options) {
     concat('"', $key, '"')

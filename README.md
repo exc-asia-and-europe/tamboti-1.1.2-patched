@@ -13,8 +13,8 @@ Icon stock is from - http://www.famfamfam.com/lab/icons/silk/
 * access tamboti at <http://localhost:8080/exist/apps/library/> or <http://localhost:8080/exist/apps/tamboti/>.
 
 * Note that in $EXIST_HOME/webapp/WEB-INF/controller-config.xml, the following mappings have to be set
-	<root pattern="/apps/library" path="xmldb:exist:///db/tamboti"/>
-	<root pattern="/apps/tamboti" path="xmldb:exist:///db/tamboti"/>
+	<root pattern="/apps/library" path="xmldb:exist:///db/apps/tamboti"/>
+	<root pattern="/apps/tamboti" path="xmldb:exist:///db/apps/tamboti"/>
 before
 	<root pattern="/apps" path="xmldb:exist:///db"/>
 	

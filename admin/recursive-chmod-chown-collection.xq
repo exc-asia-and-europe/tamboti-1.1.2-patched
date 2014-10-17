@@ -1,5 +1,7 @@
 xquery version "3.0";
 
+import module namespace config = "http://exist-db.org/mods/config" at "../modules/config.xqm";
+
 declare variable $group-id := "biblio.users";
 declare variable $user-id := "vma-editor";
 
@@ -36,7 +38,7 @@ declare function local:chmod($path) {
 };
 
 
-let $path := "/resources/users/vma-editor/VMA-Collection/Sunil%20Gupta"
+let $path := $config:users-collection || "/vma-editor/VMA-Collection/Sunil%20Gupta"
 
 return 
     local:set-user-group-permissions($path, $user-id)

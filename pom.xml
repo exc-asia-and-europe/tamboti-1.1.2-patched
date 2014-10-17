@@ -117,51 +117,6 @@
 									</replacements>
 								</configuration>
 							</execution>
-							<!-- <execution> -->
-							<!-- <id>filter-preinstall.xql</id> -->
-							<!-- <phase>generate-resources</phase> -->
-							<!-- <goals> -->
-							<!-- <goal>replace</goal> -->
-							<!-- </goals> -->
-							<!-- <configuration> -->
-							<!-- <file>${basedir}/preinstall.xql</file> -->
-							<!-- <outputFile>${project.build.directory}/maven-replacer-plugin/preinstall.xql</outputFile> -->
-							<!-- <replacements> -->
-							<!-- <replacement> -->
-							<!-- <token>config:app-id := "tamboti"</token> -->
-							<!-- <value> -->
-
-							<!-- declare function local:install-cluster-publications-data() as item()* { -->
-							<!-- let $http-headers := <headers/> -->
-
-							<!-- let $cluster-publications-collection-name := "Cluster%20Publications" -->
-
-							<!-- let $cluster-publications-db-path := "/db/resources/commons/" || $cluster-publications-collection-name || "/" -->
-
-							<!-- let $decoded-cluster-publications-db-path := translate($cluster-publications-db-path, "%20", " ") -->
-
-							<!-- let $cluster-publications-url := "http://kjc-sv016.kjc.uni-heidelberg.de:8080/exist/rest" || $cluster-publications-db-path -->
-
-							<!-- let $resources := httpclient:get(xs:anyURI($cluster-publications-url), false(), $http-headers)/*[2]/*/* -->
-
-
-							<!-- return -->
-							<!-- ( -->
-							<!-- if (xmldb:collection-available($decoded-cluster-publications-db-path)) then (xmldb:remove($decoded-cluster-publications-db-path)) 
-								else (), -->
-							<!-- xmldb:create-collection("/db/resources/commons", $cluster-publications-collection-name), -->
-							<!-- for $resource-description in $resources/* -->
-							<!-- let $resource-name := data($resource-description/@name) -->
-							<!-- let $resource-contents := httpclient:get(xs:anyURI($cluster-publications-url || $resource-name), false(), $http-headers)/*[2]/* -->
-
-							<!-- return xmldb:store($cluster-publications-db-path, $resource-name, $resource-contents) -->
-							<!-- ) -->
-							<!-- }; -->
-							<!-- </value> -->
-							<!-- </replacement> -->
-							<!-- </replacements> -->
-							<!-- </configuration> -->
-							<!-- </execution> -->
 						</executions>
 					</plugin>
 				</plugins>
@@ -257,7 +212,7 @@
 										<replacement>
 											<token>config:app-version := ""</token>
 											<value>config:app-version := "${project.version}"</value>
-										</replacement>										
+										</replacement>
 									</replacements>
 								</configuration>
 							</execution>
@@ -274,10 +229,10 @@
 										<replacement>
 											<token>&lt;/service&gt;</token>
 											<value>${image-services}</value>
-										</replacement>										
+										</replacement>
 									</replacements>
 								</configuration>
-							</execution>							
+							</execution>
 						</executions>
 					</plugin>
 				</plugins>
