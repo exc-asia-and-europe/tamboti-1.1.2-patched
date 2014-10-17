@@ -118,7 +118,7 @@ else if (starts-with($exist:path, "/images/")) then
                 <forward url="/images/scale/{$real-resources-path}" absolute="yes"/>
             </dispatch>
         
-else if (starts-with($exist:path, $config:mods-root)) then
+else if (starts-with($exist:path, "/resources")) then
     let $real-resources-path := fn:concat(substring-before($exist:controller, "/modules/"), $exist:path) return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="{$real-resources-path}">
