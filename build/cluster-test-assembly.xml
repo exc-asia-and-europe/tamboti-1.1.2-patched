@@ -46,7 +46,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/maven-replacer-plugin</directory>
-			<outputDirectory>/modules/config</outputDirectory>
+			<outputDirectory>/modules/configuration</outputDirectory>
 			<includes>
 				<include>services.xml</include>
 			</includes>
