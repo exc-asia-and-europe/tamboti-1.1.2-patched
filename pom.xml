@@ -122,43 +122,9 @@
 				</plugins>
 			</build>
 		</profile>
-		<profile>
-			<id>general-test-build</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.google.code.maven-replacer-plugin</groupId>
-						<artifactId>replacer</artifactId>
-						<version>1.5.2</version>
-						<executions>
-							<execution>
-								<id>filter-page.html</id>
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>replace</goal>
-								</goals>
-								<configuration>
-									<file>${basedir}/themes/tamboti/pages/page.html</file>
-									<outputFile>${project.build.directory}/maven-replacer-plugin/page.html</outputFile>
-									<replacements>
-										<replacement>
-											<token>theme/images/tamboti.png</token>
-											<value>theme/images/tamboti-test.png</value>
-										</replacement>
-										<replacement>
-											<token>&lt;div id="page-head-right"&gt;</token>
-											<value>&lt;div&gt;Version ${project.version}, build ${maven.build.timestamp} by
-												${user.name}&lt;/div&gt;&lt;div
-												id="page-head-right"&gt;</value>
-										</replacement>
-									</replacements>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
+
+
+
 		<profile>
 			<id>patched-cluster-test-build</id>
 			<build>
@@ -238,8 +204,10 @@
 				</plugins>
 			</build>
 		</profile>
+
+
 		<profile>
-			<id>cluster-production-build</id>
+			<id>patched-cluster-production-build</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -258,46 +226,39 @@
 									<outputFile>${project.build.directory}/maven-replacer-plugin/config.xqm</outputFile>
 									<replacements>
 										<replacement>
-											<token>\$config:enforced-realm-id := ""</token>
-											<value>\$config:enforced-realm-id := "${enforced-realm-id}"</value>
+											<token>config:enforced-realm-id := ""</token>
+											<value>config:enforced-realm-id := "${enforced-realm-id}"</value>
 										</replacement>
 										<replacement>
-											<token>\$config:dba-credentials := \("admin",""\)</token>
-											<value>\$config:dba-credentials := \("admin","${admin-password}"\)</value>
+											<token>config:dba-credentials := \("admin",""\)</token>
+											<value>config:dba-credentials := \("admin","${admin-password}"\)</value>
+										</replacement>
+										<replacement>
+											<token>config:app-version := ""</token>
+											<value>config:app-version := "${project.version}"</value>
 										</replacement>
 									</replacements>
 								</configuration>
 							</execution>
 							<execution>
-								<id>cluster-production-build-filter-config.default.xqm</id>
+								<id>filter-services.default.xml</id>
 								<phase>generate-resources</phase>
 								<goals>
 									<goal>replace</goal>
 								</goals>
 								<configuration>
-									<file>${basedir}/modules/config.default.xqm</file>
-									<outputFile>${project.build.directory}/maven-replacer-plugin/config.xqm</outputFile>
+									<file>${basedir}/modules/config/services.default.xml</file>
+									<outputFile>${project.build.directory}/maven-replacer-plugin/services.xml</outputFile>
 									<replacements>
 										<replacement>
-											<token>\$config:enforced-realm-id := ""</token>
-											<value>\$config:enforced-realm-id := "${enforced-realm-id}"</value>
-										</replacement>
-										<replacement>
-											<token>\$config:dba-credentials := \("admin",""\)</token>
-											<value>\$config:dba-credentials := \("admin","${admin-password}"\)</value>
+											<token>&lt;/service&gt;</token>
+											<value>${image-services}</value>
 										</replacement>
 									</replacements>
 								</configuration>
 							</execution>
 						</executions>
 					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>general-production-build</id>
-			<build>
-				<plugins>
 					<plugin>
 						<groupId>ro.kuberam.maven.plugins</groupId>
 						<artifactId>kuberam-expath-plugin</artifactId>
@@ -310,56 +271,11 @@
 									<goal>make-xar</goal>
 								</goals>
 								<configuration>
-									<descriptor>build/general-production-assembly.xml</descriptor>
+									<descriptor>build/cluster-production-assembly.xml</descriptor>
 									<finalName>${project.build.finalName}</finalName>
 								</configuration>
 							</execution>
 						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
-			<id>test-mail</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-changes-plugin</artifactId>
-						<version>2.9</version>
-						<executions>
-							<execution>
-								<id>generate-announcement-mail</id>
-								<phase>package</phase>
-								<goals>
-									<goal>announcement-generate</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>send-announcement-mail</id>
-								<phase>package</phase>
-								<goals>
-									<goal>announcement-mail</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<!-- <smtpHost>extmail.urz.uni-heidelberg.de</smtpHost> -->
-							<!-- <smtpPort implementation="java.lang.Integer">25</smtpPort> -->
-							<!-- <username>claudius.teodorescu@asia-europe.uni-heidelberg.de</username> -->
-							<!-- <password></password> -->
-
-							<smtpHost>smtp.gmail.com</smtpHost>
-							<smtpPort implementation="java.lang.Integer">587</smtpPort>
-							<username>claudius.teodorescu@gmail.com</username>
-							<password></password>
-
-
-							<!-- <sslMode>true</sslMode> -->
-							<toAddresses>
-								<toAddress implementation="java.lang.String">guth@asia-europe.uni-heidelberg.de</toAddress>
-							</toAddresses>
-						</configuration>
 					</plugin>
 				</plugins>
 			</build>
