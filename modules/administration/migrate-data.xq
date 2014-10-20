@@ -7,12 +7,12 @@ declare function local:move-collection-recursively($path) {
     let $data-collection-path := xs:anyURI(replace($path, "/resources/users", "/data/users"))
     return
         (
-            for $collection in xmldb:get-child-collections($path)
+            for $collection in xmldb:get-child-collections(xmldb:encode($path))
             let $collection-path := xs:anyURI($path || "/" || $collection)
             let $permissions := sm:get-permissions($collection-path)
             let $owner := $permissions/*/@owner
             let $mode := $config:collection-mode
-            let $copied-collection-path := $data-collection-path || "/" || $collection
+            let $copied-collection-path := xs:anyURI($data-collection-path || "/" || $collection)
             return
                 (
                     <collection name="{$collection}" path="{$path}">
@@ -32,12 +32,12 @@ declare function local:move-collection-recursively($path) {
                     local:move-collection-recursively($collection-path)
                 )
             ,
-            for $resource in xmldb:get-child-resources($path)
+            for $resource in xmldb:get-child-resources(xmldb:encode($path))
             let $resource-path := xs:anyURI($path || "/" || $resource)
             let $permissions := sm:get-permissions($resource-path)
             let $owner := $permissions/*/@owner
             let $mode := $config:collection-mode
-            let $copied-resource-path := $data-collection-path || "/" || $resource            
+            let $copied-resource-path := xs:anyURI($data-collection-path || "/" || $resource)
             return
                 (
                     <resource name="{$resource}" path="{$path}">
@@ -59,6 +59,6 @@ declare function local:move-collection-recursively($path) {
 
 <result>
     {
-        local:move-collection-recursively("/resources/users")
+        local:move-collection-recursively("/resources/commons/Annotated Videos")
     }
 </result>
