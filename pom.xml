@@ -35,7 +35,6 @@
 	</developers>
 
 	<profiles>
-
 		<profile>
 			<id>patched-cluster-production-build</id>
 			<build>
@@ -83,28 +82,6 @@
 										<replacement>
 											<token>&lt;/service&gt;</token>
 											<value>${image-services}</value>
-										</replacement>
-									</replacements>
-								</configuration>
-							</execution>
-							<execution>
-								<id>filter-page.html</id>
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>replace</goal>
-								</goals>
-								<configuration>
-									<file>${basedir}/themes/tamboti/pages/page.html</file>
-									<outputFile>${project.build.directory}/maven-replacer-plugin/page.html</outputFile>
-									<replacements>
-										<replacement>
-											<token>theme/images/tamboti.png</token>
-											<value>theme/images/tamboti-test.png</value>
-										</replacement>
-										<replacement>
-											<token>&lt;div id="page-head-right"&gt;</token>
-											<value>&lt;div&gt;Version ${project.version}, build ${maven.build.timestamp}, ${user.name}&lt;/div&gt;&lt;div
-												id="page-head-right"&gt;</value>
 										</replacement>
 									</replacements>
 								</configuration>
