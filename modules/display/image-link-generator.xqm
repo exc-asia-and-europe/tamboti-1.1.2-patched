@@ -5,7 +5,7 @@ module namespace image-link-generator="http://hra.uni-heidelberg.de/ns/tamboti/m
 import module namespace config="http://exist-db.org/mods/config" at "../config.xqm";
 
 declare namespace vra="http://www.vraweb.org/vracore4.htm";
-declare variable $image-link-generator:services := doc("../config/services.xml");
+declare variable $image-link-generator:services := doc("../configuration/services.xml");
 
 declare function image-link-generator:generate-href($image-uuid, $uri-name) {
     (: ToDo: check if user is allowed to access image-record (and image-binary) :)

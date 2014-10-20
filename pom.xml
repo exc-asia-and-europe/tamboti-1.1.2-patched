@@ -76,7 +76,7 @@
 									<goal>replace</goal>
 								</goals>
 								<configuration>
-									<file>${basedir}/modules/config/services.default.xml</file>
+									<file>${basedir}/modules/configuration/services.default.xml</file>
 									<outputFile>${project.build.directory}/maven-replacer-plugin/services.xml</outputFile>
 									<replacements>
 										<replacement>
@@ -173,7 +173,7 @@
 									<goal>replace</goal>
 								</goals>
 								<configuration>
-									<file>${basedir}/modules/config/services.default.xml</file>
+									<file>${basedir}/modules/configuration/services.default.xml</file>
 									<outputFile>${project.build.directory}/maven-replacer-plugin/services.xml</outputFile>
 									<replacements>
 										<replacement>
