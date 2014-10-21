@@ -32,7 +32,7 @@ declare function retrieve-tei:format-detail-view($position as xs:string, $entry 
     let $result :=
     <table xmlns="http://www.w3.org/1999/xhtml" class="biblio-full">
     {
-    let $collection := replace(replace(xmldb:decode-uri($collection-short), '^' || $config:mods-commons || '/', 'resources/'),'^' || $config:users-collection || '/', 'resources/')
+    let $collection := replace(replace(xmldb:decode-uri($collection-short), '^' || $config:mods-commons || '/', $config:data-collection-name || '/'),'^' || $config:users-collection || '/', $config:data-collection-name || '/')
     (:let $log := util:log("DEBUG", ("##$collection): ", $collection)):)
     return
     <tr>
