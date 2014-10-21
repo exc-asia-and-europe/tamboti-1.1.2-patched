@@ -81,7 +81,11 @@ declare function retrieve-wiki:format-detail-view($position as xs:string, $entry
     {
     <tr>
         <td class="collection-label">Record Location</td>
-        <td><div class="collection">{replace(replace(xmldb:decode-uri($collection), '^' || $config:mods-commons || '/', 'resources/'),'^' || $config:users-collection || '/', 'resources/')}</div></td>
+        <td>
+            <div class="collection">
+                {replace(replace(xmldb:decode-uri($collection), '^' || $config:mods-commons || '/', $config:data-collection-name || '/'),'^' || $config:users-collection || '/', $config:data-collection-name || '/')}
+            </div>
+        </td>
     </tr>
     ,
         <tr>
