@@ -676,7 +676,7 @@ function removeCollection(dialog) {
  * Checks if the supplied credentials are valid. If yes, submit
  * the form to reload the page.
  */
-function login() {
+function login(dialog) {
     var user = $('#login-dialog input[name = user]');
     var password = $('#login-dialog input[name = password]');
     $('#login-message').text('Checking ...');
@@ -685,8 +685,16 @@ function login() {
         data: "user=" + user.val() + "&password=" + escape(password.val()),
         type: 'POST',
         success:
-            function(data, message) { 
-                $('#login-form').submit(); 
+            function(data, message) {
+                $.ajax({
+                    url: "index.html",
+                    data: "user=" + user.val() + "&password=" + escape(password.val()),
+                    type: 'POST',
+                    success:
+                        function(data, message) { 
+                            location.reload();
+                        }
+                });                
             },
         error: function (response, message) { $('#login-message').html('Login failed: ' + response.responseText); }
     });
