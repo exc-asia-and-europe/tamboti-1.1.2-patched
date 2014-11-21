@@ -1,4 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:bf="http://betterform.sourceforge.net/xforms" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:jquery="http://exist-db.org/xquery/jquery" ng-app="app">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:bf="http://betterform.sourceforge.net/xforms" xmlns:xf="http://www.w3.org/2002/xforms">
     <head>
         <title>Tamboti Metadata Framework</title>
         <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"/>-->
@@ -30,7 +30,7 @@
             <link rel="stylesheet" type="text/css" href="theme/css/upload.css"/>
         -->
     </head>
-    <body ng-controller="FileUploadCtrl">
+    <body ng-app="app" ng-controller="FileUploadCtrl">
         <div style="display:none">
             <xf:model id="m-multiple-selection-component">
                 <xf:instance xmlns="http://www.lisa.org/tmx14" id="i-ui-text" src="../i18n/tmx.xml"/>
