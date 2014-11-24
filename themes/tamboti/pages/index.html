@@ -137,6 +137,9 @@
                 <div class="templates:include?path=pages/search-form.html"/>
                 <div class="templates:include?path=pages/collection-tree.html"/>
                 <div id="main-content">
+                    <xf:group id="main-group" appearance="full" model="m-multiple-selection-component">
+                        <div id="ddlcb-container"/>
+                    </xf:group>                
                     <div id="results-head">
                         <span class="navbar">
                             <span class="records-shown">
@@ -168,8 +171,7 @@
                 </div>
             </div>
         </div>
-        <xf:group id="main-group" appearance="full" model="m-multiple-selection-component">
-            <div id="ddlcb-container"/>
+        <xf:group appearance="full" model="m-multiple-selection-component">
             <table id="datatable" cellpadding="0" cellspacing="0" border="0" class="display"/>
             <xf:group appearance="full" model="m-multiple-selection-component">
                 <xf:label>
@@ -179,7 +181,7 @@
                     <xf:output ref="."/>
                 </xf:repeat>
             </xf:group>
-        </xf:group>
+        </xf:group>        
         <!--<div id="page-footer">Tamboti Metadata Framework, version 1.0, 2011-09-01. Licence: GNU-LGPL.</div>-->
         <div id="splash"/>
     </body>
