@@ -359,9 +359,13 @@ span.readable .dynatree-title {
 }
 /*facets end*/
 /*pagination begins*/
+#ddlcb-container {
+  height: 30px;
+}
 #results-head {
   border-bottom: 1px solid #bbbbbb;
-  padding: 1em;
+  height: 30px;
+  padding-top: 26px;
 }
 #results-head .records-found {
   margin-right: 1em;
@@ -371,6 +375,7 @@ span.readable .dynatree-title {
   margin-left: 1.5em;
 }
 #results-head .navbar .pagination-first {
+  margin-left: 10px;
   margin-right: .5em;
   padding: 2px 4px;
 }
