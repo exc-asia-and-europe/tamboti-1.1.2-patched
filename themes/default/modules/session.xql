@@ -436,6 +436,7 @@ declare function bs:mods-list-view-table($item as node(), $currentPos as xs:int)
     let $saved := exists($stored//*[@id = $id])
     return
         <tr xmlns="http://www.w3.org/1999/xhtml" class="pagination-item list">
+            <td><input class="search-list-item-checkbox" type="checkbox" data-tamboti-record-id="{document-uri(root($item))}"/></td>
             <td class="pagination-number">{$currentPos}</td>
             {
             <td class="actions-cell">
@@ -482,6 +483,7 @@ declare function bs:vra-list-view-table($item as node(), $currentPos as xs:int) 
     let $saved := exists($stored//*[@id eq $id])
         return
             <tr xmlns="http://www.w3.org/1999/xhtml" class="pagination-item list">
+                <td><input class="search-list-item-checkbox" type="checkbox" data-tamboti-record-id="{document-uri(root($item))}"/></td>
                 <td class="pagination-number" style="vertical-align:middle">{$currentPos}</td>
                 {
                 <td class="actions-cell" style="vertical-align:middle">
@@ -548,6 +550,7 @@ declare function bs:tei-list-view-table($item as node(), $currentPos as xs:int) 
     let $saved := exists($stored//*[@id = $id])
     return
         <tr xmlns="http://www.w3.org/1999/xhtml" class="pagination-item list">
+            <td><input class="search-list-item-checkbox" type="checkbox" data-tamboti-record-id="{document-uri(root($item))}"/></td>
             <td class="pagination-number">{$currentPos}</td>
             {
             <td class="actions-cell">
