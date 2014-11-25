@@ -34,7 +34,8 @@ $(function() {
         $("#results").pagination("option", "params", { mode: "list" });
         $("#results").pagination("option", "itemsPerPage", 20);
         $("#results").pagination("refresh");
-    });    
+    }); 
+    
     pingSession();
     
     $("#splash").fadeOut(1000);

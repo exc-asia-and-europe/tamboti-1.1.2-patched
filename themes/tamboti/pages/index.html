@@ -62,9 +62,20 @@
                 <xf:action ev:event="xforms-ready">
                     <script type="text/javascript">
                         fluxProcessor.dispatchEventType("main-group", "set-number-of-all-options", {
-                            "numberOfAllOptions": 22
+                            "numberOfAllOptions": $(".hit-count").text()
                         });
                         fluxProcessor.skipshutdown=true;
+                        // initialize the check boxes of the search list
+                        $("#results").on("click", "tr.pagination-item input.search-list-item-checkbox", function() {
+                            //ev.preventDefault();
+                            var $this = $(this);
+                            var optionId = $this.attr("data-tamboti-record-id");
+                            if ($this.is(":checked")) {
+                                fluxProcessor.dispatchEventType("main-group", "select-option", {"optionId": optionId});
+                            } else {
+                                fluxProcessor.dispatchEventType("main-group", "unselect-option", {"optionId": optionId});
+                            }
+                        });
                     </script>
                     <xf:load show="embed" targetid="ddlcb-container">
                         <xf:resource value="'$shared/resources/scripts/jquery/dropDownListCheckbox/0.5/multiple-selection-component.xml#ddlcb-container'"/>
@@ -78,7 +89,7 @@
                     <xf:setvalue ref="instance('i-templates')/option" value="event('optionId')"/>
                     <xf:insert origin="instance('i-templates')/option" context="instance('i-dynamic-values')/selected-options" at="last()"/>
                     <xf:setvalue ref="instance('i-templates')/option"/>
-                    <xf:action if="count(instance('i-dynamic-values')/selected-options/option) lt instance('i-dynamic-values')/number-of-all-options">
+                    <xf:action if="count(instance('i-dynamic-values')/selected-options/option) lt number(instance('i-dynamic-values')/number-of-all-options)">
                         <script type="text/javascript">
                             $("#ddlcb-container").trigger("flag-ddlcb-partial-checked");
                         </script>
@@ -91,7 +102,7 @@
                 </xf:action>
                 <xf:action ev:event="unselect-option" ev:observer="main-group">
                     <xf:delete ref="instance('i-dynamic-values')/selected-options/option[. = event('optionId')]"/>
-                    <xf:action if="count(instance('i-dynamic-values')/selected-options/option) lt instance('i-dynamic-values')/number-of-all-options">
+                    <xf:action if="count(instance('i-dynamic-values')/selected-options/option) lt number(instance('i-dynamic-values')/number-of-all-options)">
                         <script type="text/javascript">
                             $("#ddlcb-container").trigger("unflag-ddlcb-full-checked");
                             $("#ddlcb-container").trigger("flag-ddlcb-partial-checked");
@@ -122,9 +133,11 @@
         <div id="page-head">
             <div id="page-head-left">
                 <a href="/exist/apps/tamboti/">
-                    <img src="theme/images/tamboti.png" title="Tamboti Metadata Framework" alt="Tamboti Metadata Framework"/>
+                    <img src="theme/images/tamboti-test.png" title="Tamboti Metadata Framework" alt="Tamboti Metadata Framework"/>
                 </a>
             </div>
+            <div>Version 1.1.2-patched, build 20141125-1125 by
+												claudius</div>
             <div id="page-head-right">
                 <a href="http://www.asia-europe.uni-heidelberg.de/en/home.html" target="_blank">
                     <img src="theme/images/cluster_logo.png" title="The Cluster of Excellence 'Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows' at Heidelberg University" alt="The Cluster of Excellence 'Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows' at Heidelberg University" width="200"/>
