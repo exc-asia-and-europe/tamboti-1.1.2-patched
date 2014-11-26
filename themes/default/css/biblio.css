@@ -364,22 +364,19 @@ span.readable .dynatree-title {
 }
 #results-head {
   border-bottom: 1px solid #bbbbbb;
-  height: 30px;
-  padding-top: 26px;
-  background-color: red;
+  height: 50px;
 }
-#results-head .records-found {
-  margin-right: 1em;
-}
-#results-head .navbar {
-  margin-left: -50px !important;
+#results-head > div:first-child {
+  background-color: #F8ECE0;
+  float: left;
+  height: 35px;
+  padding-top: 10px;
 }
 #results-head .navbar .pagination-toggle,
 #results-head .navbar .pagination-mode {
   margin-left: 1.5em;
 }
 #results-head .navbar .pagination-first {
-  margin-left: 10px;
   margin-right: .5em;
   padding: 2px 4px;
 }

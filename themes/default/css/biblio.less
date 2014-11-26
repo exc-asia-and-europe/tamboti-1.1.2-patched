@@ -315,10 +315,10 @@ span.readable .dynatree-title {
     margin-top:0;
     margin-bottom:5px;
     height:40px;
-    margin-left:auto;
-    margin-right:auto;
-    text-align:center;
-    padding:2px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 2px;
 }
 
 #collection-tree .info-box p {
@@ -328,15 +328,15 @@ span.readable .dynatree-title {
 }
 
 #toggle-collection-tree {
-    margin:4px;
+    margin: 4px;
 }
 
 #collection-tree-main {
-	clear:left;
-	}
+	clear: left;
+}
 
 #collection-tree-tree {
-    clear:left;
+    clear: left;
 }
 
 #collection-tree-tree ul {
@@ -348,7 +348,7 @@ span.readable .dynatree-title {
 }
 
 #collection-path {
-    width:800px;    
+    width: 800px;    
 }
 
 /*collection-tree ends*/
@@ -357,13 +357,13 @@ span.readable .dynatree-title {
 
 #new-resource-form .language-label,
 #add-related-form .language-label{
-    padding:.5em .5em .5em 3.5em;
+    padding: .5em .5em .5em 3.5em;
 }
 
 #new-resource-form .language-list,
 #add-related-form .language-list{
-    position:absolute;
-    right:2em;
+    position: absolute;
+    right: 2em;
 }
 
 #new-resource-form .language-list option,
@@ -374,7 +374,7 @@ span.readable .dynatree-title {
 /*create new record and add related record dialog ends*/
 
 .hi {
-	background-color:@theme-color;/*KWIC in text extraction*/
+	background-color: @theme-color;/*KWIC in text extraction*/
 }
 
 .search-form .search-field {
@@ -393,11 +393,11 @@ span.readable .dynatree-title {
 .search-form .operator select,
 .search-field select option
 {
-	padding-left:.25em; /*needed in FF*/
+	padding-left: .25em; /*needed in FF*/
 }
 
 .search-form .search-term {
-	width:10em;
+	width: 10em;
 }
 
 .search-form .label {
@@ -407,19 +407,19 @@ span.readable .dynatree-title {
 /*facets begin*/
 
 #filters {
-    margin-top:-3px;
-    float:right;
-    width:240px;
-    height:320px;
-    margin-left:10px;
-    padding:4px;
-    font-size:1em;
+    margin-top: -3px;
+    float: right;
+    width: 240px;
+    height: 320px;
+    margin-left: 10px;
+    padding: 4px;
+    font-size: 1em;
 }
 
 #filters ul {
-    list-style:none;
-    margin:0;
-    font-size:1em;
+    list-style: none;
+    margin: 0;
+    font-size: 1em;
 }
 
 #filters ul li {
@@ -446,7 +446,7 @@ span.readable .dynatree-title {
 #filters .ui-state-hover a,
 #filters .ui-state-hover a:hover
 	{
-	color:@theme-color;
+	color: @theme-color;
 	}
 
 /*facets end*/
@@ -459,16 +459,14 @@ span.readable .dynatree-title {
 
 #results-head {
     border-bottom: 1px solid @ordinary-gray;
-    height: 30px;
-    padding-top: 26px;
-    background-color: red;
+    height: 50px;
 }
 
-#results-head .records-found {
-    margin-right: 1em;
-}
-#results-head .navbar {
-    margin-left: -50px !important;    
+#results-head > div:first-child {
+    background-color: #F8ECE0;
+    float: left;
+    height: 35px;
+    padding-top: 10px;
 }
 
 #results-head .navbar .pagination-toggle,
@@ -477,7 +475,7 @@ span.readable .dynatree-title {
 }
 
 #results-head .navbar .pagination-first {
-    margin-left: 10px;
+    // margin-left: 10px;
     margin-right: .5em;
     padding: 2px 4px;
 }
@@ -563,31 +561,31 @@ span.readable .dynatree-title {
 
 /*main structures for display of search results begins*/
 #results {
-    margin-top:.5em;
-    overflow:auto;
+    margin-top: .5em;
+    overflow: auto;
     
 }
 
 #results table {
-    width:100%;
+    width: 100%;
 }
 
 #results ul {
-    list-style:none;
-    margin-top:2px;
+    list-style: none;
+    margin-top: 2px;
 }
 
 #results li {
-    float:left;
-    padding:4px;
-    margin:-2px 0 0 -2px;
-    text-align:center;
-    position:relative;
-    border:2px solid @ordinary-gray;
+    float: left;
+    padding: 4px;
+    margin: -2px 0 0 -2px;
+    text-align: center;
+    position: relative;
+    border: 2px solid @ordinary-gray;
 }
 
 #results li.gallery {
-    width:196px;
+    width: 196px;
 }
 
 #results li.gallery .icon {
@@ -847,7 +845,7 @@ form ul li {
     border:0;
     background-color:#fff;
     border-radius:@radius + @radius;
-    overflow:auto;
+    overflow: auto;
     box-shadow:0px 0px 15px #000;/*CSS3 shadow:30px blurred shadow all around form*/ 
     -webkit-box-shadow:0px 0px 15px #000;/*Safari shadow version*/ 
     -moz-box-shadow:0px 0px 15px #000;/* Mozilla shadow version*/
@@ -1076,7 +1074,7 @@ margin-top:-2.5em;}
     border:0;
     background-color:#fff;
     border-radius:@radius + @radius;
-    overflow:auto;
+    overflow: auto;
     box-shadow:0px 0px 15px #000;/*CSS3 shadow:30px blurred shadow all around form*/ 
     -webkit-box-shadow:0px 0px 15px #000;/*Safari shadow version*/ 
     -moz-box-shadow:0px 0px 15px #000;/* Mozilla shadow version*/
