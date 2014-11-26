@@ -366,9 +366,13 @@ span.readable .dynatree-title {
   border-bottom: 1px solid #bbbbbb;
   height: 30px;
   padding-top: 26px;
+  background-color: red;
 }
 #results-head .records-found {
   margin-right: 1em;
+}
+#results-head .navbar {
+  margin-left: -50px !important;
 }
 #results-head .navbar .pagination-toggle,
 #results-head .navbar .pagination-mode {
