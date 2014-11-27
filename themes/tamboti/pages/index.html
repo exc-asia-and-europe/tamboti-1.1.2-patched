@@ -65,6 +65,7 @@
                             "numberOfAllOptions": $(".hit-count").text()
                         });
                         fluxProcessor.skipshutdown=true;
+                        
                         // initialize the check boxes of the search list
                         $("#results").on("click", "tr.pagination-item input.search-list-item-checkbox", function() {
                             //ev.preventDefault();
@@ -76,6 +77,36 @@
                                 fluxProcessor.dispatchEventType("main-group", "unselect-option", {"optionId": optionId});
                             }
                         });
+                        
+                		$("#ddlcb-container").on("ddlcb-partial-checked", function() {
+                		    var resultsTable = $("#results > table");
+
+          				    $('input', resultsTable).each(
+        				        function(index) {
+        				            var $this = $(this);
+        				            $this.removeAttr("checked");
+        				            fluxProcessor.dispatchEventType("main-group", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
+        				        }    
+        				    );
+          				    $('input', resultsTable).each(
+        				        function(index) {
+        				            var $this = $(this);
+        				            $this.attr("checked", "checked");
+        				            fluxProcessor.dispatchEventType("main-group", "select-option", {"optionId": $this.attr("data-tamboti-record-id")});
+        				        }    
+        				    );      
+                        }); 
+                		$("#ddlcb-container").on("ddlcb-partial-unchecked", function() {
+                		    var resultsTable = $("#results > table");
+                		    
+          				    $('input', resultsTable).each(
+        				        function(index) {
+        				            var $this = $(this);
+        				            $this.removeAttr("checked");
+        				            fluxProcessor.dispatchEventType("main-group", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
+        				        }    
+        				    );
+                        });                         
                     </script>
                     <xf:load show="embed" targetid="ddlcb-container">
                         <xf:resource value="'$shared/resources/scripts/jquery/dropDownListCheckbox/0.5/multiple-selection-component.xml#ddlcb-container'"/>
@@ -136,6 +167,8 @@
                     <img src="theme/images/tamboti-test.png" title="Tamboti Metadata Framework" alt="Tamboti Metadata Framework"/>
                 </a>
             </div>
+            <div>Version 1.1.2-patched, build 20141125-2128 by
+												claudius</div>
             <div id="page-head-right">
                 <a href="http://www.asia-europe.uni-heidelberg.de/en/home.html" target="_blank">
                     <img src="theme/images/cluster_logo.png" title="The Cluster of Excellence 'Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows' at Heidelberg University" alt="The Cluster of Excellence 'Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows' at Heidelberg University" width="200"/>
