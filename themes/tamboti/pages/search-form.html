@@ -1,5 +1,5 @@
-<div xmlns="http://www.w3.org/1999/xhtml" id="query-panel">
-     <script type="text/javascript">
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" id="query-panel">
+    <script type="text/javascript">
         $(function() {
             $( "#query-tabs" ).tabs({
                 select: searchTabSelected
@@ -30,13 +30,27 @@
     </script>
     <div id="query-tabs">
         <ul>
-            <li><a href="#simple">Simple Search</a></li>
-            <li><a href="#advanced-search-form">Advanced Search</a></li>
-            <li><a href="#query-history">Query History</a></li>
-            <li><a href="#personal-list">My List</a></li>
-            <li><a href="#search-help">Search Help</a></li>
-            <li><a href="#about-tamboti">About Tamboti</a></li>
-            <li><a href="#cluster-collections">Tamboti Collections</a></li>
+            <li>
+                <a href="#simple">Simple Search</a>
+            </li>
+            <li>
+                <a href="#advanced-search-form">Advanced Search</a>
+            </li>
+            <li>
+                <a href="#query-history">Query History</a>
+            </li>
+            <li>
+                <a href="#personal-list">My List</a>
+            </li>
+            <li>
+                <a href="#search-help">Search Help</a>
+            </li>
+            <li>
+                <a href="#about-tamboti">About Tamboti</a>
+            </li>
+            <li>
+                <a href="#cluster-collections">Tamboti Collections</a>
+            </li>
         </ul>
         <div id="simple">
             <form id="simple-search-form" class="search-form" action="?" name="simple-search" method="POST">
@@ -44,7 +58,7 @@
                     <tr>
                         <td class="label">Search for </td>
                         <td colspan="2">
-                            <input name="input1" />
+                            <input name="input1"/>
                         </td>
                     </tr>
                     <tr>
@@ -62,7 +76,7 @@
                                 <option value="Author">Author</option>
                                 <option value="Title">Title</option>
                                 <option value="Year">Year</option>
-                            </select>    
+                            </select>
                             <button name="action" id="form-submit" type="submit">Search</button>
                             <input type="hidden" name="field1" value="All"/>
                         </td>
@@ -131,6 +145,16 @@
                 <p>
                     <button class="button" id="export" name="export" type="submit" value="export">Export</button> your list items. </p>
             </form>
+            <xf:group appearance="full" model="m-multiple-selection-component">
+                <xf:group appearance="full" model="m-multiple-selection-component">
+                    <xf:label>
+                        <xf:output value="instance('i-ui-text')//*[@tuid = 'selected-options-message']/*[@xml:lang = instance('i-dynamic-values')/ui-language]"/>
+                    </xf:label>
+                    <xf:repeat id="r-selected-options" ref="instance('i-dynamic-values')/selected-options/option">
+                        <xf:output ref="."/>
+                    </xf:repeat>
+                </xf:group>
+            </xf:group>             
         </div>
         <div id="search-help">
             <div>
@@ -146,32 +170,32 @@
                     a number between 0.0 and 1.0, "complete fuzziness" (finding everything) being 0.0 and
                     complete identity being "1.0". 
                     If you append a "~" with no number, the default value 0.5 is applied.</p>
-                            <p>
-                                <em>Phrases</em> can be searched for by putting them in quotation marks. Use "straight"
+                <p>
+                    <em>Phrases</em> can be searched for by putting them in quotation marks. Use "straight"
                     double quotation marks only.</p>
-                            <p>
+                <p>
                     Tamboti searches for the exact word order you enter. If you enter "Reform and Progress", you will
                     only find records in which the three words occur in that exact sequence. Tamboti does not display records containing, for example, "Progress and Reform".</p>
-                            <p>
+                <p>
                     Note that Chinese, Japanese and Korean characters are indexed as separate words, so a search
                     for "日本" (without quotation marks) will find records with the two characters in the opposite
                     order, that is, it will find records with "本日" as well. 
                     However, if you enclose "日本" in quotation marks, you
                     only retrieve records with the two characters in that specific sequence.</p>
-                            <p>
+                <p>
                     You can use the <em>boolean operators</em> "AND" and "OR". If you search for "China AND
                     Japan", you will find only records containing both terms. If you search for "China OR Japan",
                     you will find records in which either one or both the two terms occur. A search with "AND"
                     normally results in fewer records than a search with "OR". "NOT" can also be used. If you
                     search for "China NOT Japan", you will only find records that have "China" but not "Japan".
                     </p>
-                            <p>
+                <p>
                     You can also make boolean searches using Advanced Search.</p>
-                            <p>
+                <p>
                     You can use more advanced search functions by using parentheses: "(China OR Japan) NOT
                     Korea" will find records in which the words "China" or "Japan" occur, but only those in
                     which "Korea" does not occur.</p>
-                            <p>
+                <p>
                     "AND", "OR" and "NOT" must be written with uppercase letters. Otherwise, searches are made using
                     lower-case letters only, so writing "China" with initial lower-case "C" (as "china") has the exact same
                     effect as using an initial upper-case "C". 
@@ -210,6 +234,6 @@
         with functionalities of Tamboti.</p>
             </div>
         </div>
-        <div id="cluster-collections" />        
+        <div id="cluster-collections"/>
     </div>
 </div>

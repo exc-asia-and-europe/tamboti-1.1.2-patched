@@ -79,7 +79,7 @@
                         });
                         
                 		$("#ddlcb-container").on("ddlcb-partial-checked", function() {
-                		    var resultsTable = $("#results > table");
+                		    var resultsTable = $("#results &gt; table");
 
           				    $('input', resultsTable).each(
         				        function(index) {
@@ -97,7 +97,7 @@
         				    );      
                         }); 
                 		$("#ddlcb-container").on("ddlcb-partial-unchecked", function() {
-                		    var resultsTable = $("#results > table");
+                		    var resultsTable = $("#results &gt; table");
                 		    
           				    $('input', resultsTable).each(
         				        function(index) {
@@ -215,16 +215,6 @@
                 </div>
             </div>
         </div>
-        <xf:group appearance="full" model="m-multiple-selection-component">
-            <xf:group appearance="full" model="m-multiple-selection-component">
-                <xf:label>
-                    <xf:output value="instance('i-ui-text')//*[@tuid = 'selected-options-message']/*[@xml:lang = instance('i-dynamic-values')/ui-language]"/>
-                </xf:label>
-                <xf:repeat id="r-selected-options" ref="instance('i-dynamic-values')/selected-options/option">
-                    <xf:output ref="."/>
-                </xf:repeat>
-            </xf:group>
-        </xf:group>        
         <!--<div id="page-footer">Tamboti Metadata Framework, version 1.0, 2011-09-01. Licence: GNU-LGPL.</div>-->
         <div id="splash"/>
     </body>
