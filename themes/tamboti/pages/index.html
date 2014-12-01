@@ -113,7 +113,7 @@
                         });                        
                     </script>
                     <xf:load show="embed" targetid="ddlcb-container">
-                        <xf:resource value="'$shared/resources/scripts/jquery/dropDownListCheckbox/0.5/multiple-selection-component.xml#ddlcb-container'"/>
+                        <xf:resource value="'../../components/multiple-selection-component.xml#ddlcb-container'"/>
                         <xf:extension includeCSS="true" includeScript="true"/>
                     </xf:load>
                 </xf:action>
@@ -149,7 +149,6 @@
                         </script>
                     </xf:action>
                 </xf:action>
-                
                 <xf:action ev:event="check-option-is-selected" ev:observer="main-group">
                     <xf:action if="instance('i-dynamic-values')/selected-options/option = event('optionId')">
                         <script type="text/javascript">
@@ -157,7 +156,7 @@
                             $("input[data-tamboti-record-id = '" + event('optionId') + "]", resultsTable).attr("checked", "checked");
                         </script>
                     </xf:action>
-                </xf:action>                
+                </xf:action>
             </xf:model>
         </div>
         <div class="templates:include?path=pages/dialogs.html"/>
@@ -180,7 +179,7 @@
                     <img src="theme/images/tamboti-test.png" title="Tamboti Metadata Framework" alt="Tamboti Metadata Framework"/>
                 </a>
             </div>
-            <div>Version 1.1.2-patched, build 20141125-2128 by
+            <div>Version 1.1.2-patched, build 20141201-1244 by
 												claudius</div>
             <div id="page-head-right">
                 <a href="http://www.asia-europe.uni-heidelberg.de/en/home.html" target="_blank">
