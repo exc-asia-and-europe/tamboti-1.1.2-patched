@@ -78,6 +78,7 @@
             displayPage: function(base, data) {
                 helpers.updateNavbar(base);
                 base.element.html(data);
+                $("#ddlcb-container").trigger("ddlcb-page-changed");
                 if (base.options.singleItemView) {
                     $(base.options.singleItemView, base.element).click(function (ev) {
                         ev.preventDefault();

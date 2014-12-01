@@ -65,7 +65,8 @@
                             "numberOfAllOptions": $(".hit-count").text()
                         });
                         fluxProcessor.skipshutdown=true;
-                        
+                        resultsTable = $("#results &gt; table");
+
                         // initialize the check boxes of the search list
                         $("#results").on("click", "tr.pagination-item input.search-list-item-checkbox", function() {
                             //ev.preventDefault();
@@ -79,8 +80,6 @@
                         });
                         
                 		$("#ddlcb-container").on("ddlcb-partial-checked", function() {
-                		    var resultsTable = $("#results &gt; table");
-
           				    $('input', resultsTable).each(
         				        function(index) {
         				            var $this = $(this);
@@ -97,8 +96,6 @@
         				    );      
                         }); 
                 		$("#ddlcb-container").on("ddlcb-partial-unchecked", function() {
-                		    var resultsTable = $("#results &gt; table");
-                		    
           				    $('input', resultsTable).each(
         				        function(index) {
         				            var $this = $(this);
@@ -106,7 +103,14 @@
         				            fluxProcessor.dispatchEventType("main-group", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
         				        }    
         				    );
-                        });                         
+                        }); 
+                		$("#ddlcb-container").on("ddlcb-page-changed", function() {
+          				    $('input', resultsTable).each(
+        				        function(index) {
+        				            fluxProcessor.dispatchEventType("main-group", "check-option-is-selected", {"optionId": $(this).attr("data-tamboti-record-id")});
+        				        }    
+        				    );                		
+                        });                        
                     </script>
                     <xf:load show="embed" targetid="ddlcb-container">
                         <xf:resource value="'$shared/resources/scripts/jquery/dropDownListCheckbox/0.5/multiple-selection-component.xml#ddlcb-container'"/>
@@ -145,6 +149,15 @@
                         </script>
                     </xf:action>
                 </xf:action>
+                
+                <xf:action ev:event="check-option-is-selected" ev:observer="main-group">
+                    <xf:action if="instance('i-dynamic-values')/selected-options/option = event('optionId')">
+                        <script type="text/javascript">
+                            alert(event('optionId'));
+                            $("input[data-tamboti-record-id = '" + event('optionId') + "]", resultsTable).attr("checked", "checked");
+                        </script>
+                    </xf:action>
+                </xf:action>                
             </xf:model>
         </div>
         <div class="templates:include?path=pages/dialogs.html"/>
