@@ -65,7 +65,6 @@
                             "numberOfAllOptions": $(".hit-count").text()
                         });
                         fluxProcessor.skipshutdown=true;
-                        resultsTable = $("#results &gt; table");
 
                         // initialize the check boxes of the search list
                         $("#results").on("click", "tr.pagination-item input.search-list-item-checkbox", function() {
@@ -80,7 +79,9 @@
                         });
                         
                 		$("#ddlcb-container").on("ddlcb-partial-checked", function() {
-          				    $('input', resultsTable).each(
+                		    var resultsTable = $("#results &gt; table");
+                		    
+          				    $('input',resultsTable).each(
         				        function(index) {
         				            var $this = $(this);
         				            $this.removeAttr("checked");
@@ -96,6 +97,8 @@
         				    );      
                         }); 
                 		$("#ddlcb-container").on("ddlcb-partial-unchecked", function() {
+                		    var resultsTable = $("#results &gt; table");
+                		    
           				    $('input', resultsTable).each(
         				        function(index) {
         				            var $this = $(this);
@@ -104,10 +107,18 @@
         				        }    
         				    );
                         }); 
-                		$("#ddlcb-container").on("ddlcb-page-changed", function() {
-          				    $('input', resultsTable).each(
+                		$("#ddlcb-container").on("ddlcb-page-changed", function() {alert("check-option-is-selected");
+                		    var resultsTable = $("#results &gt; table");
+                		    
+                            //Flux.getInstanceDocument('m-multiple-selection-component', 'i-dynamic-values', fluxProcessor.sessionKey, function(data) {
+                                //alert($(data).html());
+                            //});
+
+          				    $("input.search-list-item-checkbox", resultsTable).each(
         				        function(index) {
-        				            fluxProcessor.dispatchEventType("main-group", "check-option-is-selected", {"optionId": $(this).attr("data-tamboti-record-id")});
+        				            var recordId = $(this).attr("data-tamboti-record-id");
+        				            $("#checked-option-is-selected").text(recordId);
+        				            fluxProcessor.dispatchEventType("main-group", "check-option-is-selected", {"recordId": recordId});
         				        }    
         				    );                		
                         });                        
@@ -149,14 +160,19 @@
                         </script>
                     </xf:action>
                 </xf:action>
-                <xf:action ev:event="check-option-is-selected" ev:observer="main-group">
-                    <xf:action if="instance('i-dynamic-values')/selected-options/option = event('optionId')">
-                        <script type="text/javascript">
-                            alert(event('optionId'));
-                            $("input[data-tamboti-record-id = '" + event('optionId') + "]", resultsTable).attr("checked", "checked");
-                        </script>
-                    </xf:action>
+                
+                
+                
+                <xf:action ev:event="check-option-is-selected" ev:observer="main-group" if="instance('i-dynamic-values')/selected-options/option[. = event('recordId')]">
+                    <script type="text/javascript">
+                        alert("check-option-is-selected");
+                        // alert("input.search-list-item-checkbox[data-tamboti-record-id = '" + $("#checked-option-is-selected").text() + "']");
+                        //$("input.search-list-item-checkbox[data-tamboti-record-id = '" + $("#checked-option-is-selected").text() + "']", $("#results table")).attr("checked", "checked");
+                    </script>
                 </xf:action>
+                
+                
+                
             </xf:model>
         </div>
         <div class="templates:include?path=pages/dialogs.html"/>
@@ -195,6 +211,7 @@
                 <div id="main-content">
                     <xf:group id="main-group" appearance="full" model="m-multiple-selection-component">
                         <div id="ddlcb-container"/>
+                        <div id="checked-option-is-selected" style="visibility: visible;" />
                     </xf:group>
                     <div id="results-head">
                         <div class="navbar">

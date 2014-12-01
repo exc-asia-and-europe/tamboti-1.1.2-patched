@@ -78,7 +78,6 @@
             displayPage: function(base, data) {
                 helpers.updateNavbar(base);
                 base.element.html(data);
-                $("#ddlcb-container").trigger("ddlcb-page-changed");
                 if (base.options.singleItemView) {
                     $(base.options.singleItemView, base.element).click(function (ev) {
                         ev.preventDefault();
@@ -91,8 +90,10 @@
                         helpers.retrievePage(base, nr);
                     });
                 }
-                if (base.options.readyCallback)
+                if (base.options.readyCallback) {
                     base.options.readyCallback.call(base.element, base.options);
+                }
+                $("#ddlcb-container").trigger("ddlcb-page-changed"); 
             },
     
             initNavbar: function(base) {
@@ -101,31 +102,35 @@
                 }
                 var div = $(base.options.navContainer);
                 $(".pagination-first", div).click(function () {
-                    if (base.currentItem != 1)
-                    helpers.retrievePage(base, 1);
+                    if (base.currentItem != 1) {
+                        helpers.retrievePage(base, 1);
+                    }
                     return false;
                 });
                 $(".pagination-previous", div).click(function () {                    
                         if (base.options.itemsPerPage == 1) {
                             if (base.currentItem - base.options.itemsPerPage >= base.options.itemsPerPage)
-                            helpers.retrievePage(base, base.currentItem - base.options.itemsPerPage); }
-                        else if (base.currentItem - base.options.itemsPerPage >= 0)
                             helpers.retrievePage(base, base.currentItem - base.options.itemsPerPage);
-                        else 
+                        } else if (base.currentItem - base.options.itemsPerPage >= 0) {
+                            helpers.retrievePage(base, base.currentItem - base.options.itemsPerPage);
+                        } else {
                             helpers.retrievePage(base, 1);
+                        }
                     return false;
                 });
                 $(".pagination-next", div).click(function () {
-                    if (base.options.totalItems - (base.currentItem + base.options.itemsPerPage) >= 0)
-                    helpers.retrievePage(base, base.currentItem + base.options.itemsPerPage);
+                    if (base.options.totalItems - (base.currentItem + base.options.itemsPerPage) >= 0) {
+                        helpers.retrievePage(base, base.currentItem + base.options.itemsPerPage);
+                    }
                     return false;
                 });
                 $(".pagination-last", div).click(function () {
                     if (base.options.itemsPerPage == 1) {
                         if (base.currentItem != base.options.totalItems)
-                        helpers.retrievePage(base, base.options.totalItems); }
-                    else if (base.currentItem + base.options.itemsPerPage <= base.options.totalItems)
-                            helpers.retrievePage(base, base.options.totalItems);
+                        helpers.retrievePage(base, base.options.totalItems);
+                    } else if (base.currentItem + base.options.itemsPerPage <= base.options.totalItems) {
+                        helpers.retrievePage(base, base.options.totalItems);
+                    }
                     return false;
                 });
                 if (base.options.singleItemView) {
