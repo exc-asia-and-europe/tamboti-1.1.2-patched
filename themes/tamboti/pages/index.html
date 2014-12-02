@@ -107,20 +107,21 @@
         				        }    
         				    );
                         }); 
-                		$("#ddlcb-container").on("ddlcb-page-changed", function() {alert("check-option-is-selected");
-                		    var resultsTable = $("#results &gt; table");
-                		    
-                            //Flux.getInstanceDocument('m-multiple-selection-component', 'i-dynamic-values', fluxProcessor.sessionKey, function(data) {
-                                //alert($(data).html());
-                            //});
-
-          				    $("input.search-list-item-checkbox", resultsTable).each(
-        				        function(index) {
-        				            var recordId = $(this).attr("data-tamboti-record-id");
-        				            $("#checked-option-is-selected").text(recordId);
-        				            fluxProcessor.dispatchEventType("main-group", "check-option-is-selected", {"recordId": recordId});
-        				        }    
-        				    );                		
+                		$("#ddlcb-container").on("ddlcb-page-changed", function() {
+                            Flux.getInstanceDocument('m-multiple-selection-component', 'i-dynamic-values', fluxProcessor.sessionKey, function(data) {
+                                var dataInstance = $(data).html();
+                                var resultsTable = $("#results &gt; table");                                
+                                
+              				    $("input.search-list-item-checkbox", resultsTable).each(
+            				        function(index) {
+            				            var recordId = $(this).attr("data-tamboti-record-id");
+            				            
+            				            if (dataInstance.indexOf(recordId) > -1) {
+            				                $("input.search-list-item-checkbox[data-tamboti-record-id = '" + recordId + "']", resultsTable).attr("checked", "checked");
+            				            }
+            				        }    
+            				    );                		                                
+                            });
                         });                        
                     </script>
                     <xf:load show="embed" targetid="ddlcb-container">
@@ -160,19 +161,6 @@
                         </script>
                     </xf:action>
                 </xf:action>
-                
-                
-                
-                <xf:action ev:event="check-option-is-selected" ev:observer="main-group" if="instance('i-dynamic-values')/selected-options/option[. = event('recordId')]">
-                    <script type="text/javascript">
-                        alert("check-option-is-selected");
-                        // alert("input.search-list-item-checkbox[data-tamboti-record-id = '" + $("#checked-option-is-selected").text() + "']");
-                        //$("input.search-list-item-checkbox[data-tamboti-record-id = '" + $("#checked-option-is-selected").text() + "']", $("#results table")).attr("checked", "checked");
-                    </script>
-                </xf:action>
-                
-                
-                
             </xf:model>
         </div>
         <div class="templates:include?path=pages/dialogs.html"/>
@@ -195,8 +183,6 @@
                     <img src="theme/images/tamboti-test.png" title="Tamboti Metadata Framework" alt="Tamboti Metadata Framework"/>
                 </a>
             </div>
-            <div>Version 1.1.2-patched, build 20141201-1244 by
-												claudius</div>
             <div id="page-head-right">
                 <a href="http://www.asia-europe.uni-heidelberg.de/en/home.html" target="_blank">
                     <img src="theme/images/cluster_logo.png" title="The Cluster of Excellence 'Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows' at Heidelberg University" alt="The Cluster of Excellence 'Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows' at Heidelberg University" width="200"/>
@@ -211,7 +197,6 @@
                 <div id="main-content">
                     <xf:group id="main-group" appearance="full" model="m-multiple-selection-component">
                         <div id="ddlcb-container"/>
-                        <div id="checked-option-is-selected" style="visibility: visible;" />
                     </xf:group>
                     <div id="results-head">
                         <div class="navbar">
