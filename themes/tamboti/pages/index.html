@@ -49,6 +49,7 @@
                         <number-of-all-options>0</number-of-all-options>
                         <number-of-selected-options>0</number-of-selected-options>
                         <selected-options/>
+                        <selected-action />
                     </selected-values>
                 </xf:instance>
                 <xf:instance id="i-templates">
@@ -56,12 +57,21 @@
                         <option/>
                     </templates>
                 </xf:instance>
+                <xf:instance id="i-actions">
+                    <actions xmlns="">
+                        <action>edit</action>
+                        <action>delete</action>
+                        <action>move</action>
+                        <action>save</action>
+                        <action>export</action>
+                    </actions>
+                </xf:instance>                
                 <xf:bind ref="instance('i-dynamic-values')/number-of-selected-options">
                     <xf:bind ref="." calculate="count(instance('i-dynamic-values')/selected-options/option)"/>
                 </xf:bind>
                 <xf:action ev:event="xforms-ready">
                     <script type="text/javascript">
-                        fluxProcessor.dispatchEventType("main-group", "set-number-of-all-options", {
+                        fluxProcessor.dispatchEventType("ddlcb-container", "set-number-of-all-options", {
                             "numberOfAllOptions": $(".hit-count").text()
                         });
                         fluxProcessor.skipshutdown=true;
@@ -72,9 +82,9 @@
                             var $this = $(this);
                             var optionId = $this.attr("data-tamboti-record-id");
                             if ($this.is(":checked")) {
-                                fluxProcessor.dispatchEventType("main-group", "select-option", {"optionId": optionId});
+                                fluxProcessor.dispatchEventType("ddlcb-container", "select-option", {"optionId": optionId});
                             } else {
-                                fluxProcessor.dispatchEventType("main-group", "unselect-option", {"optionId": optionId});
+                                fluxProcessor.dispatchEventType("ddlcb-container", "unselect-option", {"optionId": optionId});
                             }
                         });
                         
@@ -85,14 +95,14 @@
         				        function(index) {
         				            var $this = $(this);
         				            $this.removeAttr("checked");
-        				            fluxProcessor.dispatchEventType("main-group", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
+        				            fluxProcessor.dispatchEventType("ddlcb-container", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
         				        }    
         				    );
           				    $('input', resultsTable).each(
         				        function(index) {
         				            var $this = $(this);
         				            $this.attr("checked", "checked");
-        				            fluxProcessor.dispatchEventType("main-group", "select-option", {"optionId": $this.attr("data-tamboti-record-id")});
+        				            fluxProcessor.dispatchEventType("ddlcb-container", "select-option", {"optionId": $this.attr("data-tamboti-record-id")});
         				        }    
         				    );      
                         }); 
@@ -103,7 +113,7 @@
         				        function(index) {
         				            var $this = $(this);
         				            $this.removeAttr("checked");
-        				            fluxProcessor.dispatchEventType("main-group", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
+        				            fluxProcessor.dispatchEventType("ddlcb-container", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
         				        }    
         				    );
                         }); 
@@ -129,10 +139,10 @@
                         <xf:extension includeCSS="true" includeScript="true"/>
                     </xf:load>
                 </xf:action>
-                <xf:action ev:event="set-number-of-all-options" ev:observer="main-group">
+                <xf:action ev:event="set-number-of-all-options" ev:observer="ddlcb-container">
                     <xf:setvalue ref="instance('i-dynamic-values')/number-of-all-options" value="event('numberOfAllOptions')"/>
                 </xf:action>
-                <xf:action ev:event="select-option" ev:observer="main-group" if="not(instance('i-dynamic-values')/selected-options/option[. = event('optionId')])">
+                <xf:action ev:event="select-option" ev:observer="ddlcb-container" if="not(instance('i-dynamic-values')/selected-options/option[. = event('optionId')])">
                     <xf:setvalue ref="instance('i-templates')/option" value="event('optionId')"/>
                     <xf:insert origin="instance('i-templates')/option" context="instance('i-dynamic-values')/selected-options" at="last()"/>
                     <xf:setvalue ref="instance('i-templates')/option"/>
@@ -147,7 +157,7 @@
                         </script>
                     </xf:action>
                 </xf:action>
-                <xf:action ev:event="unselect-option" ev:observer="main-group">
+                <xf:action ev:event="unselect-option" ev:observer="ddlcb-container">
                     <xf:delete ref="instance('i-dynamic-values')/selected-options/option[. = event('optionId')]"/>
                     <xf:action if="count(instance('i-dynamic-values')/selected-options/option) lt number(instance('i-dynamic-values')/number-of-all-options)">
                         <script type="text/javascript">
@@ -195,9 +205,7 @@
                 <div class="templates:include?path=pages/search-form.html"/>
                 <div class="templates:include?path=pages/collection-tree.html"/>
                 <div id="main-content">
-                    <xf:group id="main-group" appearance="full" model="m-multiple-selection-component">
-                        <div id="ddlcb-container"/>
-                    </xf:group>
+                    <div id="ddlcb-container"/>
                     <div id="results-head">
                         <div class="navbar">
                             <span>

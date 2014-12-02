@@ -76,13 +76,13 @@
 		}
 
 		.ddlcb-checkboxContainer #ddlcb-message-container {
-    		float: left;
-    		height: 22px;
-    		left: 60px;
-    		min-width: 300px;
+    		//float: left;
+    		//height: 40px;
+    		width: 700px;
     		position: relative;
-    		text-align: left;
-    		top: -9px;
+    		//text-align: left;
+    		top: -4px;
+    		left: 60px;
 		}
 	</style>
     <div style="display:none">
@@ -94,8 +94,17 @@
         </div>
         <div class="ddlcb-right">
             <div id="ddlcb-message-container">
-                <xf:group id="multiple-selection-component-template-group" appearance="full" model="m-multiple-selection-component">
+                <xf:group appearance="minimal" model="m-multiple-selection-component">
                     <xf:output value="concat(instance('i-dynamic-values')/number-of-selected-options, instance('i-ui-text')//*[@tuid = 'message-part-1']/*[@xml:lang = instance('i-dynamic-values')/ui-language], instance('i-dynamic-values')/number-of-all-options, instance('i-ui-text')//*[@tuid = 'message-part-2']/*[@xml:lang = instance('i-dynamic-values')/ui-language])"/>
+                    <xf:select1 ref="instance('i-dynamic-values')/selected-action" appearance="minimal" incremental="true" style="margin-left: 30px;">
+                        <xf:label>
+                            <xf:output value="instance('i-ui-text')//*[@tuid = 'label-for-action-selecting-select1']/*[@xml:lang = instance('i-dynamic-values')/ui-language]"/>
+                        </xf:label>
+                        <xf:itemset ref="instance('i-actions')/action">
+                            <xf:label ref="."/>
+                            <xf:value ref="."/>
+                        </xf:itemset>
+                    </xf:select1>                    
                 </xf:group>
             </div>
         </div>
