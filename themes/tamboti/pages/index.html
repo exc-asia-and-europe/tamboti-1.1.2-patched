@@ -49,7 +49,7 @@
                         <number-of-all-options>0</number-of-all-options>
                         <number-of-selected-options>0</number-of-selected-options>
                         <selected-options/>
-                        <selected-action />
+                        <selected-action/>
                     </selected-values>
                 </xf:instance>
                 <xf:instance id="i-templates">
@@ -65,14 +65,18 @@
                         <action>save</action>
                         <action>export</action>
                     </actions>
-                </xf:instance>                
+                </xf:instance>
                 <xf:bind ref="instance('i-dynamic-values')/number-of-selected-options">
                     <xf:bind ref="." calculate="count(instance('i-dynamic-values')/selected-options/option)"/>
                 </xf:bind>
                 <xf:action ev:event="xforms-ready">
+                    <xf:load show="embed" targetid="ddlcb-container">
+                        <xf:resource value="'../../components/multiple-selection-component.xml#ddlcb-container'"/>
+                        <xf:extension includeCSS="true" includeScript="true"/>
+                    </xf:load>
                     <script type="text/javascript">
-                        fluxProcessor.dispatchEventType("ddlcb-container", "set-number-of-all-options", {
-                            "numberOfAllOptions": $(".hit-count").text()
+                        fluxProcessor.dispatchEventType("main-content", "set-number-of-all-options", {
+                            "number-of-all-options": $(".hit-count").text()
                         });
                         fluxProcessor.skipshutdown=true;
 
@@ -82,9 +86,9 @@
                             var $this = $(this);
                             var optionId = $this.attr("data-tamboti-record-id");
                             if ($this.is(":checked")) {
-                                fluxProcessor.dispatchEventType("ddlcb-container", "select-option", {"optionId": optionId});
+                                fluxProcessor.dispatchEventType("main-content", "select-option", {"optionId": optionId});
                             } else {
-                                fluxProcessor.dispatchEventType("ddlcb-container", "unselect-option", {"optionId": optionId});
+                                fluxProcessor.dispatchEventType("main-content", "unselect-option", {"optionId": optionId});
                             }
                         });
                         
@@ -95,14 +99,14 @@
         				        function(index) {
         				            var $this = $(this);
         				            $this.removeAttr("checked");
-        				            fluxProcessor.dispatchEventType("ddlcb-container", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
+        				            fluxProcessor.dispatchEventType("main-content", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
         				        }    
         				    );
           				    $('input', resultsTable).each(
         				        function(index) {
         				            var $this = $(this);
         				            $this.attr("checked", "checked");
-        				            fluxProcessor.dispatchEventType("ddlcb-container", "select-option", {"optionId": $this.attr("data-tamboti-record-id")});
+        				            fluxProcessor.dispatchEventType("main-content", "select-option", {"optionId": $this.attr("data-tamboti-record-id")});
         				        }    
         				    );      
                         }); 
@@ -113,7 +117,7 @@
         				        function(index) {
         				            var $this = $(this);
         				            $this.removeAttr("checked");
-        				            fluxProcessor.dispatchEventType("ddlcb-container", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
+        				            fluxProcessor.dispatchEventType("main-content", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
         				        }    
         				    );
                         }); 
@@ -126,7 +130,7 @@
             				        function(index) {
             				            var recordId = $(this).attr("data-tamboti-record-id");
             				            
-            				            if (dataInstance.indexOf(recordId) > -1) {
+            				            if (dataInstance.indexOf(recordId) &gt; -1) {
             				                $("input.search-list-item-checkbox[data-tamboti-record-id = '" + recordId + "']", resultsTable).attr("checked", "checked");
             				            }
             				        }    
@@ -134,15 +138,12 @@
                             });
                         });                        
                     </script>
-                    <xf:load show="embed" targetid="ddlcb-container">
-                        <xf:resource value="'../../components/multiple-selection-component.xml#ddlcb-container'"/>
-                        <xf:extension includeCSS="true" includeScript="true"/>
-                    </xf:load>
+                    
                 </xf:action>
-                <xf:action ev:event="set-number-of-all-options" ev:observer="ddlcb-container">
-                    <xf:setvalue ref="instance('i-dynamic-values')/number-of-all-options" value="event('numberOfAllOptions')"/>
+                <xf:action ev:event="set-number-of-all-options" ev:observer="main-content">
+                    <xf:setvalue ref="instance('i-dynamic-values')/number-of-all-options" value="event('number-of-all-options')"/>
                 </xf:action>
-                <xf:action ev:event="select-option" ev:observer="ddlcb-container" if="not(instance('i-dynamic-values')/selected-options/option[. = event('optionId')])">
+                <xf:action ev:event="select-option" ev:observer="main-content" if="not(instance('i-dynamic-values')/selected-options/option[. = event('optionId')])">
                     <xf:setvalue ref="instance('i-templates')/option" value="event('optionId')"/>
                     <xf:insert origin="instance('i-templates')/option" context="instance('i-dynamic-values')/selected-options" at="last()"/>
                     <xf:setvalue ref="instance('i-templates')/option"/>
@@ -157,7 +158,7 @@
                         </script>
                     </xf:action>
                 </xf:action>
-                <xf:action ev:event="unselect-option" ev:observer="ddlcb-container">
+                <xf:action ev:event="unselect-option" ev:observer="main-content">
                     <xf:delete ref="instance('i-dynamic-values')/selected-options/option[. = event('optionId')]"/>
                     <xf:action if="count(instance('i-dynamic-values')/selected-options/option) lt number(instance('i-dynamic-values')/number-of-all-options)">
                         <script type="text/javascript">
