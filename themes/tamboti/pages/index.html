@@ -138,7 +138,6 @@
                             });
                         });                        
                     </script>
-                    
                 </xf:action>
                 <xf:action ev:event="set-number-of-all-options" ev:observer="main-content">
                     <xf:setvalue ref="instance('i-dynamic-values')/number-of-all-options" value="event('number-of-all-options')"/>
@@ -171,6 +170,15 @@
                             $("#ddlcb-container").trigger("unflag-ddlcb-partial-checked");
                         </script>
                     </xf:action>
+                </xf:action>
+                <xf:action ev:event="multiple-editing" ev:observer="main-content">
+                    <xf:action if="instance('i-dynamic-values')/selected-action = 'edit'">
+                        <xf:message level="modal">edit</xf:message>
+                    </xf:action>
+                    <xf:action if="instance('i-dynamic-values')/selected-action != 'edit'">
+                        <xf:message level="modal">This action is not yet implemented!</xf:message>
+                    </xf:action>
+                    <xf:setvalue ref="instance('i-dynamic-values')/selected-action"/>
                 </xf:action>
             </xf:model>
         </div>

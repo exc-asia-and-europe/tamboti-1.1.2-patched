@@ -1,4 +1,4 @@
-<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" id="ddlcb-container">
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" id="ddlcb-container">
     <style type="text/css">
 		/* plugin specific */
 
@@ -104,7 +104,8 @@
                             <xf:label ref="."/>
                             <xf:value ref="."/>
                         </xf:itemset>
-                    </xf:select1>                    
+                        <xf:dispatch ev:event="xforms-value-changed" name="multiple-editing" targetid="main-content"/>
+                    </xf:select1>
                 </xf:group>
             </div>
         </div>
