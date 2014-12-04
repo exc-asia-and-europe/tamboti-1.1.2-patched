@@ -48,14 +48,41 @@
                         <ui-language>en</ui-language>
                         <number-of-all-options>0</number-of-all-options>
                         <number-of-selected-options>0</number-of-selected-options>
-                        <selected-options/>
+                        <selected-options uuid=""/>
                         <selected-action/>
                     </selected-values>
                 </xf:instance>
-                <xf:submission id="s-ziziphus-multiple" method="post" replace="all" ref="instance('i-dynamic-values')/selected-options" resource="/exist/restxq/ziziphus/group" validate="false">
-                    <xf:message ev:event="xforms-submit">Submit</xf:message>
-                    <xf:message ev:event="xforms-submit-error">FAILED!</xf:message>
-                    <xf:message ev:event="xforms-submit-done">Done!</xf:message>
+                <xf:submission id="s-create-uuid-file" resource="{concat('exist:/db/data/temp/', instance('i-dynamic-values')/selected-options/@uuid , '.xml')}" method="put" replace="none" ref="instance('i-dynamic-values')/selected-options" validate="false" serialization="application/xml">
+                    <xf:message level="ephemeral" ev:event="xforms-submit-error">put submission failed</xf:message>
+                    <xf:action level="ephemeral" ev:event="xforms-submit-done">
+                        <script type="text/javascript">
+                            Flux.getInstanceDocument('m-multiple-selection-component', 'i-dynamic-values', fluxProcessor.sessionKey, function(data) {
+                                var uuid = $(data).find("selected-options").attr("uuid");
+                                $.ajax({
+                                    type: "GET",
+                                    url: '/exist/apps/ziziphus/modules/group/vraGroupEditor.xql?id=' + uuid,
+                                    error: function() {
+                                        showMessage("Could not send record ids to ziziphus.");
+                                    },
+                                    success: function(data) {
+                                        if (data !== null) {
+                                            var win = window.open('about:blank');
+                                            with (win.document)
+                                            {
+                                                open();
+                                                write(data);
+                                                close();
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        </script>                    
+
+                    </xf:action>
+                    <xf:message level="ephemeral" ev:event="xforms-submit">
+                        <xf:output value="concat('exist:/db/temp/', instance('i-dynamic-values')/selected-options/@uuid , '.xml')"/>
+                    </xf:message>
                 </xf:submission>
                 <xf:instance id="i-templates">
                     <templates xmlns="">
@@ -179,7 +206,8 @@
                 </xf:action>
                 <xf:action ev:event="multiple-editing" ev:observer="main-content">
                     <xf:action if="instance('i-dynamic-values')/selected-action = 'edit'">
-                        <xf:send submission="s-ziziphus-multiple"/>
+                        <xf:setvalue ref="instance('i-dynamic-values')/selected-options/@uuid" value="translate(now(),'T:.Z','---')"/>
+                        <xf:send submission="s-create-uuid-file"/>
                     </xf:action>
                     <xf:action if="instance('i-dynamic-values')/selected-action = ('delete', 'move', 'save', 'export')">
                         <xf:message level="modal">This action is not yet implemented!</xf:message>
@@ -187,6 +215,15 @@
                     <xf:setvalue ref="instance('i-dynamic-values')/selected-action"/>
                 </xf:action>
             </xf:model>
+            <xf:input id="file-uuid" ref="instance('i-dynamic-values')/selected-options/@uuid">
+                <xf:label>Hidden input</xf:label>
+                <xf:action ev:event="xforms-value-changed">
+                    <script type="text/javascript">
+                        var url = '/exist/apps/ziziphus/modules/group/vraGroupEditor.xql?id=' + $('#file-uuid-value').val();
+                        window.open(url, '_blank');
+                    </script>
+                </xf:action>
+            </xf:input>
         </div>
         <div class="templates:include?path=pages/dialogs.html"/>
         <div style="float: right;">
@@ -208,6 +245,8 @@
                     <img src="theme/images/tamboti-test.png" title="Tamboti Metadata Framework" alt="Tamboti Metadata Framework"/>
                 </a>
             </div>
+            <div>Version 1.1.2-patched, build 20141202-1655 by
+												claudius</div>
             <div id="page-head-right">
                 <a href="http://www.asia-europe.uni-heidelberg.de/en/home.html" target="_blank">
                     <img src="theme/images/cluster_logo.png" title="The Cluster of Excellence 'Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows' at Heidelberg University" alt="The Cluster of Excellence 'Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows' at Heidelberg University" width="200"/>
