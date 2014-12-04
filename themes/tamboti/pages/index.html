@@ -52,6 +52,11 @@
                         <selected-action/>
                     </selected-values>
                 </xf:instance>
+                <xf:submission id="s-ziziphus-multiple" method="post" replace="all" ref="instance('i-dynamic-values')/selected-options" resource="/exist/restxq/ziziphus/group" validate="false">
+                    <xf:message ev:event="xforms-submit">Submit</xf:message>
+                    <xf:message ev:event="xforms-submit-error">FAILED!</xf:message>
+                    <xf:message ev:event="xforms-submit-done">Done!</xf:message>
+                </xf:submission>
                 <xf:instance id="i-templates">
                     <templates xmlns="">
                         <option/>
@@ -66,8 +71,9 @@
                         <action>export</action>
                     </actions>
                 </xf:instance>
-                <xf:bind ref="instance('i-dynamic-values')/number-of-selected-options">
-                    <xf:bind ref="." calculate="count(instance('i-dynamic-values')/selected-options/option)"/>
+                <xf:bind ref="instance('i-dynamic-values')">
+                    <xf:bind ref="number-of-selected-options" calculate="count(instance('i-dynamic-values')/selected-options/option)"/>
+                    <xf:bind ref="selected-action" relevant="count(instance('i-dynamic-values')/selected-options/option) gt 0"/>
                 </xf:bind>
                 <xf:action ev:event="xforms-ready">
                     <xf:load show="embed" targetid="ddlcb-container">
@@ -173,9 +179,9 @@
                 </xf:action>
                 <xf:action ev:event="multiple-editing" ev:observer="main-content">
                     <xf:action if="instance('i-dynamic-values')/selected-action = 'edit'">
-                        <xf:message level="modal">edit</xf:message>
+                        <xf:send submission="s-ziziphus-multiple"/>
                     </xf:action>
-                    <xf:action if="instance('i-dynamic-values')/selected-action != 'edit'">
+                    <xf:action if="instance('i-dynamic-values')/selected-action = ('delete', 'move', 'save', 'export')">
                         <xf:message level="modal">This action is not yet implemented!</xf:message>
                     </xf:action>
                     <xf:setvalue ref="instance('i-dynamic-values')/selected-action"/>
