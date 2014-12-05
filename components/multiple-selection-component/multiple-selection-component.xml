@@ -95,7 +95,7 @@
         <div class="ddlcb-right">
             <div id="ddlcb-message-container">
                 <xf:group appearance="minimal" model="m-multiple-selection-component">
-                    <xf:output value="concat(instance('i-dynamic-values')/number-of-selected-options, instance('i-ui-text')//*[@tuid = 'message-part-1']/*[@xml:lang = instance('i-dynamic-values')/ui-language], instance('i-dynamic-values')/number-of-all-options, instance('i-ui-text')//*[@tuid = 'message-part-2']/*[@xml:lang = instance('i-dynamic-values')/ui-language])"/>
+                    <xf:output value="concat(instance('i-dynamic-values')/number-of-selected-options, instance('i-ui-text')//*[@tuid = 'ddlcb-message-part-1']/*[@xml:lang = instance('i-dynamic-values')/ui-language], instance('i-dynamic-values')/number-of-all-options, instance('i-ui-text')//*[@tuid = 'ddlcb-message-part-2']/*[@xml:lang = instance('i-dynamic-values')/ui-language])"/>
                     <xf:select1 ref="instance('i-dynamic-values')/selected-action" appearance="minimal" incremental="true" style="margin-left: 30px;">
                         <xf:label>
                             <xf:output value="instance('i-ui-text')//*[@tuid = 'label-for-action-selecting-select1']/*[@xml:lang = instance('i-dynamic-values')/ui-language]"/>
