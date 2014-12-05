@@ -88,15 +88,6 @@
                         <option/>
                     </templates>
                 </xf:instance>
-                <xf:instance id="i-actions">
-                    <actions xmlns="">
-                        <action>edit</action>
-                        <action>delete</action>
-                        <action>move</action>
-                        <action>save</action>
-                        <action>export</action>
-                    </actions>
-                </xf:instance>
                 <xf:bind ref="instance('i-dynamic-values')">
                     <xf:bind ref="number-of-selected-options" calculate="count(instance('i-dynamic-values')/selected-options/option)"/>
                     <xf:bind ref="selected-action" relevant="count(instance('i-dynamic-values')/selected-options/option) gt 0"/>
