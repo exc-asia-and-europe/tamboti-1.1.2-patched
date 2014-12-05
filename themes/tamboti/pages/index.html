@@ -77,11 +77,10 @@
                                     }
                                 });
                             });
-                        </script>                    
-
+                        </script>
                     </xf:action>
                     <xf:message level="ephemeral" ev:event="xforms-submit">
-                        <xf:output value="concat('exist:/db/temp/', instance('i-dynamic-values')/selected-options/@uuid , '.xml')"/>
+                        <xf:output value="concat(' exist:/db/temp/', instance('i-dynamic-values')/selected-options/@uuid , '.xml')"/>
                     </xf:message>
                 </xf:submission>
                 <xf:instance id="i-templates">
@@ -124,7 +123,6 @@
                                 fluxProcessor.dispatchEventType("main-content", "unselect-option", {"optionId": optionId});
                             }
                         });
-                        
                 		$("#ddlcb-container").on("ddlcb-partial-checked", function() {
                 		    var resultsTable = $("#results &gt; table");
                 		    
@@ -206,7 +204,7 @@
                 </xf:action>
                 <xf:action ev:event="multiple-editing" ev:observer="main-content">
                     <xf:action if="instance('i-dynamic-values')/selected-action = 'edit'">
-                        <xf:setvalue ref="instance('i-dynamic-values')/selected-options/@uuid" value="translate(now(),'T:.Z','---')"/>
+                        <xf:setvalue ref="instance('i-dynamic-values')/selected-options/@uuid" value="concat(generate-id(), translate(now(),'T:.Z','---'))"/>
                         <xf:send submission="s-create-uuid-file"/>
                     </xf:action>
                     <xf:action if="instance('i-dynamic-values')/selected-action = ('delete', 'move', 'save', 'export')">
@@ -215,15 +213,6 @@
                     <xf:setvalue ref="instance('i-dynamic-values')/selected-action"/>
                 </xf:action>
             </xf:model>
-            <xf:input id="file-uuid" ref="instance('i-dynamic-values')/selected-options/@uuid">
-                <xf:label>Hidden input</xf:label>
-                <xf:action ev:event="xforms-value-changed">
-                    <script type="text/javascript">
-                        var url = '/exist/apps/ziziphus/modules/group/vraGroupEditor.xql?id=' + $('#file-uuid-value').val();
-                        window.open(url, '_blank');
-                    </script>
-                </xf:action>
-            </xf:input>
         </div>
         <div class="templates:include?path=pages/dialogs.html"/>
         <div style="float: right;">
@@ -245,8 +234,6 @@
                     <img src="theme/images/tamboti-test.png" title="Tamboti Metadata Framework" alt="Tamboti Metadata Framework"/>
                 </a>
             </div>
-            <div>Version 1.1.2-patched, build 20141202-1655 by
-												claudius</div>
             <div id="page-head-right">
                 <a href="http://www.asia-europe.uni-heidelberg.de/en/home.html" target="_blank">
                     <img src="theme/images/cluster_logo.png" title="The Cluster of Excellence 'Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows' at Heidelberg University" alt="The Cluster of Excellence 'Asia and Europe in a Global Context: Shifting Asymmetries in Cultural Flows' at Heidelberg University" width="200"/>
