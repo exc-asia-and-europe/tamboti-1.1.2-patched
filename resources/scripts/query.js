@@ -1210,7 +1210,7 @@ function addUserToShare() {
                         $('#add-user-to-share-dialog').dialog('close');
                     },
                     error: function(xhr, status, error) {
-                        alert("Could not create entry");
+                        alert("User '" + username + "' already added to this folder!");
                     }
                 });
             },
