@@ -173,12 +173,14 @@ declare function bs:view-gallery-item($mode as xs:string, $item as element(), $c
 
 declare function bs:mods-detail-view-table($item as element(mods:mods), $currentPos as xs:int) {
     let $isWritable := bs:collection-is-writable(util:collection-name($item))
-    let $id := concat(document-uri(root($item)), '#', util:node-id($item))
+    let $document-uri  := document-uri(root($item))
+    let $id := concat($document-uri, '#', util:node-id($item))
     let $stored := session:get-attribute("personal-list")
     let $saved := exists($stored//*[@id = $id])
     let $results :=  collection($config:mods-root)//mods:mods[@ID=$item/@ID]/mods:relatedItem
     return
         <tr class="pagination-item detail" xmlns="http://www.w3.org/1999/xhtml">
+            <td><input class="search-list-item-checkbox" type="checkbox" data-tamboti-record-id="{$document-uri}"/></td>
             <td class="pagination-number">{$currentPos}</td>
             <td class="actions-cell">
                 <a id="save_{$id}" href="#{$currentPos}" class="save">
@@ -274,7 +276,8 @@ declare function local:return-thumbnail-list-view($image){
 
 declare function bs:vra-detail-view-table($item as element(vra:vra), $currentPos as xs:int) {
     let $isWritable := bs:collection-is-writable(util:collection-name($item))
-    let $id := concat(document-uri(root($item)), '#', util:node-id($item))
+    let $document-uri  := document-uri(root($item))
+    let $id := concat($document-uri, '#', util:node-id($item))
     let $id := functx:substring-after-last($id, '/')
     let $id := functx:substring-before-last($id, '.')
     let $type := substring($id, 1, 1)
@@ -289,6 +292,7 @@ declare function bs:vra-detail-view-table($item as element(vra:vra), $currentPos
     let $saved := exists($stored//*[@id = $id])
     return
         <tr class="pagination-item detail" xmlns="http://www.w3.org/1999/xhtml">
+            <td><input class="search-list-item-checkbox" type="checkbox" data-tamboti-record-id="{$document-uri}"/></td>
             <td class="pagination-number">{$currentPos}</td>
             <td class="actions-cell">
                 <a id="save_{$id}" href="#{$currentPos}" class="save">
@@ -409,6 +413,7 @@ declare function bs:tei-detail-view-table($item as element(), $currentPos as xs:
 
     return
         <tr class="pagination-item detail" xmlns="http://www.w3.org/1999/xhtml">
+            <td><input class="search-list-item-checkbox" type="checkbox" data-tamboti-record-id="{$document-uri}"/></td>
             <td class="pagination-number">{$currentPos}</td>
             <td class="actions-cell">
                 <a id="save_{$id}" href="#{$currentPos}" class="save">
