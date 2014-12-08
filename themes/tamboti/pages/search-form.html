@@ -1,9 +1,12 @@
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" id="query-panel">
     <script type="text/javascript">
         $(function() {
+            var selectedTabId = $("#query-history ul").data("selected-tab-id");            
             $( "#query-tabs" ).tabs({
-                select: searchTabSelected
+                select: searchTabSelected,
+                selected: $("#" + selectedTabId).index() - 1
             });
+
             $("#cluster-collections").load("../../includes/tamboti-collections.xq");
             
             $("#simple-search-form input[name = 'input1'], #advanced-search-form input[name = 'input1']").autocomplete({
@@ -31,7 +34,7 @@
     <div id="query-tabs">
         <ul>
             <li>
-                <a href="#simple">Simple Search</a>
+                <a href="#simple-search-tab">Simple Search</a>
             </li>
             <li>
                 <a href="#advanced-search-form">Advanced Search</a>
@@ -52,7 +55,7 @@
                 <a href="#cluster-collections">Tamboti Collections</a>
             </li>
         </ul>
-        <div id="simple">
+        <div id="simple-search-tab">
             <form id="simple-search-form" class="search-form" action="?" name="simple-search" method="POST">
                 <table>
                     <tr>
@@ -77,12 +80,12 @@
                                 <option value="Title">Title</option>
                                 <option value="Year">Year</option>
                             </select>
-                            <button name="action" id="form-submit" type="submit">Search</button>
+                            <button name="action" id="simple-search-form-submit" type="submit">Search</button>
                             <input type="hidden" name="field1" value="All"/>
                         </td>
                     </tr>
                 </table>
-                <input type="hidden" name="query-tabs" value="simple"/>
+                <input type="hidden" name="query-tabs" value="simple-search-tab"/>
                 <input type="hidden" name="collection-tree" value="hidden"/>
             </form>
         </div>
@@ -120,7 +123,7 @@
                             <button id="clear-search-fields" class="button" name="clear" value="clear" type="button">Clear
                                 Search Terms</button>
                             <div class="advanced-search">
-                                <button class="advanced-search" name="action" id="form-submit" type="submit">Search</button>
+                                <button class="advanced-search" name="action" id="advanced-search-form-submit" type="submit">Search</button>
                             </div>
                         </td>
                     </tr>
@@ -154,7 +157,7 @@
                         <xf:output ref="."/>
                     </xf:repeat>
                 </xf:group>
-            </xf:group>             
+            </xf:group>
         </div>
         <div id="search-help">
             <div>
