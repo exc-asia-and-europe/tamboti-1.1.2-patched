@@ -1,3 +1,5 @@
+xquery version "3.0";
+
 module namespace mods-common="http://exist-db.org/mods/common";
 
 declare namespace mods="http://www.loc.gov/mods/v3";
@@ -706,6 +708,8 @@ declare function mods-common:format-name($name as element()?, $position as xs:in
             then
                 let $name-link := string-join($name/mods:namePart, ' ')
                 let $name-link := concat(replace(request:get-url(), '/retrieve', '/index.html') ,"?collection=resources&amp;field1=Name&amp;input1=", $name-link, "&amp;query-tabs=advanced-search-form&amp;default-operator=and")
+                let $name-link := concat(replace(request:get-url(), '/retrieve', '/index.html') ,"?collection=" || $config:data-collection-name || "&amp;field1=Name&amp;input1=", $name-link, "&amp;query-tabs=advanced-search-form&amp;default-operator=and")
+                
                 return
                 <span>
                     <span class="name">{
