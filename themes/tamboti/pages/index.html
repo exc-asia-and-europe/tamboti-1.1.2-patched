@@ -117,13 +117,6 @@
                 		$("#ddlcb-container").on("ddlcb-partial-checked", function() {
                 		    var resultsTable = $("#results &gt; table");
                 		    
-          				    $('input',resultsTable).each(
-        				        function(index) {
-        				            var $this = $(this);
-        				            $this.removeAttr("checked");
-        				            fluxProcessor.dispatchEventType("main-content", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
-        				        }    
-        				    );
           				    $('input', resultsTable).each(
         				        function(index) {
         				            var $this = $(this);
