@@ -1,3 +1,7 @@
+tamboti = {};
+
+tamboti.selectedSearchResultOptions = {};
+
 $(function() {
     $('#keyword-form').submit(function () {
         loadIndexTerms();
