@@ -50,6 +50,7 @@
                         <number-of-selected-options>0</number-of-selected-options>
                         <selected-options uuid=""/>
                         <selected-action/>
+                        <selected-options-string/>
                     </selected-values>
                 </xf:instance>
                 <xf:submission id="s-create-uuid-file" resource="{concat('exist:/db/data/temp/', instance('i-dynamic-values')/selected-options/@uuid , '.xml')}" method="put" replace="none" ref="instance('i-dynamic-values')/selected-options" validate="false" serialization="application/xml">
@@ -83,13 +84,7 @@
                         <xf:output value="concat(' exist:/db/temp/', instance('i-dynamic-values')/selected-options/@uuid , '.xml')"/>
                     </xf:message>
                 </xf:submission>
-                <xf:instance id="i-templates">
-                    <templates xmlns="">
-                        <option/>
-                    </templates>
-                </xf:instance>
                 <xf:bind ref="instance('i-dynamic-values')">
-                    <xf:bind ref="number-of-selected-options" calculate="count(instance('i-dynamic-values')/selected-options/option)"/>
                     <xf:bind ref="selected-action" relevant="count(instance('i-dynamic-values')/selected-options/option) gt 0"/>
                 </xf:bind>
                 <xf:action ev:event="xforms-ready">
@@ -98,93 +93,133 @@
                         <xf:extension includeCSS="true" includeScript="true"/>
                     </xf:load>
                     <script type="text/javascript">
+                        tamboti.totalSearchResultOptions = $(".hit-count").text();
                         fluxProcessor.dispatchEventType("main-content", "set-number-of-all-options", {
-                            "number-of-all-options": $(".hit-count").text()
+                            "number-of-all-options": tamboti.totalSearchResultOptions
                         });
                         fluxProcessor.skipshutdown=true;
 
                         // initialize the check boxes of the search list
                         $("#results").on("click", "tr.pagination-item input.search-list-item-checkbox", function() {
-                            //ev.preventDefault();
                             var $this = $(this);
+                            var selectedSearchResultOptions = tamboti.selectedSearchResultOptions;
+                            var totalSearchResultOptions = tamboti.totalSearchResultOptions;
                             var optionId = $this.attr("data-tamboti-record-id");
+                            
                             if ($this.is(":checked")) {
-                                fluxProcessor.dispatchEventType("main-content", "select-option", {"optionId": optionId});
+                                selectedSearchResultOptions[optionId] = 1;
+                                fluxProcessor.dispatchEventType("main-content", "set-number-of-selected-options", {"number-of-selected-options": Object.keys(selectedSearchResultOptions).length});
+                                if (Object.keys(selectedSearchResultOptions).length &amp;lt; totalSearchResultOptions) {
+                                    $("#ddlcb-container").trigger("flag-ddlcb-partial-checked");
+                                } else if (Object.keys(selectedSearchResultOptions).length = totalSearchResultOptions) {
+                                    $("#ddlcb-container").trigger("flag-ddlcb-full-checked");
+                                }                                
                             } else {
-                                fluxProcessor.dispatchEventType("main-content", "unselect-option", {"optionId": optionId});
+                                delete selectedSearchResultOptions[optionId];
+                                fluxProcessor.dispatchEventType("main-content", "set-number-of-selected-options", {"number-of-selected-options": Object.keys(selectedSearchResultOptions).length});
+                                if (Object.keys(selectedSearchResultOptions).length == 0) {
+                                    $("#ddlcb-container").trigger("unflag-ddlcb-partial-checked");
+                                } else if (Object.keys(selectedSearchResultOptions).length &amp;lt; totalSearchResultOptions) {
+                                    $("#ddlcb-container").trigger("unflag-ddlcb-full-checked");
+                                    $("#ddlcb-container").trigger("flag-ddlcb-partial-checked");                                    
+                                }
                             }
                         });
-                		$("#ddlcb-container").on("ddlcb-partial-checked", function() {
+                		$("#ddlcb-container").on("ddlcb-full-checked", function() {
                 		    var resultsTable = $("#results &gt; table");
+                		    var selectedSearchResultOptions = tamboti.selectedSearchResultOptions;
                 		    
           				    $('input', resultsTable).each(
         				        function(index) {
         				            var $this = $(this);
         				            $this.attr("checked", "checked");
-        				            fluxProcessor.dispatchEventType("main-content", "select-option", {"optionId": $this.attr("data-tamboti-record-id")});
+        				            selectedSearchResultOptions[$this.attr("data-tamboti-record-id")] = 1;
         				        }    
-        				    );      
-                        }); 
-                		$("#ddlcb-container").on("ddlcb-partial-unchecked", function() {
+        				    );                		    
+                        
+                            $.ajax({
+                                url: "retrieve",
+                                data: { mode: "multiple-selection", start: 1, count: 20},
+                                dataType: "json",
+                                type: "POST",
+                                success: function (data) {
+                                    tamboti.selectedSearchResultOptions = data;
+                                    fluxProcessor.dispatchEventType("main-content", "set-number-of-selected-options", {"number-of-selected-options": Object.keys(tamboti.selectedSearchResultOptions).length});
+                                }
+                            });
+                		});
+                		$("#ddlcb-container").on("ddlcb-full-unchecked", function() {
                 		    var resultsTable = $("#results &gt; table");
+                		    tamboti.selectedSearchResultOptions = {};
                 		    
           				    $('input', resultsTable).each(
         				        function(index) {
         				            var $this = $(this);
         				            $this.removeAttr("checked");
-        				            fluxProcessor.dispatchEventType("main-content", "unselect-option", {"optionId": $this.attr("data-tamboti-record-id")});
         				        }    
         				    );
+        				    
+        				    fluxProcessor.dispatchEventType("main-content", "set-number-of-selected-options", {"number-of-selected-options": Object.keys(tamboti.selectedSearchResultOptions).length});
+                		});                		
+                        
+                		$("#ddlcb-container").on("ddlcb-partial-checked", function() {
+                		    var resultsTable = $("#results &gt; table");
+                		    var selectedSearchResultOptions = tamboti.selectedSearchResultOptions = {};
+                		    
+          				    $('input', resultsTable).each(
+        				        function(index) {
+        				            var $this = $(this);
+        				            $this.attr("checked", "checked");
+        				            selectedSearchResultOptions[$this.attr("data-tamboti-record-id")] = 1;
+        				        }    
+        				    );
+        				    
+                            // var arr = [];
+                            
+                            // for(var x in tamboti.selectedSearchResultOptions){
+                            //   arr.push(tamboti.selectedSearchResultOptions[x]);
+                            // }                  		    
+
+        				    fluxProcessor.dispatchEventType("main-content", "set-number-of-selected-options", {"number-of-selected-options": Object.keys(selectedSearchResultOptions).length});
+                        }); 
+                		$("#ddlcb-container").on("ddlcb-partial-unchecked", function() {
+                		    var resultsTable = $("#results &gt; table");
+                		    var selectedSearchResultOptions = tamboti.selectedSearchResultOptions;
+                		    
+          				    $('input', resultsTable).each(
+        				        function(index) {
+        				            var $this = $(this);
+        				            $this.removeAttr("checked");
+        				            delete selectedSearchResultOptions[$this.attr("data-tamboti-record-id")];
+        				        }    
+        				    );
+        				    
+        				    fluxProcessor.dispatchEventType("main-content", "set-number-of-selected-options", {"number-of-selected-options": Object.keys(selectedSearchResultOptions).length});
                         }); 
                 		$("#ddlcb-container").on("ddlcb-page-changed", function() {
-                            Flux.getInstanceDocument('m-multiple-selection-component', 'i-dynamic-values', fluxProcessor.sessionKey, function(data) {
-                                var dataInstance = $(data).html();
-                                var resultsTable = $("#results &gt; table");                                
-                                
-              				    $("input.search-list-item-checkbox", resultsTable).each(
-            				        function(index) {
-            				            var recordId = $(this).attr("data-tamboti-record-id");
-            				            
-            				            if (dataInstance.indexOf(recordId) &gt; -1) {
-            				                $("input.search-list-item-checkbox[data-tamboti-record-id = '" + recordId + "']", resultsTable).attr("checked", "checked");
-            				            }
-            				        }    
-            				    );                		                                
-                            });
+                		    $("#ddlcb-container").trigger("unflag-ddlcb-partial-checked");
+                            var resultsTable = $("#results &gt; table");                                
+                            
+          				    $("input.search-list-item-checkbox", resultsTable).each(
+        				        function(index) {
+        				            var recordId = $(this).attr("data-tamboti-record-id");
+        				            
+        				            if (tamboti.selectedSearchResultOptions[recordId] == 1) {
+        				                $("input.search-list-item-checkbox[data-tamboti-record-id = '" + recordId + "']", resultsTable).attr("checked", "checked");
+        				            }
+        				        }    
+        				    ); 
                         });                        
                     </script>
                 </xf:action>
                 <xf:action ev:event="set-number-of-all-options" ev:observer="main-content">
                     <xf:setvalue ref="instance('i-dynamic-values')/number-of-all-options" value="event('number-of-all-options')"/>
                 </xf:action>
-                <xf:action ev:event="select-option" ev:observer="main-content" if="not(instance('i-dynamic-values')/selected-options/option[. = event('optionId')])">
-                    <xf:setvalue ref="instance('i-templates')/option" value="event('optionId')"/>
-                    <xf:insert origin="instance('i-templates')/option" context="instance('i-dynamic-values')/selected-options" at="last()"/>
-                    <xf:setvalue ref="instance('i-templates')/option"/>
-                    <xf:action if="count(instance('i-dynamic-values')/selected-options/option) lt number(instance('i-dynamic-values')/number-of-all-options)">
-                        <script type="text/javascript">
-                            $("#ddlcb-container").trigger("flag-ddlcb-partial-checked");
-                        </script>
-                    </xf:action>
-                    <xf:action if="count(instance('i-dynamic-values')/selected-options/option) = instance('i-dynamic-values')/number-of-all-options">
-                        <script type="text/javascript">
-                            $("#ddlcb-container").trigger("flag-ddlcb-full-checked");
-                        </script>
-                    </xf:action>
+                <xf:action ev:event="set-number-of-selected-options" ev:observer="main-content">
+                    <xf:setvalue ref="instance('i-dynamic-values')/number-of-selected-options" value="event('number-of-selected-options')"/>
                 </xf:action>
                 <xf:action ev:event="unselect-option" ev:observer="main-content">
                     <xf:delete ref="instance('i-dynamic-values')/selected-options/option[. = event('optionId')]"/>
-                    <xf:action if="count(instance('i-dynamic-values')/selected-options/option) lt number(instance('i-dynamic-values')/number-of-all-options)">
-                        <script type="text/javascript">
-                            $("#ddlcb-container").trigger("unflag-ddlcb-full-checked");
-                            $("#ddlcb-container").trigger("flag-ddlcb-partial-checked");
-                        </script>
-                    </xf:action>
-                    <xf:action if="count(instance('i-dynamic-values')/selected-options/option) = 0">
-                        <script type="text/javascript">
-                            $("#ddlcb-container").trigger("unflag-ddlcb-partial-checked");
-                        </script>
-                    </xf:action>
                 </xf:action>
                 <xf:action ev:event="multiple-editing" ev:observer="main-content">
                     <xf:action if="instance('i-dynamic-values')/selected-action = 'edit'">

@@ -95,7 +95,7 @@
                     <action>save</action>
                     <action>export</action>
                 </actions>
-            </xf:instance>            
+            </xf:instance>
         </xf:model>
     </div>
     <div class="ddlcb-checkboxContainer">
@@ -132,6 +132,7 @@
         		var checkboxContainer = $("div.ddlcb-checkboxContainer", component);
         		var checkboxCase = $(".ddlcb-checkboxCase", component);
         		var selectAllOption = $("ul li:first-child", checkboxContainer);
+        		var selectPartialOption = $("ul li:nth-child(2)", checkboxContainer);
         
         		component.on("flag-ddlcb-full-checked", function() {
         		    checkboxCase.removeClass("ddlcb-partial-checked");
@@ -154,6 +155,9 @@
                 
         		component.on("unflag-ddlcb-partial-checked", function() {
         		    checkboxCase.removeClass("ddlcb-partial-checked");
+        		    if (selectPartialOption.hasClass("ddlcb-option-checked")) {
+        		        selectPartialOption.removeClass("ddlcb-option-checked");
+        		    }        		    
                 });        
         
         		$("div.ddlcb-checkboxContainer", component).click(function(event) {
@@ -178,23 +182,23 @@
         		$("div.ddlcb-checkboxCase", component).click(function() {
         		    var $this = $(this);
 
-                    $("ul li:first-child", component).toggleClass("ddlcb-option-checked");
+                    selectAllOption.toggleClass("ddlcb-option-checked");
 
         		    if ($this.hasClass("ddlcb-full-checked")) {
         		        $this.toggleClass("ddlcb-full-checked");
-        		        $("#ddlcb-container").trigger("ddlcb-full-unchecked");
+        		        component.trigger("ddlcb-full-unchecked");
         		        return;
         		    }
         		    if ($this.hasClass("ddlcb-partial-checked")) {
         		        $this.removeClass("ddlcb-partial-checked");
         		        $this.toggleClass("ddlcb-full-checked");
-        		        $("ul li:nth-child(2)", $(options.containerCls)).toggleClass("ddlcb-option-checked");
-        		        $("#ddlcb-container").trigger("ddlcb-full-checked");
+        		        selectPartialOption.toggleClass("ddlcb-option-checked");
+        		        component.trigger("ddlcb-full-checked");
         		        return;		        
         		    }		    
         		    if ($this.attr("class") == "ddlcb-checkboxCase") {
         		        $this.toggleClass("ddlcb-full-checked");
-        		        $("#ddlcb-container").trigger("ddlcb-full-checked");
+        		        component.trigger("ddlcb-full-checked");
         		    }
         		});
         

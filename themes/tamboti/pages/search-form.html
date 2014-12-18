@@ -148,16 +148,6 @@
                 <p>
                     <button class="button" id="export" name="export" type="submit" value="export">Export</button> your list items. </p>
             </form>
-            <xf:group appearance="full" model="m-multiple-selection-component">
-                <xf:group appearance="full" model="m-multiple-selection-component">
-                    <xf:label>
-                        <xf:output value="instance('i-ui-text')//*[@tuid = 'selected-options-message']/*[@xml:lang = instance('i-dynamic-values')/ui-language]"/>
-                    </xf:label>
-                    <xf:repeat id="r-selected-options" ref="instance('i-dynamic-values')/selected-options/option">
-                        <xf:output ref="."/>
-                    </xf:repeat>
-                </xf:group>
-            </xf:group>
         </div>
         <div id="search-help">
             <div>
