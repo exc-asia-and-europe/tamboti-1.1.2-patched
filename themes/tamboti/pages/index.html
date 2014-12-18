@@ -164,7 +164,10 @@
                         
                 		$("#ddlcb-container").on("ddlcb-partial-checked", function() {
                 		    var resultsTable = $("#results &gt; table");
-                		    var selectedSearchResultOptions = tamboti.selectedSearchResultOptions = {};
+                		    if (Object.keys(tamboti.selectedSearchResultOptions).length == tamboti.totalSearchResultOptions) {
+                		        tamboti.selectedSearchResultOptions = {};
+                		    }
+                		    var selectedSearchResultOptions = tamboti.selectedSearchResultOptions;
                 		    
           				    $('input', resultsTable).each(
         				        function(index) {
@@ -200,7 +203,8 @@
                 		    $("#ddlcb-container").trigger("unflag-ddlcb-partial-checked");
                             var resultsTable = $("#results &gt; table");                                
                             
-          				    $("input.search-list-item-checkbox", resultsTable).each(
+                            var currentPageOptions = $("input.search-list-item-checkbox", resultsTable);
+          				    currentPageOptions.each(
         				        function(index) {
         				            var recordId = $(this).attr("data-tamboti-record-id");
         				            
@@ -208,7 +212,16 @@
         				                $("input.search-list-item-checkbox[data-tamboti-record-id = '" + recordId + "']", resultsTable).attr("checked", "checked");
         				            }
         				        }    
-        				    ); 
+        				    );
+        				    
+                		    if (Object.keys(tamboti.selectedSearchResultOptions).length == tamboti.totalSearchResultOptions) {
+                		        return;
+                		    }        				    
+        				    
+        				    var currentPageSelectedOptionsNumber = $("input.search-list-item-checkbox:checked", resultsTable).length;
+        				    if (currentPageSelectedOptionsNumber != 0 &amp;amp;&amp;amp; currentPageSelectedOptionsNumber == currentPageOptions.length) {
+        				        $("#ddlcb-container").trigger("flag-ddlcb-partial-checked");
+        				    }
                         });                        
                     </script>
                 </xf:action>

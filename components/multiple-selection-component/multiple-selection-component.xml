@@ -151,6 +151,7 @@
                 
         		component.on("flag-ddlcb-partial-checked", function() {
         		    checkboxCase.addClass("ddlcb-partial-checked");
+        		    selectPartialOption.addClass("ddlcb-option-checked");
                 });
                 
         		component.on("unflag-ddlcb-partial-checked", function() {
