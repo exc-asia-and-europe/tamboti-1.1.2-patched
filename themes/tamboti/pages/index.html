@@ -53,6 +53,9 @@
                         <selected-options-string/>
                     </selected-values>
                 </xf:instance>
+                <xf:bind ref="instance('i-dynamic-values')">
+                    <xf:bind ref="selected-action" relevant="number(instance('i-dynamic-values')/number-of-selected-options) gt 0"/>
+                </xf:bind>                
                 <xf:submission id="s-create-uuid-file" resource="{concat('exist:/db/data/temp/', instance('i-dynamic-values')/selected-options/@uuid , '.xml')}" method="put" replace="none" ref="instance('i-dynamic-values')/selected-options" validate="false" serialization="application/xml">
                     <xf:message level="ephemeral" ev:event="xforms-submit-error">put submission failed</xf:message>
                     <xf:action level="ephemeral" ev:event="xforms-submit-done">
@@ -84,9 +87,6 @@
                         <xf:output value="concat(' exist:/db/temp/', instance('i-dynamic-values')/selected-options/@uuid , '.xml')"/>
                     </xf:message>
                 </xf:submission>
-                <xf:bind ref="instance('i-dynamic-values')">
-                    <xf:bind ref="selected-action" relevant="count(instance('i-dynamic-values')/selected-options/option) gt 0"/>
-                </xf:bind>
                 <xf:action ev:event="xforms-ready">
                     <xf:load show="embed" targetid="ddlcb-container">
                         <xf:resource value="'../../components/multiple-selection-component/multiple-selection-component.xml#ddlcb-container'"/>
