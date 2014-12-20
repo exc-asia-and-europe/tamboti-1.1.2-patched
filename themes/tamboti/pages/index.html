@@ -43,50 +43,17 @@
                         </languages>
                     </configuration>
                 </xf:instance>
-                <xf:instance id="i-dynamic-values">
+                <xf:instance id="i-variables">
                     <selected-values xmlns="">
                         <ui-language>en</ui-language>
                         <number-of-all-options>0</number-of-all-options>
                         <number-of-selected-options>0</number-of-selected-options>
-                        <selected-options uuid=""/>
                         <selected-action/>
-                        <selected-options-string/>
                     </selected-values>
                 </xf:instance>
-                <xf:bind ref="instance('i-dynamic-values')">
-                    <xf:bind ref="selected-action" relevant="number(instance('i-dynamic-values')/number-of-selected-options) gt 0"/>
-                </xf:bind>                
-                <xf:submission id="s-create-uuid-file" resource="{concat('exist:/db/data/temp/', instance('i-dynamic-values')/selected-options/@uuid , '.xml')}" method="put" replace="none" ref="instance('i-dynamic-values')/selected-options" validate="false" serialization="application/xml">
-                    <xf:message level="ephemeral" ev:event="xforms-submit-error">put submission failed</xf:message>
-                    <xf:action level="ephemeral" ev:event="xforms-submit-done">
-                        <script type="text/javascript">
-                            Flux.getInstanceDocument('m-multiple-selection-component', 'i-dynamic-values', fluxProcessor.sessionKey, function(data) {
-                                var uuid = $(data).find("selected-options").attr("uuid");
-                                $.ajax({
-                                    type: "GET",
-                                    url: '/exist/apps/ziziphus/modules/group/vraGroupEditor.xql?id=' + uuid,
-                                    error: function() {
-                                        showMessage("Could not send record ids to ziziphus.");
-                                    },
-                                    success: function(data) {
-                                        if (data !== null) {
-                                            var win = window.open('about:blank');
-                                            with (win.document)
-                                            {
-                                                open();
-                                                write(data);
-                                                close();
-                                            }
-                                        }
-                                    }
-                                });
-                            });
-                        </script>
-                    </xf:action>
-                    <xf:message level="ephemeral" ev:event="xforms-submit">
-                        <xf:output value="concat(' exist:/db/temp/', instance('i-dynamic-values')/selected-options/@uuid , '.xml')"/>
-                    </xf:message>
-                </xf:submission>
+                <xf:bind ref="instance('i-variables')">
+                    <xf:bind ref="selected-action" relevant="number(instance('i-variables')/number-of-selected-options) gt 0"/>
+                </xf:bind>
                 <xf:action ev:event="xforms-ready">
                     <xf:load show="embed" targetid="ddlcb-container">
                         <xf:resource value="'../../components/multiple-selection-component/multiple-selection-component.xml#ddlcb-container'"/>
@@ -176,12 +143,6 @@
         				            selectedSearchResultOptions[$this.attr("data-tamboti-record-id")] = 1;
         				        }    
         				    );
-        				    
-                            // var arr = [];
-                            
-                            // for(var x in tamboti.selectedSearchResultOptions){
-                            //   arr.push(tamboti.selectedSearchResultOptions[x]);
-                            // }                  		    
 
         				    fluxProcessor.dispatchEventType("main-content", "set-number-of-selected-options", {"number-of-selected-options": Object.keys(selectedSearchResultOptions).length});
                         }); 
@@ -226,32 +187,60 @@
                     </script>
                 </xf:action>
                 <xf:action ev:event="set-number-of-all-options" ev:observer="main-content">
-                    <xf:setvalue ref="instance('i-dynamic-values')/number-of-all-options" value="event('number-of-all-options')"/>
+                    <xf:setvalue ref="instance('i-variables')/number-of-all-options" value="event('number-of-all-options')"/>
                 </xf:action>
                 <xf:action ev:event="set-number-of-selected-options" ev:observer="main-content">
-                    <xf:setvalue ref="instance('i-dynamic-values')/number-of-selected-options" value="event('number-of-selected-options')"/>
+                    <xf:setvalue ref="instance('i-variables')/number-of-selected-options" value="event('number-of-selected-options')"/>
                 </xf:action>
-                <xf:action ev:event="unselect-option" ev:observer="main-content">
-                    <xf:delete ref="instance('i-dynamic-values')/selected-options/option[. = event('optionId')]"/>
-                </xf:action>
-                <xf:action ev:event="multiple-editing" ev:observer="main-content">
-                    <xf:action if="instance('i-dynamic-values')/selected-action = 'edit'">
-                        <xf:setvalue ref="instance('i-dynamic-values')/selected-options/@uuid" value="concat(generate-id(), translate(now(),'T:.Z','---'))"/>
-                        <xf:send submission="s-create-uuid-file"/>
+                <xf:action ev:event="selected-action-for-selected-options" ev:observer="main-content">
+                    <xf:action if="instance('i-variables')/selected-action = 'edit'">
+                        <script type="text/javascript">
+                                var uuid = tamboti.createGuid();
+                                $.ajax({
+                                    type: "PUT",
+                                    url: '/exist/rest/db/data/temp/' + uuid + '.js',
+                                    data: JSON.stringify(tamboti.selectedSearchResultOptions),
+                                    contentType: "application/json",
+                                    dataType: "json",                                    
+                                    error: function() {
+                                        showMessage("Could not send record ids to ziziphus.");
+                                    },
+                                    success: function() {
+                                        $.ajax({
+                                            type: "GET",
+                                            url: '/exist/apps/ziziphus/modules/group/vraGroupEditor.xql?id=' + uuid,
+                                            error: function() {
+                                                showMessage("Could not send record ids to ziziphus.");
+                                            },
+                                            success: function(data) {
+                                                if (data !== null) {
+                                                    var win = window.open('about:blank');
+                                                    with (win.document)
+                                                    {
+                                                        open();
+                                                        write(data);
+                                                        close();
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                });                           
+                        </script>
                     </xf:action>
-                    <xf:action if="instance('i-dynamic-values')/selected-action = ('delete', 'move', 'save', 'export')">
+                    <xf:action if="instance('i-variables')/selected-action = ('delete', 'move', 'save', 'export')">
                         <xf:message level="modal">This action is not yet implemented!</xf:message>
                     </xf:action>
-                    <xf:setvalue ref="instance('i-dynamic-values')/selected-action"/>
+                    <xf:setvalue ref="instance('i-variables')/selected-action"/>
                 </xf:action>
             </xf:model>
         </div>
         <div class="templates:include?path=pages/dialogs.html"/>
         <div style="float: right;">
             <xf:group appearance="full" model="m-multiple-selection-component">
-                <xf:select1 ref="instance('i-dynamic-values')/ui-language" appearance="minimal" incremental="true">
+                <xf:select1 ref="instance('i-variables')/ui-language" appearance="minimal" incremental="true">
                     <xf:label>
-                        <xf:output value="instance('i-ui-text')//*[@tuid = 'language-selecting-select1']/*[@xml:lang = instance('i-dynamic-values')/ui-language]"/>
+                        <xf:output value="instance('i-ui-text')//*[@tuid = 'language-selecting-select1']/*[@xml:lang = instance('i-variables')/ui-language]"/>
                     </xf:label>
                     <xf:itemset ref="instance('i-configuration')/languages/language">
                         <xf:label ref="."/>
