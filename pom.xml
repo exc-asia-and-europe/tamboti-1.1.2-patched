@@ -34,6 +34,23 @@
 		</developer>
 	</developers>
 
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.google.code.maven-replacer-plugin</groupId>
+					<artifactId>replacer</artifactId>
+					<version>1.5.3</version>
+				</plugin>
+				<plugin>
+					<groupId>ro.kuberam.maven.plugins</groupId>
+					<artifactId>kuberam-expath-plugin</artifactId>
+					<version>0.4.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
 	<profiles>
 		<profile>
 			<id>patched-cluster-production-build</id>
@@ -42,7 +59,6 @@
 					<plugin>
 						<groupId>com.google.code.maven-replacer-plugin</groupId>
 						<artifactId>replacer</artifactId>
-						<version>1.5.2</version>
 						<executions>
 							<execution>
 								<id>filter-config.default.xqm</id>
@@ -83,6 +99,10 @@
 											<token>&lt;/service&gt;</token>
 											<value>${image-services}</value>
 										</replacement>
+										<replacement>
+											<token>width=40&amp;height=40&amp;crop_type</token>
+											<value>width=40&amp;amp;height=40&amp;amp;crop_type</value>
+										</replacement>
 									</replacements>
 								</configuration>
 							</execution>
@@ -91,7 +111,6 @@
 					<plugin>
 						<groupId>ro.kuberam.maven.plugins</groupId>
 						<artifactId>kuberam-expath-plugin</artifactId>
-						<version>0.4.1</version>
 						<executions>
 							<execution>
 								<id>create-general-production-build</id>
@@ -116,7 +135,6 @@
 					<plugin>
 						<groupId>com.google.code.maven-replacer-plugin</groupId>
 						<artifactId>replacer</artifactId>
-						<version>1.5.2</version>
 						<executions>
 							<execution>
 								<id>filter-index.html</id>
@@ -180,6 +198,10 @@
 											<token>&lt;/service&gt;</token>
 											<value>${image-services}</value>
 										</replacement>
+										<replacement>
+											<token>width=40&amp;height=40&amp;crop_type</token>
+											<value>width=40&amp;amp;height=40&amp;amp;crop_type</value>
+										</replacement>
 									</replacements>
 								</configuration>
 							</execution>
@@ -188,7 +210,6 @@
 					<plugin>
 						<groupId>ro.kuberam.maven.plugins</groupId>
 						<artifactId>kuberam-expath-plugin</artifactId>
-						<version>0.4.1</version>
 						<executions>
 							<execution>
 								<id>create-general-production-build</id>
