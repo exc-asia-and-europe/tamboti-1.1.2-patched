@@ -73,29 +73,23 @@ ul li {
     margin-top:1em;
     }
 
-#new-resource-form, 
-#add-related-form 
-{
-    margin-top:1.5em;
-    }
+#new-resource-form, #add-related-form {
+    margin-top: 1.5em;
+}
     
 #add-field {
-    margin-right:2.2em;
+    margin-right: 2.2em;
 }
 
-#new-resource-form li input,
-#add-related-form li input {
-    margin-right:1em;
+#new-resource-form li input, #add-related-form li input {
+    margin-right: 1em;
 }
 /*new or temporary stuff ends*/
 
-p, 
-td 
-    {
+p, td {
     line-height:1.25em;
     padding: 4px 0 4px 4px;
-    font-size:1em;
-
+    font-size: 1em;
 }
 
 p {
@@ -114,11 +108,9 @@ a:hover {
     border-bottom:0
 }
 
-a:link, 
-a:visited 
-    {
+a:link, a:visited {
     color:@theme-color; 
-    }
+}
 
 .biblio-full a {
     color:@dark-gray;
@@ -134,11 +126,9 @@ a:visited
     border-bottom:2px dotted;
 }
 
-.biblio-full a:link, 
-.biblio-full a:visited 
-    {
+.biblio-full a:link, .biblio-full a:visited {
     color:@theme-color; 
-    }
+}
 
 img {border:0;
 }
@@ -147,23 +137,24 @@ img {border:0;
 /*page-head div begins*/
 
 #page-head {
-    height:8em;
+    height: 8em;
     margin-top:.5em;
-    margin-bottom:0;
+    margin-bottom: 0;
     margin-left: 50px;
     margin-right: 50px;
+    padding-top: 40px;
     position: relative;    
 }
 
 #page-head-left {
-    position:absolute;
-    left:0;
+    position: absolute;
+    left: 0;
 }
 
 #page-head-right {
-    position:absolute;
-    right:0;
-    margin-top:1em;
+    position: absolute;
+    right: 0;
+    margin-top: 1em;
 }
 
 /*page-head div ends*/
@@ -171,7 +162,7 @@ img {border:0;
 /*content1col div begins*/
 
 #content1col {
-    margin-bottom:3em;
+    margin-bottom: 3em;
     margin-left: 50px;
     margin-right: 50px;
     top: 215px;
@@ -181,21 +172,21 @@ img {border:0;
 }
 
 #content1col .help {
-    text-align:left; 
-    font-size:120%; 
-    margin-bottom:-1.2em;
-    text-decoration:none;
+    text-align: left; 
+    font-size: 120%; 
+    margin-bottom: -1.2em;
+    text-decoration: none;
 }
 
 #content1col .login {    
-    text-align:right; 
-    font-size:120%; 
-    margin-bottom:4px;
-    color:@dark-gray;
+    text-align: right; 
+    font-size: 120%; 
+    margin-bottom: 4px;
+    color: @dark-gray;
 }
 
 #content1col .username { 
-    font-weight:700; 
+    font-weight: 700; 
 }
 
 /*content1col div end*/
@@ -203,12 +194,12 @@ img {border:0;
 /*query-panel div begins*/
 
 #query-panel .search-form td {
-    text-align:left;
-    color:@dark-gray;
+    text-align: left;
+    color: @dark-gray;
 }
 
 #query-panel .ui-autocomplete-input {
-    width:260px; 
+    width: 260px; 
 }
 
 #advanced-search-form table tr:nth-child(2) td.delete-search-field-button-container input {
@@ -217,45 +208,43 @@ img {border:0;
 
 #query-panel .search-form td input[type='image'] {
   width: 22px;
-  margin-left:-12em;
+  margin-left: -12em;
 }
 
 #query-panel .search-form input {
-    width:800px;
+    width: 800px;
 }
 
-#query-panel .search-form td input{
-    width:260px;    
+#query-panel .search-form td input {
+    width: 260px;    
 }
 
 #query-panel .advanced-search {
-    display:inline;    
-    }
+    display: inline;    
+}
 
 #query-panel .search-form .collection-input {
-    border:0;
-    width:800px;
+    border: 0;
+    width: 800px;
 }
 
-#query-panel .button
-    {
-	padding-bottom:2px;
-    padding-left:1em;
-    padding-right:1em;
-    padding-top:2px;
+#query-panel .button {
+	padding-bottom: 2px;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 2px;
 }
 
-#form-submit /*two id="form-submit"!*/
-{
-    font-weight:700; 
-    display:inline;
-    padding-bottom:2px;
-    padding-left:1em;
-    padding-right:1em;
-    padding-top:2px;
-    margin-left:7em;
-    color:@dark-gray;
-    }
+#simple-search-form-submit, #advanced-search-form-submit {
+    font-weight: 700; 
+    display: inline;
+    padding-bottom: 2px;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 2px;
+    margin-left: 7em;
+    color: @dark-gray;
+}
 
 /*query-panel div ends*/
 
@@ -264,55 +253,54 @@ img {border:0;
 /*collection-tree begins*/
 
 #collection-tree {
-    border-radius:@radius;
-    float:left;
-    margin-top:.8em;
+    border-radius: @radius;
+    float: left;
+    margin-top: .8em;
 }
 
 #collection-tree .collection-tree-head {
-    background-color:@darker-gray;
-    margin-bottom:-8px;
-    margin-top:-6px;
-    border-radius:@radius;
-    height:36px;
-
+    background-color: @darker-gray;
+    margin-bottom: -8px;
+    margin-top: -6px;
+    border-radius: @radius;
+    height: 36px;
 }
 
 #collection-tree .collection-tree-head img {
-    width:28px;
-    padding-left:3px;
+    width: 28px;
+    padding-left: 3px;
     }
 
 #collection-tree .collection-tree-toolbar {
-    margin:10px 5px 5px;
-    height:20px;
-    list-style:none;
-    padding:8px 0;
-    background-color:#fff;
-    border-radius:@radius;
+    margin: 10px 5px 5px;
+    height: 20px;
+    list-style: none;
+    padding: 8px 0;
+    background-color: #fff;
+    border-radius: @radius;
 }
 
 #collection-tree .collection-tree-toolbar li {
-    display:inline;
-    float:left;
-    margin:4px 8px 4px 0;
+    display: inline;
+    float: left;
+    margin: 4px 8px 4px 0;
 }
 
 #collection-tree .collection-tree-toolbar img { 
-    border:0;
+    border: 0;
     /*margin: -3px 0 0 7px;*/
     width: 20px;
 }
 
 #collection-tree .dynatree-container {
-    border:0;
+    border: 0;
     background-color:#fff;
-    font-size:1em;
-    margin-left:5px;
-    margin-right:5px;
-    margin-bottom:5px;
-    border-radius:@radius;
-    color:@dark-gray;
+    font-size: 1em;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border-radius: @radius;
+    color: @dark-gray;
 }
 
 span.readable .dynatree-title {
@@ -327,10 +315,10 @@ span.readable .dynatree-title {
     margin-top:0;
     margin-bottom:5px;
     height:40px;
-    margin-left:auto;
-    margin-right:auto;
-    text-align:center;
-    padding:2px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 2px;
 }
 
 #collection-tree .info-box p {
@@ -340,15 +328,15 @@ span.readable .dynatree-title {
 }
 
 #toggle-collection-tree {
-    margin:4px;
+    margin: 4px;
 }
 
 #collection-tree-main {
-	clear:left;
-	}
+	clear: left;
+}
 
 #collection-tree-tree {
-    clear:left;
+    clear: left;
 }
 
 #collection-tree-tree ul {
@@ -360,7 +348,7 @@ span.readable .dynatree-title {
 }
 
 #collection-path {
-    width:800px;    
+    width: 800px;    
 }
 
 /*collection-tree ends*/
@@ -369,13 +357,13 @@ span.readable .dynatree-title {
 
 #new-resource-form .language-label,
 #add-related-form .language-label{
-    padding:.5em .5em .5em 3.5em;
+    padding: .5em .5em .5em 3.5em;
 }
 
 #new-resource-form .language-list,
 #add-related-form .language-list{
-    position:absolute;
-    right:2em;
+    position: absolute;
+    right: 2em;
 }
 
 #new-resource-form .language-list option,
@@ -386,7 +374,7 @@ span.readable .dynatree-title {
 /*create new record and add related record dialog ends*/
 
 .hi {
-	background-color:@theme-color;/*KWIC in text extraction*/
+	background-color: @theme-color;/*KWIC in text extraction*/
 }
 
 .search-form .search-field {
@@ -405,11 +393,11 @@ span.readable .dynatree-title {
 .search-form .operator select,
 .search-field select option
 {
-	padding-left:.25em; /*needed in FF*/
+	padding-left: .25em; /*needed in FF*/
 }
 
 .search-form .search-term {
-	width:10em;
+	width: 10em;
 }
 
 .search-form .label {
@@ -419,19 +407,19 @@ span.readable .dynatree-title {
 /*facets begin*/
 
 #filters {
-    margin-top:-3px;
-    float:right;
-    width:240px;
-    height:320px;
-    margin-left:10px;
-    padding:4px;
-    font-size:1em;
+    margin-top: -3px;
+    float: right;
+    width: 240px;
+    height: 320px;
+    margin-left: 10px;
+    padding: 4px;
+    font-size: 1em;
 }
 
 #filters ul {
-    list-style:none;
-    margin:0;
-    font-size:1em;
+    list-style: none;
+    margin: 0;
+    font-size: 1em;
 }
 
 #filters ul li {
@@ -448,40 +436,42 @@ span.readable .dynatree-title {
 }
 
 
-#filters .ui-accordion a,
-#filters .ui-accordion-header a 
-    {
-	font-weight:400;
+#filters .ui-accordion a, #filters .ui-accordion-header a {
+    font-weight:400;
 }
 
-#filters .ui-state-hover,
-#filters .ui-state-hover a,
-#filters .ui-state-hover a:hover
-	{
-	color:@theme-color;
-	}
+#filters .ui-state-hover, #filters .ui-state-hover a, #filters .ui-state-hover a:hover {
+	color: @theme-color;
+}
 
 /*facets end*/
 
 /*pagination begins*/
 
-#results-head {
-    border-bottom:1px solid @ordinary-gray;
-    padding:1em;
+#ddlcb-container {
+    height: 30px;
 }
 
-#results-head .records-found {
-    margin-right:1em;
+#results-head {
+    border-bottom: 1px solid @ordinary-gray;
+    height: 45px;
+}
+
+#results-head > div:first-child {
+    margin-left: 9px;
+    height: 30px;
+    padding-top: 10px;
 }
 
 #results-head .navbar .pagination-toggle,
 #results-head .navbar .pagination-mode {
-    margin-left:1.5em;
+    margin-left: 1.5em;
 }
 
 #results-head .navbar .pagination-first {
-    margin-right:.5em;
-    padding:2px 4px;
+    // margin-left: 10px;
+    margin-right: .5em;
+    padding: 2px 4px;
 }
 
 #results-head .navbar .pagination-last {
@@ -503,22 +493,21 @@ span.readable .dynatree-title {
 #results-head .navbar .pagination-previous,
 #results-head .navbar .pagination-next,
 #results-head .navbar .pagination-last,
-#results-head .navbar .pagination-first
-	{
-    cursor:pointer;
-    border:1px solid @theme-color;
-    color:@theme-color;
+#results-head .navbar .pagination-first {
+    cursor: pointer;
+    border: 1px solid @theme-color;
+    color: @theme-color;
 }
 
 #results-head .navbar .inactive {
-    border:1px solid @ordinary-gray;
-    color:@ordinary-gray;
-    cursor:default;
+    border: 1px solid @ordinary-gray;
+    color: @ordinary-gray;
+    cursor: default;
 }
 
 #results-head .navbar .pagination-info {
-    margin:10px;
-    text-align:center;
+    margin: 10px;
+    text-align: center;
 }
 
 /*pagination ends*/
@@ -566,31 +555,35 @@ span.readable .dynatree-title {
 
 /*main structures for display of search results begins*/
 #results {
-    margin-top:.5em;
-    overflow:auto;
-    
+    margin-top: .5em;
+    overflow: auto;
 }
 
 #results table {
-    width:100%;
+    width: 100%;
+}
+
+#results table td:first-child {
+    vertical-align: top;
+    padding-top: 8px;
 }
 
 #results ul {
-    list-style:none;
-    margin-top:2px;
+    list-style: none;
+    margin-top: 2px;
 }
 
 #results li {
-    float:left;
-    padding:4px;
-    margin:-2px 0 0 -2px;
-    text-align:center;
-    position:relative;
-    border:2px solid @ordinary-gray;
+    float: left;
+    padding: 4px;
+    margin: -2px 0 0 -2px;
+    text-align: center;
+    position: relative;
+    border: 2px solid @ordinary-gray;
 }
 
 #results li.gallery {
-    width:196px;
+    width: 196px;
 }
 
 #results li.gallery .icon {
@@ -639,8 +632,7 @@ span.readable .dynatree-title {
 
 #results .record p, /*Zotero notes html markup*/
 #results .record ol li,
-#results .record ul li 
-    {
+#results .record ul li {
     margin:0;
     border:0;
     float:none;
@@ -653,8 +645,7 @@ span.readable .dynatree-title {
 #results .record h3,
 #results .record h4,
 #results .record h5,
-#results .record h6
-    {
+#results .record h6 {
     background-color:#fff;
     color:#000;
     padding:0;
@@ -749,8 +740,7 @@ table .biblio-full .subrecord {
 }
 
 table .biblio-full .record table,
-table .biblio-full .subrecord table 
-    {
+table .biblio-full .subrecord table {
 	margin:0;
 }
 
@@ -765,7 +755,7 @@ table .biblio-full .related td {
 /*results-view styling begins*/
 
 td .title {
-    font-style:italic;
+    font-style: italic;
 }
 
 td .title-no-italics {}
@@ -850,7 +840,7 @@ form ul li {
     border:0;
     background-color:#fff;
     border-radius:@radius + @radius;
-    overflow:auto;
+    overflow: auto;
     box-shadow:0px 0px 15px #000;/*CSS3 shadow:30px blurred shadow all around form*/ 
     -webkit-box-shadow:0px 0px 15px #000;/*Safari shadow version*/ 
     -moz-box-shadow:0px 0px 15px #000;/* Mozilla shadow version*/
@@ -1079,7 +1069,7 @@ margin-top:-2.5em;}
     border:0;
     background-color:#fff;
     border-radius:@radius + @radius;
-    overflow:auto;
+    overflow: auto;
     box-shadow:0px 0px 15px #000;/*CSS3 shadow:30px blurred shadow all around form*/ 
     -webkit-box-shadow:0px 0px 15px #000;/*Safari shadow version*/ 
     -moz-box-shadow:0px 0px 15px #000;/* Mozilla shadow version*/

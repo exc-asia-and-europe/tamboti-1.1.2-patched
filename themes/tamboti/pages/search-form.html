@@ -1,14 +1,67 @@
-<div xmlns="http://www.w3.org/1999/xhtml" xmlns:jquery="http://exist-db.org/xquery/jquery" id="query-panel">
-    <jquery:tabset id="query-tabs" on-select="searchTabSelected">
-        <jquery:tab id="simple" label="Simple Search">
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" id="query-panel">
+    <script type="text/javascript">
+        $(function() {
+            var selectedTabId = $("#query-history ul").data("selected-tab-id");            
+            $( "#query-tabs" ).tabs({
+                select: searchTabSelected,
+                selected: $("#" + selectedTabId).index() - 1
+            });
+
+            $("#cluster-collections").load("../../includes/tamboti-collections.xq");
+            
+            $("#simple-search-form input[name = 'input1'], #advanced-search-form input[name = 'input1']").autocomplete({
+                source: function(request, response) {
+                    var data = { term: request.term };
+                    autocompleteCallback($("#simple-search-form input[name = 'input1']"), data);
+                    $.ajax({
+                        url: "autocomplete.xql",
+                        dataType: "json",
+       					data: data,
+                        success: function(data) {
+                            response(data);
+                        }});
+                },
+                minLength: 3,
+                delay: 700
+            });
+            
+            $('.search-form').repeat('#add-field', {
+                deleteTrigger: '',
+                onReady: repeatCallback}
+            );
+        });
+    </script>
+    <div id="query-tabs">
+        <ul>
+            <li>
+                <a href="#simple-search-tab">Simple Search</a>
+            </li>
+            <li>
+                <a href="#advanced-search-form">Advanced Search</a>
+            </li>
+            <li>
+                <a href="#query-history">Query History</a>
+            </li>
+            <li>
+                <a href="#personal-list">My List</a>
+            </li>
+            <li>
+                <a href="#search-help">Search Help</a>
+            </li>
+            <li>
+                <a href="#about-tamboti">About Tamboti</a>
+            </li>
+            <li>
+                <a href="#cluster-collections">Tamboti Collections</a>
+            </li>
+        </ul>
+        <div id="simple-search-tab">
             <form id="simple-search-form" class="search-form" action="?" name="simple-search" method="POST">
                 <table>
                     <tr>
                         <td class="label">Search for </td>
                         <td colspan="2">
-                            <jquery:input name="input1">
-                                <jquery:autocomplete url="autocomplete.xql" width="300" multiple="false" matchContains="false" paramsCallback="autocompleteCallback"/>
-                            </jquery:input>
+                            <input name="input1"/>
                         </td>
                     </tr>
                     <tr>
@@ -21,23 +74,22 @@
                     <tr>
                         <td class="label">sorting by </td>
                         <td class="dropdown">
-                            <jquery:select name="sort">
-                                <jquery:option value="Score"/>
-                                <jquery:option value="Author"/>
-                                <jquery:option value="Title"/>
-                                <jquery:option value="Year"/>
-                            </jquery:select>
-                            <button name="action" id="form-submit" type="submit">Search</button>
+                            <select name="sort">
+                                <option value="Score" selected="selected">Score</option>
+                                <option value="Author">Author</option>
+                                <option value="Title">Title</option>
+                                <option value="Year">Year</option>
+                            </select>
+                            <button name="action" id="simple-search-form-submit" type="submit">Search</button>
                             <input type="hidden" name="field1" value="All"/>
                         </td>
                     </tr>
                 </table>
-                <input type="hidden" name="query-tabs" value="simple"/>
+                <input type="hidden" name="query-tabs" value="simple-search-tab"/>
                 <input type="hidden" name="collection-tree" value="hidden"/>
             </form>
-        </jquery:tab>
-        <jquery:tab id="advanced-search-form" label="Advanced Search">
-            <jquery:form-repeat trigger="#add-field" delete="" form=".search-form" on-ready="repeatCallback"/>
+        </div>
+        <div id="advanced-search-form">
             <form id="advanced-search" class="search-form" action="?" name="advanced-search" method="POST">
                 <table>
                     <tr class="biblio:form-from-query"/>
@@ -50,16 +102,16 @@
                     <tr>
                         <td class="label"> sorting by </td>
                         <td class="dropdown">
-                            <jquery:select name="sort">
-                                <jquery:option value="Score"/>
-                                <jquery:option value="Author"/>
-                                <jquery:option value="Title"/>
-                                <jquery:option value="Year"/>
-                            </jquery:select>&#160;
-                            <jquery:select name="sort-direction">
-                                <jquery:option value="descending"/>
-                                <jquery:option value="ascending"/>
-                            </jquery:select>
+                            <select name="sort">
+                                <option value="Score" selected="selected">Score</option>
+                                <option value="Author">Author</option>
+                                <option value="Title">Title</option>
+                                <option value="Year">Year</option>
+                            </select>&#160;
+                            <select name="sort-direction">
+                                <option value="descending" selected="selected">descending</option>
+                                <option value="ascending">ascending</option>
+                            </select>
                         </td>
                         <td/>
                     </tr>
@@ -71,7 +123,7 @@
                             <button id="clear-search-fields" class="button" name="clear" value="clear" type="button">Clear
                                 Search Terms</button>
                             <div class="advanced-search">
-                                <button class="advanced-search" name="action" id="form-submit" type="submit">Search</button>
+                                <button class="advanced-search" name="action" id="advanced-search-form-submit" type="submit">Search</button>
                             </div>
                         </td>
                     </tr>
@@ -79,11 +131,11 @@
                 <input type="hidden" name="query-tabs" value="advanced-search-form"/>
                 <input type="hidden" name="collection-tree" value="hidden"/>
             </form>
-        </jquery:tab>
-        <jquery:tab id="query-history" label="Query History">
+        </div>
+        <div id="query-history">
             <ul class="biblio:query-history"/>
-        </jquery:tab>
-        <jquery:tab id="personal-list" label="My List">
+        </div>
+        <div id="personal-list">
             <p>You have <span id="personal-list-size"/> in your list.</p>
             <form class="search-form" action="?" name="lists" method="POST">
                 <p>
@@ -96,59 +148,56 @@
                 <p>
                     <button class="button" id="export" name="export" type="submit" value="export">Export</button> your list items. </p>
             </form>
-        </jquery:tab>
-        <jquery:tab id="search-help" label="Search Help">
-            <div xmlns:xi="http://www.w3.org/2001/XInclude">
+        </div>
+        <div id="search-help">
+            <div>
                 <h4>Search syntax</h4>
                 <p>
-        Tamboti performs a search with the exact term you enter. A search for "Chin" does not retrieve all words beginning with "Chin"
-        ("China", "Chinese" …), but only the word "Chin" itself.</p>
-                <p>
-        You can use <em>wildcards</em> to perform broader searches. "?" can be used as a wildcard for a single
-        character and "*" for zero, one or more characters: "China" is thus found with "Ch?na" and
-        "C*a", and "China" and "Chine" are found with "Chin?", just as "China", "Chine" and
-        "Chinese" are all found with "Chin*". Note that "*" and "?" cannot occur in the
-        beginning of a word.</p>
+                    Tamboti performs a search with the exact term you enter. A search for "Chin" does not retrieve all words beginning with "Chin" ("China", "Chinese" …), but only the word "Chin" itself.
+                </p>
+                <p>You can use <em>wildcards</em> to perform broader searches. "?" can be used as a wildcard for a single character and "*" for zero, one or more characters: "China" is thus found with "Ch?na" and
+                    "C*a", and "China" and "Chine" are found with "Chin?", just as "China", "Chine" and "Chinese" are all found with "Chin*". Note that "*" and "?" cannot occur in the beginning of a word.
+                </p>
                 <p>
                     <em>Fuzzy searches</em> can be performed by putting "~" at the end of a word. To find "Chine", enter "China~". You can quantify the fuzziness, by appending
-        a number between 0.0 and 1.0, "complete fuzziness" (finding everything) being 0.0 and
-        complete identity being "1.0". 
-        If you append a "~" with no number, the default value 0.5 is applied.</p>
+                    a number between 0.0 and 1.0, "complete fuzziness" (finding everything) being 0.0 and
+                    complete identity being "1.0". 
+                    If you append a "~" with no number, the default value 0.5 is applied.</p>
                 <p>
                     <em>Phrases</em> can be searched for by putting them in quotation marks. Use "straight"
-        double quotation marks only.</p>
+                    double quotation marks only.</p>
                 <p>
-        Tamboti searches for the exact word order you enter. If you enter "Reform and Progress", you will
-        only find records in which the three words occur in that exact sequence. Tamboti does not display records containing, for example, "Progress and Reform".</p>
+                    Tamboti searches for the exact word order you enter. If you enter "Reform and Progress", you will
+                    only find records in which the three words occur in that exact sequence. Tamboti does not display records containing, for example, "Progress and Reform".</p>
                 <p>
-        Note that Chinese, Japanese and Korean characters are indexed as separate words, so a search
-        for "日本" (without quotation marks) will find records with the two characters in the opposite
-        order, that is, it will find records with "本日" as well. 
-        However, if you enclose "日本" in quotation marks, you
-        only retrieve records with the two characters in that specific sequence.</p>
+                    Note that Chinese, Japanese and Korean characters are indexed as separate words, so a search
+                    for "日本" (without quotation marks) will find records with the two characters in the opposite
+                    order, that is, it will find records with "本日" as well. 
+                    However, if you enclose "日本" in quotation marks, you
+                    only retrieve records with the two characters in that specific sequence.</p>
                 <p>
-        You can use the <em>boolean operators</em> "AND" and "OR". If you search for "China AND
-        Japan", you will find only records containing both terms. If you search for "China OR Japan",
-        you will find records in which either one or both the two terms occur. A search with "AND"
-        normally results in fewer records than a search with "OR". "NOT" can also be used. If you
-        search for "China NOT Japan", you will only find records that have "China" but not "Japan".
-        </p>
+                    You can use the <em>boolean operators</em> "AND" and "OR". If you search for "China AND
+                    Japan", you will find only records containing both terms. If you search for "China OR Japan",
+                    you will find records in which either one or both the two terms occur. A search with "AND"
+                    normally results in fewer records than a search with "OR". "NOT" can also be used. If you
+                    search for "China NOT Japan", you will only find records that have "China" but not "Japan".
+                    </p>
                 <p>
-        You can also make boolean searches using Advanced Search.</p>
+                    You can also make boolean searches using Advanced Search.</p>
                 <p>
-        You can use more advanced search functions by using parentheses: "(China OR Japan) NOT
-        Korea" will find records in which the words "China" or "Japan" occur, but only those in
-        which "Korea" does not occur.</p>
+                    You can use more advanced search functions by using parentheses: "(China OR Japan) NOT
+                    Korea" will find records in which the words "China" or "Japan" occur, but only those in
+                    which "Korea" does not occur.</p>
                 <p>
-        "AND", "OR" and "NOT" must be written with uppercase letters. Otherwise, searches are made using
-        lower-case letters only, so writing "China" with initial lower-case "C" (as "china") has the exact same
-        effect as using an initial upper-case "C". 
-        This means that there is no way you can search for e.g. "Bush" without finding "bush" as well.
-    </p>
+                    "AND", "OR" and "NOT" must be written with uppercase letters. Otherwise, searches are made using
+                    lower-case letters only, so writing "China" with initial lower-case "C" (as "china") has the exact same
+                    effect as using an initial upper-case "C". 
+                    This means that there is no way you can search for e.g. "Bush" without finding "bush" as well.
+                </p>
             </div>
-        </jquery:tab>
-        <jquery:tab id="about-tamboti" label="About Tamboti">
-            <div xmlns:xi="http://www.w3.org/2001/XInclude">
+        </div>
+        <div id="about-tamboti">
+            <div>
                 <p> This is version 1.1.2 of Tamboti, created 2013-11-21.</p>
                 <p> Tamboti is an application for working with metadata based on the <a href="http://www.loc.gov/standards/mods/" target="_blank">MODS</a> standard.</p>
                 <p> MODS is a standard used to catalogue books, articles and other traditional library
@@ -177,7 +226,7 @@
                 <p>Please follow the <a href="../../docs/">Tamboti Walkthrough</a> to get acquainted
         with functionalities of Tamboti.</p>
             </div>
-        </jquery:tab>
-        <jquery:tab class="cluster-collections" id="cluster-collections" label="Tamboti Collections" href="../../includes/tamboti-collections.xq" />
-    </jquery:tabset>
+        </div>
+        <div id="cluster-collections"/>
+    </div>
 </div>

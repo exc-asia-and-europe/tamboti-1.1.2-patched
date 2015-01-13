@@ -13,7 +13,6 @@ declare function image-link-generator:generate-href($image-uuid, $uri-name) {
         system:as-user($config:dba-credentials[1], $config:dba-credentials[2], 
             collection($config:mods-root)//vra:image[@id=$image-uuid][1]
         )
-    let $log := util:log("INFO", "image-uuid: " || $image-uuid)
     let $image-href := data($vra-image/@href)
     
     (: get image-service :)
@@ -29,15 +28,23 @@ declare function image-link-generator:generate-href($image-uuid, $uri-name) {
     return 
         let $image-service-uri := $image-service/uri[@type="get" and @name=$uri-name]
         return 
+            let $log := util:log("INFO", "image-service: " || $image-service-uri)
+
             let $image-url := 
                 (: Replace variables with query result :)
                 for $variable at $pos in $image-service-uri//element-query 
                     let $key := data($variable/@key)
                     let $query-string := "$vra-image/" || $variable/text()
                     let $value := xs:string(data(util:eval($query-string)))
+                    let $prefix :=
+                        (: add hostname as prefix :)
+                        if($image-service-name = "local") then
+                            "http://" || request:get-server-name() || ":" || request:get-server-port()
+                        else
+                            ()
                     return
                         if($value) then
-                            replace($image-service-uri/url/text(), "\[" || $pos ||"\]" , $value)
+                            $prefix || replace($image-service-uri/url/text(), "\[" || $pos ||"\]" , $value)
                         else 
                             ()
             return

@@ -1,3 +1,14 @@
+tamboti = {};
+
+tamboti.selectedSearchResultOptions = {};
+
+tamboti.createGuid = function() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    });
+} 
+
 $(function() {
     $('#keyword-form').submit(function () {
         loadIndexTerms();
@@ -34,7 +45,8 @@ $(function() {
         $("#results").pagination("option", "params", { mode: "list" });
         $("#results").pagination("option", "itemsPerPage", 20);
         $("#results").pagination("refresh");
-    });    
+    }); 
+    
     pingSession();
     
     $("#splash").fadeOut(1000);
@@ -499,7 +511,7 @@ function moveResource(dialog) {
     Called when the user clicks on the "create" button in the create collection dialog.
  */
 function createCollection(dialog) {
-    var name = $('#create-collection-form input[name = name]').val();
+    var name = $('#new-collection-name').val();
     var collection = getCurrentCollection();
     var params = { action: 'create-collection', name: name, collection: collection };
     $.get("operations.xql", params, function (data) {
@@ -676,7 +688,7 @@ function removeCollection(dialog) {
  * Checks if the supplied credentials are valid. If yes, submit
  * the form to reload the page.
  */
-function login() {
+function login(dialog) {
     var user = $('#login-dialog input[name = user]');
     var password = $('#login-dialog input[name = password]');
     $('#login-message').text('Checking ...');
@@ -685,8 +697,16 @@ function login() {
         data: "user=" + user.val() + "&password=" + escape(password.val()),
         type: 'POST',
         success:
-            function(data, message) { 
-                $('#login-form').submit(); 
+            function(data, message) {
+                $.ajax({
+                    url: "index.html",
+                    data: "user=" + user.val() + "&password=" + escape(password.val()),
+                    type: 'POST',
+                    success:
+                        function(data, message) { 
+                            location.reload();
+                        }
+                });                
             },
         error: function (response, message) { $('#login-message').html('Login failed: ' + response.responseText); }
     });
@@ -1201,7 +1221,7 @@ function addUserToShare() {
                         $('#add-user-to-share-dialog').dialog('close');
                     },
                     error: function(xhr, status, error) {
-                        alert("Could not create entry");
+                        alert("User '" + username + "' already added to this folder!");
                     }
                 });
             },
