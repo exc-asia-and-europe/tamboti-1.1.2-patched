@@ -14,6 +14,13 @@ $(function() {
         loadIndexTerms();
         return false; 
     });
+    
+    $("#simple-search-form").on("submit", function(){
+        sessionStorage.setItem("tamboti.simple-search-term", $("#simple-search-form input[name = 'input1']").val());
+    });
+    
+    $("#simple-search-form input[name = 'input1']").val(sessionStorage.getItem("tamboti.simple-search-term"));
+    
     initCollectionTree();
     
     galleries = new tamboti.galleries.Viewer($("#lightbox"));
