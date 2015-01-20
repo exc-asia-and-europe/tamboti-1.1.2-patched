@@ -164,6 +164,11 @@ img {
 #advanced-search-form table tr:nth-child(2) td.delete-search-field-button-container input {
   display: none;
 }
+.delete-search-field-button {
+  height: 16px;
+  width: 16px !important;
+  margin-left: -12em;
+}
 #query-panel .search-form td input[type='image'] {
   width: 22px;
   margin-left: -12em;
@@ -187,7 +192,8 @@ img {
   padding-right: 1em;
   padding-top: 2px;
 }
-#simple-search-form-submit, #advanced-search-form-submit {
+#simple-search-form-submit,
+#advanced-search-form-submit {
   font-weight: 700;
   display: inline;
   padding-bottom: 2px;
