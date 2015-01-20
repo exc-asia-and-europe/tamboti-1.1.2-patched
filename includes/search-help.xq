@@ -1,5 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<div>
+xquery version "3.0";
+
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method "html5";
+declare option output:media-type "text/html";
+
+<div xmlns="http://www.w3.org/1999/xhtml">
     <h4>Search syntax</h4>
     <p>
         Tamboti performs a search with the exact term you enter. A search for "Chin" does not retrieve all words beginning with "Chin"
