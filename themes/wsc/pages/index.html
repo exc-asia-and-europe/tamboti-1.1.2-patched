@@ -17,7 +17,7 @@
         <script type="text/javascript" src="resources/scripts/jquery.ieblocker.js"/>
         <script type="text/javascript" src="resources/scripts/angular.min.js"/>
         <script type="text/javascript" src="../upload/upload.js"/>
-        <link rel="stylesheet" type="text/css" href="$shared/resources/scripts/jquery/css/smoothness/jquery.ui.all.css"/>        
+        <link rel="stylesheet" type="text/css" href="$shared/resources/scripts/jquery/css/smoothness/jquery.ui.all.css"/>
         <link rel="stylesheet" type="text/css" href="$shared/resources/scripts/jquery/skin/ui.dynatree.css"/>
         <link rel="stylesheet" type="text/css" href="theme/css/biblio.css"/>
         <link rel="stylesheet" type="text/css" href="theme/css/theme.css"/>
@@ -28,43 +28,62 @@
     </head>
     <body ng-app="app" ng-controller="FileUploadCtrl">
         <div class="templates:include?path=pages/dialogs.html"/>
-        <div id="content1col">
-            <div id="page-head">
-                <a name="top"/>
-                <div id="page-head-left">
-                    <a href="/exist/apps/wsc/">
-                        <img src="theme/images/wsc-logo-schriftzug4.png" title="WSC" alt="WSC" style="border-style: none;"/>
-                    </a>
-                </div>
-                <div id="page-head-right">
-                    <a href="http://www.asia-europe.uni-heidelberg.de/en/home.html" target="_blank">
-                        <img src="theme/images/logovjc2.gif" width="75" height="69" style="border-style: none" alt=""/>
-                    </a>
-                </div>
-                <div id="nav">
-                    <a name="navigation" id="navigation"/>
-                    <div class="hlist">
-                        <h4 class="hideme">Main Navigation</h4>
-                        <ul>
-                            <li class="active">
-                                <a title="Home" href="index.html">Home</a>
-                            </li>
-                            <li>
-                                <a title="About Us" href="aboutus.html">About Us</a>
-                            </li>
-                            <li>
-                                <a title="Databases" href="databases.html">Databases</a>
-                            </li>
-                            <li>
-                                <a title="Activities" href="activities.html">Activities</a>
-                            </li>
-                            <li>
-                                <a title="Publications" href="publications.html">Publications</a>
-                            </li>
-                        </ul>
-                    </div>
+        <div id="page-head">
+            <a name="top"/>
+            <div id="page-head-left">
+                <a href="/exist/apps/wsc/">
+                    <img src="theme/images/wsc-logo-schriftzug4.png" title="WSC" alt="WSC" style="border-style: none;"/>
+                </a>
+            </div>
+            <div id="page-head-right">
+                <a href="http://www.asia-europe.uni-heidelberg.de/en/home.html" target="_blank">
+                    <img src="theme/images/logovjc2.gif" width="75" height="69" style="border-style: none" alt=""/>
+                </a>
+            </div>
+            <div id="nav">
+                <a name="navigation" id="navigation"/>
+                <div class="hlist">
+                    <h4 class="hideme">Main Navigation</h4>
+                    <ul>
+                        <li id="index-menu-item" class="active">
+                            <a title="Home" href="index.html">Home</a>
+                        </li>
+                        <li id="aboutus-menu-item">
+                            <a title="About Us" href="#" onclick="$('#nav .hlist > ul > li').removeClass('active'); $('#aboutus-menu-item').addClass('active'); $('#content1col').load('aboutus.html #content1col'); return false;">About Us</a>
+                        </li>
+                        <li id="databases-menu-item">
+                            <a title="Databases" href="#" onclick="$('#nav .hlist > ul > li').removeClass('active'); $('#databases-menu-item').addClass('active'); $('#content1col').load('databases.html #content1col'); return false;">Databases</a>
+                            <div id="subnavwsc" class="hlist">
+                                <ul>
+                                    <li>
+                                        <a title="Databases" href="databases.html">Introduction</a>
+                                    </li>
+                                    <li>
+                                        <a title="Bibliography" href="bib.html">Bibliographical DB</a>
+                                    </li>
+                           <!--     <li><a title="Bibliographical Database" href="bibdb.html">Access Biblio DB</a></li>    -->
+                                    <li>
+                                        <a title="Biographies" href="bio.html">Biographical DB</a>
+                                    </li>
+                           <!--     <li><a title="Biographical Database" href="biodb.html">Bio DB</a></li>		-->
+                                    <li>
+                                        <a title="Termionologies" href="term.html">Terminological DB</a>
+                                    </li>
+                           <!--     <li><a title="Terminology Database" href="termdb.html">Term DB</a></li>    -->
+                                </ul>
+                            </div>                            
+                        </li>
+                        <li id="activities-menu-item">
+                            <a title="Activities" href="#" onclick="$('#nav .hlist > ul > li').removeClass('active'); $('#activities-menu-item').addClass('active'); $('#content1col').load('activities.html #content1col'); return false;">Activities</a>
+                        </li>
+                        <li id="publications-menu-item">
+                            <a title="Publications" href="#" onclick="$('#nav .hlist > ul > li').removeClass('active'); $('#publications-menu-item').addClass('active'); $('#content1col').load('publications.html #content1col'); return false;">Publications</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </div>
+        <div id="content1col">
             <h1>Welcome to the WSC Database website!</h1>
             <h2>HRA 5 Modern Chinese Scientific Terminologies</h2>
             <img style="float: left; margin: 0 20px 0 0;" height="300px" src="theme/images/dict.gif" border="0" alt=""/>
