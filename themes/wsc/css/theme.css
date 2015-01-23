@@ -716,6 +716,7 @@ div #result-container {
 
 div #results-head {
     margin-left: -3.5em; /*because folder view is hidden*/
+    margin-top: 20px;    
 }
 
 #facets {
