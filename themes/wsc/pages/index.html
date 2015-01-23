@@ -17,6 +17,7 @@
         <script type="text/javascript" src="resources/scripts/jquery.ieblocker.js"/>
         <script type="text/javascript" src="resources/scripts/angular.min.js"/>
         <script type="text/javascript" src="../upload/upload.js"/>
+        <script type="text/javascript" src="theme/modules/wsc.js"/>
         <link rel="stylesheet" type="text/css" href="$shared/resources/scripts/jquery/css/smoothness/jquery.ui.all.css"/>
         <link rel="stylesheet" type="text/css" href="$shared/resources/scripts/jquery/skin/ui.dynatree.css"/>
         <link rel="stylesheet" type="text/css" href="theme/css/biblio.css"/>
@@ -49,11 +50,11 @@
                             <li id="index-menu-item" class="active">
                                 <a title="Home" href="index.html">Home</a>
                             </li>
-                            <li id="aboutus-menu-item">
-                                <a title="About Us" href="#" onclick="$('#nav .hlist &gt; ul &gt; li').removeClass('active'); $('#aboutus-menu-item').addClass('active'); $('#content-placeholder').load('aboutus.html #content-placeholder'); return false;">About Us</a>
+                            <li id="aboutus">
+                                <a title="About Us" href="#">About Us</a>
                             </li>
-                            <li id="databases-menu-item">
-                                <a title="Databases" href="#" onclick="$('#nav .hlist &gt; ul &gt; li').removeClass('active'); $('#databases-menu-item').addClass('active'); $('#content-placeholder').load('databases.html #content-placeholder > *'); return false;">Databases</a>
+                            <li id="databases">
+                                <a title="Databases" href="#">Databases</a>
                                 <div id="subnavwsc" class="hlist">
                                     <ul>
                                         <li>
@@ -74,11 +75,11 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li id="activities-menu-item">
-                                <a title="Activities" href="#" onclick="$('#nav .hlist &gt; ul &gt; li').removeClass('active'); $('#activities-menu-item').addClass('active'); $('#content-placeholder').load('activities.html #content-placeholder > *'); return false;">Activities</a>
+                            <li id="activities">
+                                <a title="Activities" href="#">Activities</a>
                             </li>
-                            <li id="publications-menu-item">
-                                <a title="Publications" href="#" onclick="$('#nav .hlist &gt; ul &gt; li').removeClass('active'); $('#publications-menu-item').addClass('active'); $('#content-placeholder').load('publications.html #content-placeholder > *'); return false;">Publications</a>
+                            <li id="publications">
+                                <a title="Publications" href="#">Publications</a>
                             </li>
                         </ul>
                     </div>
