@@ -427,6 +427,14 @@ table .even {
     padding:0;
 }
 
+#nav .hlist ul li > div {
+    display: none;
+}
+
+#nav .hlist ul li.active > div {
+    display: inline;
+}
+
 #nav .hlist ul li a, 
 #nav .hlist ul li span 
 	{
@@ -708,6 +716,7 @@ div #result-container {
 
 div #results-head {
     margin-left: -3.5em; /*because folder view is hidden*/
+    margin-top: 20px;    
 }
 
 #facets {

@@ -47,8 +47,13 @@ if($config:allow-origin ne "") then
 
 if ($exist:path eq '/') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-		<redirect url="index.html"/>
-	</dispatch>
+        <redirect url="index.html"/>
+    </dispatch>
+    
+    else if ($exist:resource = ('aboutus.html', 'activities.html', 'publications.html')) then
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            <forward url="{theme:resolve-uri($exist:prefix, $exist:root, concat('pages/', $exist:resource))}" />
+        </dispatch> 
     
 (:  Main page: index.xml is a template, which is passed through
     search.xql and the db2xhtml stylesheet. search.xql will run
@@ -74,27 +79,27 @@ else if (ends-with($exist:resource, '.html')) then
                 <forward url="../view.xql">
                     <!-- Errors should be passed through instead of terminating the request -->
                     { local:set-user() }
-            		<set-attribute name="xquery.report-errors" value="yes"/>
-            		<set-attribute name="exist:root" value="{$exist:root}"/>
+                    <set-attribute name="xquery.report-errors" value="yes"/>
+                    <set-attribute name="exist:root" value="{$exist:root}"/>
                     <set-attribute name="exist:path" value="{$exist:path}"/>
                     <set-attribute name="exist:prefix" value="{$exist:prefix}"/>
                 </forward>
-    		</view>
-    	</dispatch>,
-    	
-    	response:set-header("Last-Modified", fn:current-dateTime() cast as xs:string) (: TODO the XQueryURLRewrite filter should be able to infer that a static resource has been pre-procesed and this should be set:)
-	)
+            </view>
+        </dispatch>,
+        
+        response:set-header("Last-Modified", fn:current-dateTime() cast as xs:string) (: TODO the XQueryURLRewrite filter should be able to infer that a static resource has been pre-procesed and this should be set:)
+    )
 else if ($exist:resource eq 'retrieve') then
 
     (:  Retrieve an item from the query results stored in the HTTP session. The
-    	format of the URL will be /sandbox/results/X, where X is the number of the
-    	item in the result set :)
+        format of the URL will be /sandbox/results/X, where X is the number of the
+        item in the result set :)
 
-	<dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-	   { local:set-user() }
-		<forward url="{ theme:resolve-uri($exist:prefix, $exist:root, 'modules/session.xql') }">
-		</forward>
-	</dispatch>
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+       { local:set-user() }
+        <forward url="{ theme:resolve-uri($exist:prefix, $exist:root, 'modules/session.xql') }">
+        </forward>
+    </dispatch>
 
 else if (contains($exist:path, "/$shared/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
