@@ -107,7 +107,7 @@ declare function upload:upload($filetype, $filesize, $filename, $data, $doc-type
             util:collection-name(collection($config:mods-root)//vra:work[@id = $workrecord-uuid]/@id)
         else 
             if (exists(collection($config:mods-root)//mods:mods[@ID = $workrecord-uuid]/@ID)) then 
-                util:collection-name(collection($config:mods-root)//mods:mods[@ID = $workrecord-uuid]/@ID)
+                util:collection-name(collection($config:mods-root)//mods:mods[@ID = $workrecord-uuid][1]/@ID)
             else 
                 ()
         )
