@@ -516,7 +516,9 @@ declare function mods-common:get-short-title($entry as element()) {
         else ()
         )
         return 
-            $title
+            if ($title != '')
+            then $title
+            else "<no title information>"
 };
 
 (:~
