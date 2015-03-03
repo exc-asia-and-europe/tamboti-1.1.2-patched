@@ -10,7 +10,7 @@ declare function local:set-permissions($uri as xs:anyURI, $owner as xs:string, $
         ()
 };
 
-let $collection-uri := xs:anyURI("/resources/users/editor/importer-test-neu")
+let $collection-uri := xs:anyURI($config:mods-root || "/users/editor/importer-test-neu")
 let $collection-owner := xmldb:get-owner($collection-uri)
 let $collection-group := xmldb:get-group($collection-uri)
 
