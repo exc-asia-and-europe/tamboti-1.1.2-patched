@@ -50,6 +50,11 @@ if ($exist:path eq '/') then
         <redirect url="index.html"/>
     </dispatch>
     
+    else if (($exist:prefix eq '/apps/wsc') and (string-length(request:get-query-string()) > 0) and ($exist:resource eq 'index.html')) then
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            <redirect url="bibdb.html?{request:get-query-string()}" />
+        </dispatch>     
+    
     else if ($exist:resource = ('aboutus.html', 'activities.html', 'publications.html')) then
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="{theme:resolve-uri($exist:prefix, $exist:root, concat('pages/', $exist:resource))}" />
