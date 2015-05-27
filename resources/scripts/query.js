@@ -715,7 +715,7 @@ function login(dialog) {
                         }
                 });                
             },
-        error: function (response, message) { $('#login-message').html('Login failed: ' + response.responseText); }
+        error: function (response, message) { $('#login-message').html('Login failed: ' + $(response.responseXML).text()); }
     });
 }
 
