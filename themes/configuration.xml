@@ -2,7 +2,7 @@
 <themes>
     <map path="/apps/library" theme="library" root="/data/commons/samples"/>
     <map path="/apps/tamboti" theme="tamboti" root="/data/commons/Cluster Publications"/>
-    <map path="/apps/wsc" theme="wsc" root="/data/commons/Wissenschaftssprache Chinesisch"/>
+    <map path="/apps/wsc" theme="wsc" root="/resources/commons/WSC"/>
     <map path="/apps/dungan" theme="dungan" root="/data/commons/Dungan Archive"/>
     <map path="/apps/ppcoll" theme="ppcoll" root="/data/commons/ppcoll"/>
 </themes><!--
