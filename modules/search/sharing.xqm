@@ -258,7 +258,14 @@ declare function sharing:get-shared-collection-roots($write-required as xs:boole
                 return
                     for $user-subcollection in xmldb:get-child-collections($child-collection-path)
                     let $user-subcollection-path := fn:concat($child-collection-path, "/", $user-subcollection)
-                    let $ace-mode := data(sm:get-permissions(xs:anyURI($user-subcollection-path))//sm:ace[@who = $user-id]/@mode)
+                    let $ace-mode := 
+                        system:as-user(security:get-user-credential-from-session()[1], security:get-user-credential-from-session()[2], (
+                            let $user := xmldb:get-current-user()
+                            let $usergroups := sm:get-user-groups($user)
+                            let $group-mode := sm:get-permissions(xs:anyURI($user-subcollection-path))//sm:ace[(@target="USER" and @who=$user) or (@target="GROUP" and @who=$usergroups)]/@mode/string()
+                            return 
+                                $group-mode
+                        ))
                     
                     return
                         if ($write-required)
