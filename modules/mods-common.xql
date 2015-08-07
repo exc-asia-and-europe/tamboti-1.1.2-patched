@@ -1369,7 +1369,7 @@ declare function mods-common:retrieve-name($name as element(), $position as xs:i
 : @param $destination The function that calls the format-name function passes here the values 'detail', 'list', or 'list-first' according to its destination
 : @return A string representation of the preferred name.
 :)
-declare function mods-common:retrieve-mads-names($name as element(), $position as xs:int, $destination as xs:string) as xs:string {    
+declare function mods-common:retrieve-mads-names($name as element(), $position as xs:int, $destination as xs:string) as xs:string? {    
     let $mads-reference := replace($name/@xlink:href, '^#?(.*)$', '$1')
     let $mads-record :=
         if (empty($mads-reference)) 
