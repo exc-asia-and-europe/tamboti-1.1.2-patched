@@ -45,7 +45,12 @@
 				<plugin>
 					<groupId>ro.kuberam.maven.plugins</groupId>
 					<artifactId>kuberam-expath-plugin</artifactId>
-					<version>0.4.1</version>
+					<version>0.4.4</version>
+				</plugin>
+				<plugin>
+					<groupId>com.coderplus.maven.plugins</groupId>
+					<artifactId>copy-rename-maven-plugin</artifactId>
+					<version>1.0.1</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -71,12 +76,12 @@
 									<outputFile>${project.build.directory}/maven-replacer-plugin/config.xqm</outputFile>
 									<replacements>
 										<replacement>
-											<token>config:enforced-realm-id := ""</token>
-											<value>config:enforced-realm-id := "${enforced-realm-id}"</value>
+											<token>config:tamboti.enforced-realm-id := ""</token>
+											<value>config:tamboti.enforced-realm-id := "${tamboti.enforced-realm-id}"</value>
 										</replacement>
 										<replacement>
 											<token>config:dba-credentials := \("admin",""\)</token>
-											<value>config:dba-credentials := \("admin","${admin-password}"\)</value>
+											<value>config:dba-credentials := \("admin","${tamboti.admin-password}"\)</value>
 										</replacement>
 										<replacement>
 											<token>config:app-version := ""</token>
@@ -85,25 +90,21 @@
 									</replacements>
 								</configuration>
 							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.coderplus.maven.plugins</groupId>
+						<artifactId>copy-rename-maven-plugin</artifactId>
+						<executions>
 							<execution>
-								<id>filter-services.default.xml</id>
+								<id>copy-services.xml</id>
 								<phase>generate-resources</phase>
 								<goals>
-									<goal>replace</goal>
+									<goal>copy</goal>
 								</goals>
 								<configuration>
-									<file>${basedir}/modules/configuration/services.default.xml</file>
-									<outputFile>${project.build.directory}/maven-replacer-plugin/services.xml</outputFile>
-									<replacements>
-										<replacement>
-											<token>&lt;/service&gt;</token>
-											<value>${image-services}&lt;/service&gt;</value>
-										</replacement>
-										<replacement>
-											<token>width=40&amp;height=40&amp;crop_type</token>
-											<value>width=40&amp;amp;height=40&amp;amp;crop_type</value>
-										</replacement>
-									</replacements>
+									<sourceFile>${basedir}/modules/configuration/services.default.xml</sourceFile>
+									<destinationFile>${project.build.directory}/services.xml</destinationFile>
 								</configuration>
 							</execution>
 						</executions>
@@ -170,12 +171,12 @@
 									<outputFile>${project.build.directory}/maven-replacer-plugin/config.xqm</outputFile>
 									<replacements>
 										<replacement>
-											<token>config:enforced-realm-id := ""</token>
-											<value>config:enforced-realm-id := "${enforced-realm-id}"</value>
+											<token>config:tamboti.enforced-realm-id := ""</token>
+											<value>config:tamboti.enforced-realm-id := "${tamboti.enforced-realm-id}"</value>
 										</replacement>
 										<replacement>
 											<token>config:dba-credentials := \("admin",""\)</token>
-											<value>config:dba-credentials := \("admin","${admin-password}"\)</value>
+											<value>config:dba-credentials := \("admin","${test-tamboti.admin-password}"\)</value>
 										</replacement>
 										<replacement>
 											<token>config:app-version := ""</token>
@@ -184,25 +185,21 @@
 									</replacements>
 								</configuration>
 							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>com.coderplus.maven.plugins</groupId>
+						<artifactId>copy-rename-maven-plugin</artifactId>
+						<executions>
 							<execution>
-								<id>filter-services.default.xml</id>
+								<id>copy-services.xml</id>
 								<phase>generate-resources</phase>
 								<goals>
-									<goal>replace</goal>
+									<goal>copy</goal>
 								</goals>
 								<configuration>
-									<file>${basedir}/modules/configuration/services.default.xml</file>
-									<outputFile>${project.build.directory}/maven-replacer-plugin/services.xml</outputFile>
-									<replacements>
-										<replacement>
-											<token>&lt;/service&gt;</token>
-											<value>${image-services}&lt;/service&gt;</value>
-										</replacement>
-										<replacement>
-											<token>width=40&amp;height=40&amp;crop_type</token>
-											<value>width=40&amp;amp;height=40&amp;amp;crop_type</value>
-										</replacement>
-									</replacements>
+									<sourceFile>${basedir}/modules/configuration/services.default.xml</sourceFile>
+									<destinationFile>${project.build.directory}/services.xml</destinationFile>
 								</configuration>
 							</execution>
 						</executions>
